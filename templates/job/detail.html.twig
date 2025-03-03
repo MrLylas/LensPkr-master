@@ -12,6 +12,6 @@
 <div class="example-wrapper">
     <h3>{{ job.jobName }} </h3>
     <p>{{ job.description }}</p> 
-    <a href="{{ path('app_apply_job', {'id': job.id})}}">Apply</a>
+    <a href="{{ path('apply_to_job', {'id': job.id})}}">Apply</a>
 </div>
 {% endblock %}

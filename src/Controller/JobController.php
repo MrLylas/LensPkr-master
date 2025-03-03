@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\Entity;
 use App\Repository\AskRepository;
 use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,9 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class JobController extends AbstractController
 {
-    #[Route('/job/{id}', name: 'app_job')]
-    public function index(User $user,Request $request, JobRepository $repository, EntityManagerInterface $entityManager): Response
+    #[Route('/job/{id}', name: 'app_jobs')]
+    public function index(JobRepository $repository, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         //Version findAll() :
         // EntityManagerInterface $entityManager
         // $jobs = $entityManager->getRepository(Job::class)->findAll();
@@ -30,11 +32,15 @@ final class JobController extends AbstractController
         
         // Récupérer la page actuelle depuis la requête. Si aucune page n'est fournie, la page par défaut est 1
         // $page = $request->query->getInt('page', 1);
-        $jobs = $repository->findAll();
-        $job = $entityManager->getRepository(Job::class)->findOneBy(['user' => $user->getId()]);
-        // dd($job);
-        // $ask = $entityManager->getRepository(Ask::class)->findBy(['job' => $job->getId()]);
 
+        $jobs = $repository->findAll();
+        $asks = $entityManager->getRepository(Ask::class)->findAll();
+
+        $appliedAsks = $user ? $user->getAsks() : [];
+
+        // dd($appliedAsks);
+        // dd($user);
+        
 
         //Définition du nombre de pages, ceil() arrondit au nombre entier le plus proche
         // $maxPage = ceil($jobs->count() / 2);
@@ -43,9 +49,10 @@ final class JobController extends AbstractController
         return $this->render('job/index.html.twig', [
             'controller_name' => 'JobController',
             'user' => $user,
-            'id' => $user->getId(),
+            'user_id' => $user->getId(),
             'jobs' => $jobs,
-            'ask' => $ask
+            'asks' => $asks,
+            'appliedAsks' => $appliedAsks,
             // 'maxPage' => $maxPage,
             // 'page' => $page
         ]);
@@ -65,7 +72,7 @@ final class JobController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_job', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_jobs', ['id' => $user->getId()]);
         }
 
         return $this->render('job/post.html.twig', [
@@ -92,32 +99,45 @@ final class JobController extends AbstractController
         ]
     );
     }
-    #[Route('/job/apply/{id}/', name: 'app_apply_job')]
-        public function apply_job(Job $job, Request $request, EntityManagerInterface $entityManager): Response
-        {
-            $user = $this->getUser();
-            $job = $entityManager->getRepository(Job::class)->findOneBy(['id' => $job->getId()]);
-            $ask = new Ask();
-            $form = $this->createForm(AskType::class, $ask);
-            $form->handleRequest($request);
-            $ask->setUser($user);
-            $ask->setJob($job);
-            $ask->setDateAsk(new \DateTime());
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager->persist($ask);
-                $entityManager->flush();
+    #[Route('/job/apply/{id}', name: 'apply_to_job')]
+public function apply(Job $job, EntityManagerInterface $entityManager, Security $security): Response
+{
+    // Récupérer l'utilisateur en session
+    $user = $security->getUser();
+    $appliedAsks = $user ? $user->getAsks() : [];
+    $ask = new Ask();
+
+    // Vérifier si l'utilisateur est connecté
+    //si il n'est pas connecté, rediriger vers la page de login
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
     
-                return $this->redirectToRoute('app_job', ['id' => $user->getId()]);
-            }
+    // Vérifier si l'utilisateur a déjà postulé
+    if ($user->getJobs()->contains($job)) {
+        // ajout d'un message flash en cas de postulation multiple
+        $this->addFlash('warning', 'Vous avez déjà postulé à cette offre.');
+        // Rediriger vers la page des offres
+        return $this->redirectToRoute('app_jobs',['id' => $user->getId()]);
+    }
 
-            return $this->render('job/apply.html.twig',
-            [
-                'controller_name' => 'JobController',
-                'form' => $form,
-                'user' => $user,
-                'user_id' => $user->getId(),
-                'job' => $job,
-            ]);
-        }
+    // Ajouter l'utilisateur au job
+    $ask->setDateAsk(new \DateTime());
+    $ask->setJob($job);
+    dd($appliedAsks); 
+    
+    // Ajouter l'utilisateur au job
+    $user->addAsk($ask);
+    $entityManager->persist($ask);
+    $entityManager->flush();
+
+    // Ajouter un message flash de confirmation et rediriger vers la page des offres
+    $this->addFlash('success', 'Votre candidature a été enregistrée.');
+    return $this->redirectToRoute('app_jobs',
+        [
+            'id' => $job->getId(),
+            'appliedAsks' => $appliedAsks
+        ]);
+    }
 }

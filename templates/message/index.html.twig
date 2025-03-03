@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center">Messagerie</h1>
+            <p>Résumé de la messagerie</p>
+            <p>Reçus : {{ app.user.received|length }}</p>
+            <p>Envoyés : {{ app.user.sent|length }}</p>
+            <a href="{{ path('send') }}" class="btn btn-primary">Envoyer un message</a>  
+        </div>
+    </div>
+</div>
+{% endblock %}

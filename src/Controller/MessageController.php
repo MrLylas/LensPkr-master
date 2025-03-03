@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Message;
+use App\Form\ReplyType;
 use App\Form\MessageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +33,7 @@ final class MessageController extends AbstractController{
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setSender($this->getUser());
             // $entityManager = $this->getDoctrine()->getManager();
+            $message->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($message);
             $entityManager->flush();
 
@@ -43,6 +46,44 @@ final class MessageController extends AbstractController{
         }
 
         return $this->render('message/send.html.twig', [
+            'form' => $form->createView(),
+            
+        ]);
+    }
+
+    #[Route('/message/reply/{id}', name: 'reply')]
+    public function reply(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $message = new Message();
+        // On récupère l'id du destinataire
+        $recipient = $entityManager->getRepository(User::class)->find($request->get('id'));
+        // dd($recipient);
+        // création du formulaire
+        $form = $this->createForm(ReplyType::class, $message);
+        // Traitement du formulaire
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            //l'auteur du message en fonction de l'utilisateur en session
+            $message->setSender($this->getUser());
+            //date et une heure en fonction de la date et heure au moment de la soumission du formulaire
+            $message->setCreatedAt(new \DateTimeImmutable());
+            //$recipient qui est définit au-dessus
+            $message->setRecipient($recipient);
+            // préparation à l'envoi du message en BDD
+            $entityManager->persist($message);
+            // envoi du message
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Message envoyé'
+            );
+
+            return $this->redirectToRoute('app_message');
+        }
+
+        return $this->render('message/reply.html.twig', [
             'form' => $form->createView(),
             
         ]);

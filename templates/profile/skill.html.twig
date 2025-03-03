@@ -28,11 +28,13 @@
         </div>
         <div class="user-exp">
             <div class="exp-left">
+                <h3>My skills :</h3>
                 {% for skill in userSkills %}
                     <p>{{ skill }}</p>
                 {% endfor %}
+                <h3>My jobs offer :</h3>
                 {% for job in app.user.jobs %}
-                    <a href="{{ path('app_answers', {'id': job.id}) }}">{{ job.jobName }}</a>
+                    <a href="{{ path('app_answers', {'id': job.id}) }}">{{ job.jobName }}</a> <br>
                 {% endfor %}
             </div>      
         </div>

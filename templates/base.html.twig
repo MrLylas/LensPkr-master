@@ -22,7 +22,7 @@
             <div class="nav-mid">
                 <input class="search" type="text" placeholder="Search">
                 {% if app.user is not null %}  
-                <a class="find-job-btn" href="{{path('app_job', {'id': app.user.id})}}">Find Jobs</a>
+                <a class="find-job-btn" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
                 <a class="post-job-btn" href="{{path('post_job', {'id': app.user.id})}}">Post Jobs</a>
                 {% else %}
                 <a class="find-job-btn" href="{{path('app_login')}}">Login</a>
