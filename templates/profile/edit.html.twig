@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="user-page">
+    <div class="banner">
+        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <div class="user-pic">
+            {% if user.profilePic %}
+                <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s Profile Pic">
+            {% else  %}
+                <img src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
+            {% endif %}
+        </div>
+    </div>
+    <div class="user-container">
+        <div class="user-info">
+            <div class="edit-btns">
+                <a href="{{path('app_user_skill', {'id': user.id})}}">Cancel</a>
+            </div>
+            {{ form_start(formEditUser) }}
+            {{ form_row(formEditUser.name) }}{{" "}}{{ form_row(formEditUser.forename) }}
+            {{ form_row(formEditUser.pseudo) }}
+            {{ form_row(formEditUser.country) }}
+            {{ form_row(formEditUser.city) }}
+            {{ form_row(formEditUser.biography) }}
+            {{ form_row(formEditUser.userSkills) }}
+            {{ form_row(formEditUser.profile_pic, {'label': 'Profile Pic'},mapped:false,attr:{onchange:"previewImage(this);"}) }}
+            {{ form_row(formEditUser.submit) }}
+            {{ form_end(formEditUser) }}
+        </div>
+        <div class="user-exp">
+            <div class="exp-left">
+            </div>
+            <div class="exp-right">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

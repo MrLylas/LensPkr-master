@@ -1,0 +1,12 @@
+{% extends 'side.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+    
+{% block body %}
+    {{form_start(formSkill)}}
+        {{form_row(formSkill.user)}}
+        {{form_row(formSkill.skills)}}
+        {{form_row(formSkill.levels)}}
+    {{form_end(formSkill)}}
+{% endblock %}
+

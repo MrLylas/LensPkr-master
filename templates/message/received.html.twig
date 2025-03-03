@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessageController!{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+<div class="example-wrapper">
+    <h2>Messages</h2>
+    {% for message in app.user.received %}
+    {% if message.isRead == false %}
+       {% set bold = 'fw-bold' %} 
+    {% else %}
+       {% set bold = '' %}
+   {% endif %}
+        <div class="{{bold}}">{{ message.sender.email }}</div>
+        <div class="{{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
+        <div class="{{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
+        <div class="{{bold}}"><a href="{{ path('delete', {'id': message.id}) }}">Delete</a></div>
+    {% endfor %}
+</div>
+{% endblock %}

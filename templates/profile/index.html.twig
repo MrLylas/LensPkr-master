@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="user-page">
+    <div class="banner">
+        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <div class="user-pic">
+            <img src="{{ asset('images/User-1.jpg') }}" alt="">
+        </div>
+    </div>
+    <div class="filter-card">
+        {# <a href="{{path('info_profile')}}">More Infos</a> #}
+        <input class="search" type="text">
+    </div>
+</div>
+<div class="page">
+    <div class="card">
+        <div class="card-title">
+            <div class="user-project">
+                <div class="profile-pic"><img src="{{asset('images/User-1.jpg')}}" alt=""></div>
+                <h3>{{ user.name }}{{" "}}{{ user.forename }}</h3>
+            </div>
+            <div class="project-name">
+                <h2>Project Name</h2>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="card-image"><video controls src="{{ asset('video/Camera.mp4') }}"></video></div>
+            <div class="card-description">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, est? Iure velit ducimus beatae omnis neque itaque doloribus harum cupiditate quo ab officia, reprehenderit blanditiis delectus dignissimos temporibus porro architecto. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit harum eligendi quis cum. Praesentium fugit voluptatibus enim possimus sint molestias ratione fuga illum doloribus ipsum nostrum id alias, est libero?</p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">
+            <div class="user-project">
+                <div class="profile-pic"><img src="{{asset('images/User-1.jpg')}}" alt="User Profile Pic"></div>
+                <h3>{{ user.name }}{{" "}}{{ user.forename }}</h3>
+            </div>
+            <div class="project-name">
+                <h2>Project Name</h2>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="card-image"><img src="{{ asset('images/Backstage.jpg') }}" alt="User Profile Pic"></div>
+            <div class="card-description">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, est? Iure velit ducimus beatae omnis neque itaque doloribus harum cupiditate quo ab officia, reprehenderit blanditiis delectus dignissimos temporibus porro architecto. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit harum eligendi quis cum. Praesentium fugit voluptatibus enim possimus sint molestias ratione fuga illum doloribus ipsum nostrum id alias, est libero?</p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">
+            <div class="user-project">
+                <div class="profile-pic"><img src="{{asset('images/User-1.jpg')}}" alt="User Profile Pic"></div>
+                <h3>{{ user.name }}{{" "}}{{ user.forename }}</h3>
+            </div>
+            <div class="project-name">
+                <h2>Project Name</h2>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="card-image"><img src="{{ asset('images/Actors.jpg') }}" alt=""></div>
+            <div class="card-description">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, est? Iure velit ducimus beatae omnis neque itaque doloribus harum cupiditate quo ab officia, reprehenderit blanditiis delectus dignissimos temporibus porro architecto. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit harum eligendi quis cum. Praesentium fugit voluptatibus enim possimus sint molestias ratione fuga illum doloribus ipsum nostrum id alias, est libero?</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

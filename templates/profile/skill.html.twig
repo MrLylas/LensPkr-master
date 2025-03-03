@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="user-page">
+    <div class="banner">
+        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <div class="user-pic">
+            {% if user.profilePic %}
+                <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s Profile Pic">
+            {% else  %}
+                <img src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
+            {% endif %}
+        </div>
+    </div>
+    <div class="user-container">
+        <div class="user-info">
+            <div class="edit-btns">
+                <a href="{{path('edit_user', {'id': user.id})}}">Edit Infos</a>
+            </div>
+            <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
+            <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>
+            <h4>Email : <br><p>{{ user.email }}</p></h4>
+            <h4>Country : <br><p>{{ user.country }}</p></h4>
+            <h4>City : <br><p>{{ user.city }}</p></h4>
+            <h4>About Me : <br><p>{{ user.biography }}</p></h4>
+        </div>
+        <div class="user-exp">
+            <div class="exp-left">
+                {% for skill in userSkills %}
+                    <p>{{ skill }}</p>
+                {% endfor %}
+                {% for job in app.user.jobs %}
+                    <a href="{{ path('app_answers', {'id': job.id}) }}">{{ job.jobName }}</a>
+                {% endfor %}
+            </div>      
+        </div>
+    </div>
+</div>
+
+{% endblock %}
