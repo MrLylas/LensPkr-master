@@ -10,28 +10,12 @@
 
 <h2>Jobs</h2>
 <div class="example-wrapper">
-    {# {% if jobs %} 
-        {% for job in jobs %}
-        {% for ask in asks %}
-            {% if job.user.id != app.user.id %}
-            <a href="{{ path('app_job_detail', {'id': job.id}) }}">
-                <div class="jobcard">
-                    <h3>{{ job.jobName }}</h3>
-                    <p>{{ job.description }}</p>
-                </div> 
-            </a>  
-            {% endif %}
-        {% endfor %}
-        {% endfor %}
-    {% else %}
-        <p>No jobs found.</p>
-    {% endif %} #}
     {% for job in jobs %}
     {% if job.user.id != app.user.id %}
     <div class="jobcard">
         <h2>{{ job.jobName }}</h2>
         <p>{{ job.description }}</p>
-        {% if job in appliedAsks %}
+        {% if job.id in appliedAsks %}
             <button disabled>Déjà postulé</button>
         {% else %}
             <a href="{{ path('apply_to_job', { 'id': job.id }) }}" class="btn btn-primary">Postuler</a>
@@ -39,8 +23,6 @@
     </div>
     {% endif %}
     {% endfor %}
-         
-
     {# <div class="d-flex">
         {% if page > 1 %}
             <a href="{{ path('app_job', {'page': page - 1}) }}">Previous</a>

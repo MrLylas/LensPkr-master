@@ -20,7 +20,7 @@ class FileUploader
     public function upload(UploadedFile $file): string
     {
         // Générer un nom unique pour le fichier
-        $newFileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $newFileName = md5(uniqid()) .'.'  . $file->guessExtension();
         $file->move($this->getTargetDirectory(), $newFileName);
 
         return $newFileName;

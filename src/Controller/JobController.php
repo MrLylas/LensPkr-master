@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+//Final class signifie que la classe ne peut avoir d'enfants 
 final class JobController extends AbstractController
 {
     #[Route('/job/{id}', name: 'app_jobs')]
@@ -36,9 +37,16 @@ final class JobController extends AbstractController
         $jobs = $repository->findAll();
         $asks = $entityManager->getRepository(Ask::class)->findAll();
 
-        $appliedAsks = $user ? $user->getAsks() : [];
+        //On effectue un ternaire nous permettant de récupérer l'utilisateur en session si il est connecté 
+        //$user correspond au user en session, il est aussi notre condition
+        // ? correspond au signe de question qui permet de faire un ternaire
+        //Elle se compose comme cela : condition ? si_vrai : si_faux
+        $appliedAsks = $user ? $entityManager->getRepository(Ask::class)->findBy(['user' => $user]) : [];
 
-        // dd($appliedAsks);
+        //  on transforme `appliedAsks` en un tableau contenant uniquement les IDs des jobs déjà postulés
+        $appliedJobIds = array_map(fn($ask) => $ask->getJob()->getId(), $appliedAsks);
+
+
         // dd($user);
         
 
@@ -52,7 +60,7 @@ final class JobController extends AbstractController
             'user_id' => $user->getId(),
             'jobs' => $jobs,
             'asks' => $asks,
-            'appliedAsks' => $appliedAsks,
+            'appliedAsks' => $appliedJobIds,
             // 'maxPage' => $maxPage,
             // 'page' => $page
         ]);
@@ -125,7 +133,7 @@ public function apply(Job $job, EntityManagerInterface $entityManager, Security 
     // Ajouter l'utilisateur au job
     $ask->setDateAsk(new \DateTime());
     $ask->setJob($job);
-    dd($appliedAsks); 
+    // dd($appliedAsks);
     
     // Ajouter l'utilisateur au job
     $user->addAsk($ask);

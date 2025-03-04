@@ -35,44 +35,45 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/profile/edit/{id}', name: 'edit_user')]
-    public function edit_user(Request $request, EntityManagerInterface $entityManager, User $user, FileUploader $fileUploader): Response
+    public function edit_user(Request $request, User $user, FileUploader $fileUploader,EntityManagerInterface $entityManager ): Response
     {
 
-    $userSkill = $entityManager->getRepository(UserSkill::class)->findOneBy(['user' => $this->getUser()->getId()]);
-    $availableSkills = $entityManager->getRepository(UserSkill::class)->findSkillNotInUser(['user' => $this->getUser()->getId()]);
-    $levels = $entityManager->getRepository(Level::class)->findAll();
-    $specialities = $entityManager->getRepository(Speciality::class)->findAll();
+    // $userSkill = $entityManager->getRepository(UserSkill::class)->findOneBy(['user' => $this->getUser()->getId()]);
+    // $availableSkills = $entityManager->getRepository(UserSkill::class)->findSkillNotInUser(['user' => $this->getUser()->getId()]);
+    // $levels = $entityManager->getRepository(Level::class)->findAll();
+    // $specialities = $entityManager->getRepository(Speciality::class)->findAll();
 
-    $userForm = $this->createForm(UserType::class, $user);
-    $userForm->handleRequest($request);
+    // $userForm = $this->createForm(UserType::class, $user);
+    // $userForm->handleRequest($request);
     
-    if ($userForm->isSubmitted() && $userForm->isValid()) {
+    // if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-        $uploadedFile = $userForm->get('profile_pic')->getData();
-        $user = $userForm->getData();
+    //     $uploadedFile = $userForm->get('profile_pic')->getData();
+    //     $user = $userForm->getData();
 
-        if ($user->getProfilePic() != null) {
-            $path = $this->getParameter('upload_directory')."/".$user->getProfilePic();
-            unlink($path);
-        }
-        if ($uploadedFile) {
-            $newFilename = $fileUploader->upload($uploadedFile);
-            $user->setProfilePic($newFilename);
-        }
+    //     if ($user->getProfilePic() != null) {
+    //         $path = $this->getParameter('upload_directory')."/".$user->getProfilePic();
+    //         unlink($path);
+    //     }
+    //     if ($uploadedFile) {
+    //         $newFilename = $fileUploader->upload($uploadedFile);
+    //         $user->setProfilePic($newFilename);
+    //     }
     
-        $entityManager->persist($user);
-        $entityManager->flush();
+    //     $entityManager->persist($user);
+    //     $entityManager->flush();
         
-        return $this->redirectToRoute('app_user_skill', ['id' => $this->getUser()->getId()]);
-    }
+        // return $this->redirectToRoute('app_user_skill', ['id' => $this->getUser()->getId()]);
+    // }
+
     return $this->render('/profile/edit.html.twig', [
-        'formEditUser' => $userForm,
-        'userSkill' => $userSkill,
-        'availableSkills' => $availableSkills,
-        'levels' => $levels,
-        'specialities' => $specialities,
-        'user' => $user,
-        'id'=> $user->getId(),
+        // 'formEditUser' => $userForm,
+        // 'userSkill' => $userSkill,
+        // 'availableSkills' => $availableSkills,
+        // 'levels' => $levels,
+        // 'specialities' => $specialities,
+        // 'user' => $user,
+        // 'id'=> $user->getId(),
     ]);
     }
 

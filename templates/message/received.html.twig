@@ -6,8 +6,12 @@
 <style>
 </style>
 
+<h2>Messages</h2>
+{# <style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style> #}
 <div class="example-wrapper">
-    <h2>Messages</h2>
     {% for message in app.user.received %}
     {% if message.isRead == false %}
        {% set bold = 'fw-bold' %} 
@@ -17,7 +21,7 @@
         <div class="{{bold}}">{{ message.sender.email }}</div>
         <div class="{{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
         <div class="{{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
-        <div class="{{bold}}"><a href="{{ path('delete', {'id': message.id}) }}">Delete</a></div>
+        <div class="{{bold}}"><a href="{{ path('delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
     {% endfor %}
 </div>
 {% endblock %}
