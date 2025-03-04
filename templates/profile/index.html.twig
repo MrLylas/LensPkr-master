@@ -4,10 +4,11 @@
 
 {% block body %}
 <div class="user-page">
+{# <div class="example-wrapper"> #}
     <div class="banner">
-        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <img src="{{ asset('uploads/profile_pictures/' ~ user.banner) }}" alt="">
         <div class="user-pic">
-            <img src="{{ asset('images/User-1.jpg') }}" alt="">
+            <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
         </div>
     </div>
     <div class="filter-card">
@@ -15,7 +16,7 @@
         <input class="search" type="text">
     </div>
 </div>
-<div class="page">
+{# <div class="page">
     <div class="card">
         <div class="card-title">
             <div class="user-project">
@@ -67,6 +68,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> #}
 
 {% endblock %}

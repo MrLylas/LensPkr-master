@@ -4,8 +4,9 @@
 
 {% block body %}
 <div class="user-page">
+{# <div class="example-wrapper"> #}
     <div class="banner">
-        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <img src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
         <div class="user-pic">
             {% if app.user.profilePic %}
                 <img src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
@@ -19,17 +20,8 @@
             <div class="edit-btns">
                 <a href="{{path('app_user_skill', {'id': app.user.id})}}">Cancel</a>
             </div>
-            {# {{form(formEditUser)}} #}
-            {# {{ form_start(formEditUser) }}
-            {{ form_row(formEditUser.name) }}{{" "}}{{ form_row(formEditUser.forename) }}
-            {{ form_row(formEditUser.pseudo) }}
-            {{ form_row(formEditUser.country) }}
-            {{ form_row(formEditUser.city) }}
-            {{ form_row(formEditUser.biography) }}
-            {{ form_row(formEditUser.userSkills) }}
-            {{ form_row(formEditUser.profile_pic, {'label': 'Profile Pic'},mapped:false,attr:{onchange:"previewImage(this);"}) }}
-            {{ form_row(formEditUser.submit) }}
-            {{ form_end(formEditUser) }} #}
+            {{form(UserForm)}}
+            {# <a href="" class="btn btn-danger">Delete Profile Picture</a> #}
         </div>
         <div class="user-exp">
             <div class="exp-left">

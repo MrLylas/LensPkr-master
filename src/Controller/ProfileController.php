@@ -43,31 +43,41 @@ final class ProfileController extends AbstractController
     // $levels = $entityManager->getRepository(Level::class)->findAll();
     // $specialities = $entityManager->getRepository(Speciality::class)->findAll();
 
-    // $userForm = $this->createForm(UserType::class, $user);
-    // $userForm->handleRequest($request);
+    $userForm = $this->createForm(UserType::class, $user);
+    $userForm->handleRequest($request);
     
-    // if ($userForm->isSubmitted() && $userForm->isValid()) {
+    if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-    //     $uploadedFile = $userForm->get('profile_pic')->getData();
-    //     $user = $userForm->getData();
+        $uploadedProfilePic = $userForm->get('profile_pic')->getData();
+        $uploadedBanner = $userForm->get('banner')->getData();
+        $user = $userForm->getData();
 
-    //     if ($user->getProfilePic() != null) {
-    //         $path = $this->getParameter('upload_directory')."/".$user->getProfilePic();
-    //         unlink($path);
-    //     }
-    //     if ($uploadedFile) {
-    //         $newFilename = $fileUploader->upload($uploadedFile);
-    //         $user->setProfilePic($newFilename);
-    //     }
+        if ($user->getProfilePic() != null) {
+            $path = $this->getParameter('upload_directory')."/".$user->getProfilePic();
+            unlink($path);
+        }
+        if ($uploadedProfilePic) {
+            $newFilename = $fileUploader->upload($uploadedProfilePic);
+            $user->setProfilePic($newFilename);
+        }
+
+        if ($user->getBanner() != null) {
+            $Bannerpath = $this->getParameter('upload_directory')."/".$user->getBanner();
+            unlink($Bannerpath);
+        }
+        if ($uploadedBanner) {
+            $newBanner = $fileUploader->upload($uploadedBanner);
+            $user->setBanner($newBanner);
+        }
     
-    //     $entityManager->persist($user);
-    //     $entityManager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
         
-        // return $this->redirectToRoute('app_user_skill', ['id' => $this->getUser()->getId()]);
-    // }
+        return $this->redirectToRoute('app_user_skill', ['id' => $this->getUser()->getId()]);
+    }
 
     return $this->render('/profile/edit.html.twig', [
-        // 'formEditUser' => $userForm,
+        'UserForm' => $userForm,
         // 'userSkill' => $userSkill,
         // 'availableSkills' => $availableSkills,
         // 'levels' => $levels,

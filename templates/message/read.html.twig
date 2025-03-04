@@ -9,6 +9,7 @@
 </style> #}
 
 <div class="example-wrapper">
+    <a href="{{path('received')}}" class="btn btn-warning">Back</a>
     <h1 class="text-center">Messagerie</h1>
     <h2>{{ message.title }}</h2>
     <p>Message de : <a href="{{path('app_profile', {'id': message.sender.id})}}">{{ message.sender.email }}</a></p>

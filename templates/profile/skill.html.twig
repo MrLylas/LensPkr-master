@@ -4,11 +4,12 @@
 
 {% block body %}
 <div class="user-page">
+{# <div class="example-wrapper"> #}
     <div class="banner">
-        <img src="{{ asset('images/banner.jpg') }}" alt="">
+        <img src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
         <div class="user-pic">
-            {% if user.profilePic %}
-                <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s Profile Pic">
+            {% if app.user.profilePic %}
+                <img src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
             {% else  %}
                 <img src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
             {% endif %}
@@ -17,7 +18,7 @@
     <div class="user-container">
         <div class="user-info">
             <div class="edit-btns">
-                <a href="{{path('edit_user', {'id': user.id})}}">Edit Infos</a>
+                <a href="{{path('edit_user', {'id': app.user.id})}}">Edit Infos</a>
             </div>
             <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
             <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>

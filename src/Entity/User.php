@@ -90,6 +90,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'recipient', orphanRemoval: true)]
     private Collection $received;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
+
     public function __construct()
     {
         $this->userSkills = new ArrayCollection();
@@ -434,6 +437,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $received->setRecipient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?string $banner): static
+    {
+        $this->banner = $banner;
 
         return $this;
     }

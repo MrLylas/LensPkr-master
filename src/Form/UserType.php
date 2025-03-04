@@ -34,16 +34,28 @@ class UserType extends AbstractType
                         ])
                     ],
                 ])
+            ->add('banner', FileType::class, [
+                'label' => 'Banner',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File ([
+                        'maxSize' => '3000k',
+                        'mimeTypes' => ['image/*',],
+                        'mimeTypesMessage' => 'Please upload a valid Image File (jpg, jpeg, png, webp)',
+                        ])
+                    ],
+                ])
             ->add('country')
             ->add('city')
             // ->add('isVerified')
             ->add('biography')
-            ->add('userSkills', CollectionType::class, [
-                'entry_type' => UserSkillType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                // 'multiple' => true
-            ])
+            // ->add('userSkills', CollectionType::class, [
+            //     'entry_type' => UserSkillType::class,
+            //     'allow_add' => true,
+            //     'allow_delete' => true,
+            //     // 'multiple' => true
+            // ])
             ->add('submit', SubmitType::class,[
                 'attr' => [
                     'class' => 'btn btn-success',
