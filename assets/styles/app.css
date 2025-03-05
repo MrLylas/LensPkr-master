@@ -117,20 +117,20 @@ body {
         
         .container
         {
+            
             display: flex;
             flex-direction: row;
             height: 100vh;
             width: 100%;
-        
                 aside{
                     width: 200px;
                     height: 100vh;
+                    margin-left: -73px;
                     background-color: #a5b5df80;
                     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
                     font-family: "Jura", serif;
                     
                     .aside-block{
-                        padding: 5px 0;
                 
                             a{
                                 font-size: small;
@@ -189,16 +189,15 @@ body {
 }
 
 /************************ Home *************************/
-
-.page{
+    
+main{
     display: flex;
     flex-direction: column;
     width: 100%;
     padding-left: 200px;
     padding-top: 100px; 
-
         a{
-            z-index: 100;
+            z-index: 1000;
         }
 
         .card{
@@ -254,56 +253,56 @@ body {
                         }
                 }
         }
+    }
 
-        .card-content{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
 
-                .card-description{
-                    width: 90%;
-                    height: fit-content;
-                    border-radius: 15px;
-                    background-color: #f68f5f49;
-                    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-                    padding: 15px;
-                    color: #FFDD4A;
+    .card-content{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-                    p{
-                        font-family: "Jura", serif;
-                        font-size: medium;
-                    }
+            .card-description{
+                width: 90%;
+                height: fit-content;
+                border-radius: 15px;
+                background-color: #f68f5f49;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+                padding: 15px;
+                color: #FFDD4A;
 
+                p{
+                    font-family: "Jura", serif;
+                    font-size: medium;
                 }
 
-                .card-image{
-                    width: 90%;
-                    height: 480px;
-                    margin-bottom: 15px;
+            }
+
+            .card-image{
+                width: 90%;
+                height: 480px;
+                margin-bottom: 15px;
+                border-radius: 15px;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                z-index: 100;
+
+                video{
+                    width: 100%;
+                    height: 100%;
                     border-radius: 15px;
-                    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-                    overflow: hidden;
+                    z-index: 100;
+                }
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 15px;
                     z-index: 100;
 
-                    video{
-                        width: 100%;
-                        height: 100%;
-                        border-radius: 15px;
-                        z-index: 100;
-                    }
-
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        border-radius: 15px;
-                        z-index: 100;
-
-                    }
                 }
-        }
-
-}
+            }
+    }
 
 /************************ Security *************************/
 
@@ -364,7 +363,6 @@ body {
         }
     }
 }
-
 .rules-container{
     width: 100%;
     display: flex;
@@ -384,14 +382,12 @@ body {
             margin-bottom: 10px;
             font-family: "Jura", serif;
         }
-
         h3{
             width: 100%;
             color: #FFDD4A;
             margin-bottom: 10px;
             font-family: "Jura", serif;
         }
-
         p{
             width: 100%;
             color: #FFDD4A;
@@ -648,6 +644,7 @@ h2{
                 display: flex;
                 flex-direction: row;
                 margin-bottom: 10px;
+                margin-right: 10px;
                 input{
                     margin-bottom: 10px;
                     margin-left: 20px;
