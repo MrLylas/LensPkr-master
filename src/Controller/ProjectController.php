@@ -14,11 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProjectController extends AbstractController
 {
-    #[Route('/project', name: 'project_feed')]
-    public function index(): Response
+    #[Route('/', name: 'project_feed')]
+    public function index(EntityManagerInterface $entityManager): Response
     {
+        $projects = $entityManager->getRepository(Project::class)->findAll();
+
         return $this->render('project/index.html.twig', [
             'controller_name' => 'ProjectController',
+            'projects' => $projects
         ]);
     }
 
@@ -31,6 +34,7 @@ final class ProjectController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $newProject->setCreatedAt(new \DateTimeImmutable());
+            $newProject->setCreator($this->getUser());
             $entityManager->persist($newProject);
             $entityManager->flush();
 
@@ -39,6 +43,14 @@ final class ProjectController extends AbstractController
 
         return $this->render('project/new.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    #[Route('/project/{id}', name: 'project')]
+    public function project(Project $project): Response
+    {
+        return $this->render('project/project.html.twig', [
+            'project' => $project
         ]);
     }
 }

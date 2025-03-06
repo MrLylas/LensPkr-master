@@ -16,12 +16,11 @@
 {############################################################## Navbar ########################################################}
         <nav class="navbar navbar-expand-lg">
             <div>
-                {# <a href="{{path('app_home')}}"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a> #}
-                <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                <a href="{{path('project_feed')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
             </div>
             <div class="nav-mid">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Example text with button addon" aria-describedby="button-addon1">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
                 </div>
                 <div class="job-btns">                
@@ -38,20 +37,26 @@
                 {% if app.user is not null %}        
                     <a href="{{ path('app_user_skill', {'id': app.user.id}) }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
-                    <a href="{{ path('received') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
+                    <a href="{{ path('app_message') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
                 {% endif %}
             </div>
         </nav>
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
 
-{############################################################## Sidebar ########################################################}
-<button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.png') }}" alt="Menu Burger"></button>
-{# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
-{% block body %}
-{% endblock %}
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div class="offcanvas-header">
+        {############################################################## Sidebar ########################################################}
+        <button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.png') }}" alt="Menu Burger"></button>
+        {# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
+        {% block body %}
+        {% endblock %}
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
@@ -60,7 +65,7 @@
             {# <div class="container"> #}
             <aside>
                 <div class="aside-block">
-                    <div class="aside-title"><img src="{{ asset('images/List.svg') }}" alt="Speciality-List">Speciality</div>
+                    <div class="aside-title">Speciality</div>
                     <hr>
                     <div class="aside-content">
                         <a href="">Direction</a><br>
@@ -71,7 +76,7 @@
                     </div>
                 </div>
                 <div class="aside-block">
-                    <div class="aside-title"><img src="{{ asset('images/Project.svg') }}" alt=""> Project</div>
+                    <div class="aside-title">Project</div>
                     <hr>
                     <div class="aside-content">
                         <a href="{{path('new_project')}}">New Project</a><br>
@@ -83,7 +88,7 @@
                     </div>
                 </div>
                 <div class="aside-block">
-                    <div class="aside-title"><img src="{{ asset('images/Team.svg') }}" alt="">Teams</div>
+                    <div class="aside-title">Teams</div>
                     <hr>
                     <div class="aside-content">
                         <a href="">My Team</a><br>
@@ -92,7 +97,7 @@
                     </div>
                 </div>
                 <footer class="aside-block">
-                    <div class="aside-title"><img src="{{ asset('images/Lock.svg') }}" alt="">General Terms and Conditions</div>
+                    <div class="aside-title">General Terms and Conditions</div>
                         <hr>
                         <div class="aside-content">
                             <a href="{{path('app_rules')}}">Rules</a><br>
@@ -109,13 +114,6 @@
   </div>
 </div>
 {############################################################## Content ########################################################}
-
-    {% for message in app.flashes('success') %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {% block javascripts %}

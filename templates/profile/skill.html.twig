@@ -3,8 +3,8 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-{# <div class="user-page"> #}
-{# <div class="example-wrapper"> #}
+<a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+<a href="{{path('edit_user', {'id': app.user.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Back button"></a>
 <div class="banner">
     <img class="cover" src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
     <div class="user-pic">
@@ -17,9 +17,9 @@
 </div>
 <div class="user-container">
     <div class="user-info">
-        <div class="edit-btns">
+        {# <div class="edit-btns">
             <a href="{{path('edit_user', {'id': app.user.id})}}">Edit Infos</a>
-        </div>
+        </div> #}
         <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
         <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>
         <h3>Email : <br><p>{{ user.email }}</p></h3>

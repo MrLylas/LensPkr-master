@@ -3,16 +3,19 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-<h1 class="text-center fw-bold fs-1 mb-5 mt-5">Messagerie</h1>
-<div class="example-wrapper">
-    <div class="row">
-        <div class="col-12">
-            <a href="{{ path('send') }}" class="btn btn-primary">Envoyer un message</a>  
-            <a href="{{ path('received') }}" class="btn btn-primary">Boîte de réception</a>  
-            <a href="{{ path('sent') }}" class="btn btn-primary">Boîte d'envoi</a>  
-            <p>Résumé de la messagerie</p>
+<h2 class="text-center">Messagerie</h2>
+<a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+    <div class="mail-info">
+        <div class="box">
+            <a href="{{ path('send') }}" class="btn send">Envoyer un message</a>  
+        </div>
+        <div class="box">
             <p>Reçus : {{ app.user.received|length }}</p>
+            <a href="{{ path('received') }}" class="btn mailbox">Boîte de réception</a> 
+        </div>
+        <div class="box"> 
             <p>Envoyés : {{ app.user.sent|length }}</p>
+            <a href="{{ path('sent') }}" class="btn sendbox">Boîte d'envoi</a>  
         </div>
     </div>
 </div>

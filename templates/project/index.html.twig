@@ -3,5 +3,27 @@
 {% block title %}Hello ProjectController!{% endblock %}
 
 {% block body %}
-
+<div class="wrapper">
+    {% for project in projects %}
+    <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
+        <div class="card">
+            <div class="img-card">
+                <img src="{{ asset('images/Actors.jpg') }}" alt="Actors">
+            </div>
+            <div class="label">
+                <div class="creator">
+                    <div class="creator-pic">
+                        <img src="{{ asset('uploads/profile_pictures/' ~ project.creator.profilePic) }}" alt="">
+                    </div>
+                    <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
+                </div>
+                <h3>{{ project.projectName }}</h3>
+            </div>
+            <div class="date">
+                <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -56,16 +56,16 @@ final class ProfileController extends AbstractController
             $path = $this->getParameter('upload_directory')."/".$user->getProfilePic();
             unlink($path);
         }
+        if ($user->getBanner() != null) {
+            $Bannerpath = $this->getParameter('upload_banner_directory')."/".$user->getBanner();
+            unlink($Bannerpath);
+        }
         if ($uploadedProfilePic) {
             $newFilename = $fileUploader->upload($uploadedProfilePic);
             $user->setProfilePic($newFilename);
         }
-
-        if ($user->getBanner() != null) {
-            $Bannerpath = $this->getParameter('upload_directory')."/".$user->getBanner();
-            unlink($Bannerpath);
-        }
         if ($uploadedBanner) {
+            // upload() a changer en uploadBanner()
             $newBanner = $fileUploader->upload($uploadedBanner);
             $user->setBanner($newBanner);
         }
@@ -107,6 +107,26 @@ final class ProfileController extends AbstractController
             'id' => $user_id,
         ]);
     }
+
+    // #[Route('/profile/job/{id}', name: 'skill_by_user')]
+    // public function show_skill_by_user(User $user, EntityManagerInterface $entityManager): Response
+    // {
+    //     $skills = $entityManager->getRepository(UserSkill::class)->findSkillNotInUser($user->getId());
+
+
+    //     $user = $this->getUser();
+    //     $userSkills = $user->getUserSkills();
+    //     $user_id = $user->getId();
+        
+
+    //     return $this->render('profile/skill.html.twig', [
+    //         'controller_name' => 'UserSkillController',
+    //         'user' => $user,
+    //         'userSkills' => $userSkills,
+    //         'skills' => $skills,
+    //         'id' => $user_id,
+    //     ]);
+    // }
 
     #[Route('/profile/job/answer/{id}', name: 'app_answers')]
     public function showAnswers(Job $job): Response{

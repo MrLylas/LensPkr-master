@@ -5,6 +5,7 @@
 {% block body %}
 
 <h2>Post a job</h2>
+<a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
 <div class="post-job">
 {{ form_start(form) }}
         {{ form_row(form.job_name) }}
