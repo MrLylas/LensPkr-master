@@ -1,0 +1,106 @@
+        {# <div class="container"> #}
+            {# <aside>
+                <div class="aside-block">
+                    <div class="aside-title"><img src="{{ asset('images/List.svg') }}" alt="Speciality-List">Speciality</div>
+                    <hr>
+                    <div class="aside-content">
+                        <a href="">Direction</a>
+                        <a href="">Production</a>
+                        <a href="">Video</a>
+                        <a href="">Sounds</a>
+                        <a href="">Lights</a>
+                    </div>
+                </div>
+                <div class="aside-block">
+                    <div class="aside-title"><img src="{{ asset('images/Project.svg') }}" alt=""> Project</div>
+                    <hr>
+                    <div class="aside-content">
+                        <a href="{{path('new_project')}}">New Project</a>
+                        <a href="{{path('project_feed')}}">Récents</a>
+                        <a href="">Popular</a>
+                        <a href="">Followed</a>
+                        <a href="">My Projects</a>
+                        <a href="">My Team's Projects</a>
+                    </div>
+                </div>
+                <div class="aside-block">
+                    <div class="aside-title"><img src="{{ asset('images/Team.svg') }}" alt="">Teams</div>
+                    <hr>
+                    <div class="aside-content">
+                        <a href="">My Team</a>
+                        <a href="">Popular Teams</a>
+                        <a href="">Followed Teams</a>
+                    </div>
+                </div>
+                <footer class="aside-block">
+                    <div class="aside-title"><img src="{{ asset('images/Lock.svg') }}" alt="">General Terms and Conditions</div>
+                        <hr>
+                        <div class="aside-content">
+                            <a href="{{path('app_rules')}}">Rules</a>
+                            <a href="">Privacy Police</a>
+                            <a href="">User Contract</a>
+                            <a href="">About Us</a>
+                        </div>
+                        <hr>
+                    </div>
+                    <span>&copy; 2025 LensPkr by <br><a target="_blank" href="https://github.com/MrLylas">LeLylas</a></span>
+                </footer>
+            </aside> #}
+        {# </div> #}
+
+
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="aside-block">
+            <div class="aside-title"><img src="{{ asset('images/List.svg') }}" alt="Speciality-List">Speciality</div>
+            <hr>
+            <div class="aside-content">
+                <a href="">Direction</a>
+                <a href="">Production</a>
+                <a href="">Video</a>
+                <a href="">Sounds</a>
+                <a href="">Lights</a>
+            </div>
+        </div>
+        <div class="aside-block">
+            <div class="aside-title"><img src="{{ asset('images/Project.svg') }}" alt=""> Project</div>
+            <hr>
+            <div class="aside-content">
+                <a href="{{path('new_project')}}">New Project</a>
+                <a href="{{path('project_feed')}}">Récents</a>
+                <a href="">Popular</a>
+                <a href="">Followed</a>
+                <a href="">My Projects</a>
+                <a href="">My Team's Projects</a>
+            </div>
+        </div>
+        <div class="aside-block">
+            <div class="aside-title"><img src="{{ asset('images/Team.svg') }}" alt="">Teams</div>
+            <hr>
+            <div class="aside-content">
+                <a href="">My Team</a>
+                <a href="">Popular Teams</a>
+                <a href="">Followed Teams</a>
+            </div>
+        </div>
+        <footer class="aside-block">
+            <div class="aside-title"><img src="{{ asset('images/Lock.svg') }}" alt="">General Terms and Conditions</div>
+                <hr>
+                <div class="aside-content">
+                    <a href="{{path('app_rules')}}">Rules</a>
+                    <a href="">Privacy Police</a>
+                    <a href="">User Contract</a>
+                    <a href="">About Us</a>
+                </div>
+                <hr>
+            </div>
+            <span>&copy; 2025 LensPkr by <br><a target="_blank" href="https://github.com/MrLylas">LeLylas</a></span>
+        </footer>
+        {# <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>Try scrolling the rest of the page to see this option in action.</p>
+        </div> #}
+    </div>

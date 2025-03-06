@@ -13,99 +13,115 @@
         {% endblock %}
     </head>
     <body>
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-    <div class="app">
-        <nav data-bs-theme="dark">
+{############################################################## Navbar ########################################################}
+        <nav class="navbar navbar-expand-lg">
             <div>
                 {# <a href="{{path('app_home')}}"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a> #}
-                <a href="{{path('app_home')}}"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
             </div>
             <div class="nav-mid">
-                <input class="search" type="text" placeholder="Search">
-                {% if app.user is not null %}  
-                <a class="find-job-btn" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
-                <a class="post-job-btn" href="{{path('post_job', {'id': app.user.id})}}">Post Jobs</a>
-                {% else %}
-                <a class="find-job-btn" href="{{path('app_login')}}">Login</a>
-                <a class="post-job-btn" href="{{path('app_register')}}">Sign in</a>
-                {% endif %}
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
+                </div>
+                <div class="job-btns">                
+                    {% if app.user is not null %}  
+                    <a class="btn btn-primary" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
+                    <a class="btn btn-dark" href="{{path('post_job', {'id': app.user.id})}}">Post Jobs</a>
+                    {% else %}
+                    <a class="btn btn-primary" href="{{path('app_login')}}">Login</a>
+                    <a class="btn btn-dark" href="{{path('app_register')}}">Sign in</a>
+                    {% endif %}
+                </div>  
             </div>
             <div class="nav-right">
                 {% if app.user is not null %}        
-                    <a href="{{ path('app_user_skill', {'id': app.user.id}) }}"><img class="user" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
-                    <a href=""><img class="chat" src="{{ asset('images/Chat.svg') }}" alt="Chat"></a>
-                    <a href="{{ path('received') }}"><img class="chat" src="{{ asset('images/mailbox.svg') }}" alt="Mailbox"></a>
-                    <a href=""><img class="notification" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
-                    <a href=""><img class="setting" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
+                    <a href="{{ path('app_user_skill', {'id': app.user.id}) }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
+                    <a href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
+                    <a href="{{ path('received') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
+                    <a href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
+                    <a href=""><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
                 {% endif %}
             </div>
         </nav>
-        <div class="container">
+
+{############################################################## Sidebar ########################################################}
+<button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.png') }}" alt="Menu Burger"></button>
+{# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
+{% block body %}
+{% endblock %}
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    {# <p>Try scrolling the rest of the page to see this option in action.</p> #}
+            {# <div class="container"> #}
             <aside>
                 <div class="aside-block">
                     <div class="aside-title"><img src="{{ asset('images/List.svg') }}" alt="Speciality-List">Speciality</div>
                     <hr>
                     <div class="aside-content">
-                        <a href="">Direction</a>
-                        <a href="">Production</a>
-                        <a href="">Video</a>
-                        <a href="">Sounds</a>
-                        <a href="">Lights</a>
+                        <a href="">Direction</a><br>
+                        <a href="">Production</a><br>
+                        <a href="">Video</a><br>
+                        <a href="">Sounds</a><br>
+                        <a href="">Lights</a><br>
                     </div>
                 </div>
                 <div class="aside-block">
                     <div class="aside-title"><img src="{{ asset('images/Project.svg') }}" alt=""> Project</div>
                     <hr>
                     <div class="aside-content">
-                        <a href="{{path('new_project')}}">New Project</a>
-                        <a href="{{path('project_feed')}}">Récents</a>
-                        <a href="">Popular</a>
-                        <a href="">Followed</a>
-                        <a href="">My Projects</a>
-                        <a href="">My Team's Projects</a>
+                        <a href="{{path('new_project')}}">New Project</a><br>
+                        <a href="{{path('project_feed')}}">Récents</a><br>
+                        <a href="">Popular</a><br>
+                        <a href="">Followed</a><br>
+                        <a href="">My Projects</a><br>
+                        <a href="">My Team's Projects</a><br>
                     </div>
                 </div>
                 <div class="aside-block">
                     <div class="aside-title"><img src="{{ asset('images/Team.svg') }}" alt="">Teams</div>
                     <hr>
                     <div class="aside-content">
-                        <a href="">My Team</a>
-                        <a href="">Popular Teams</a>
-                        <a href="">Followed Teams</a>
+                        <a href="">My Team</a><br>
+                        <a href="">Popular Teams</a><br>
+                        <a href="">Followed Teams</a><br>
                     </div>
                 </div>
                 <footer class="aside-block">
                     <div class="aside-title"><img src="{{ asset('images/Lock.svg') }}" alt="">General Terms and Conditions</div>
                         <hr>
                         <div class="aside-content">
-                            <a href="{{path('app_rules')}}">Rules</a>
-                            <a href="">Privacy Police</a>
-                            <a href="">User Contract</a>
-                            <a href="">About Us</a>
+                            <a href="{{path('app_rules')}}">Rules</a><br>
+                            <a href="">Privacy Police</a><br>
+                            <a href="">User Contract</a><br>
+                            <a href="">About Us</a><br>
                         </div>
                         <hr>
                     </div>
                     <span>&copy; 2025 LensPkr by <br><a target="_blank" href="https://github.com/MrLylas">LeLylas</a></span>
                 </footer>
             </aside>
-        </div>
-    <div class="page">
-        {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-        {% block body %}
-        {% endblock %}
+        {# </div> #}
+  </div>
+</div>
+{############################################################## Content ########################################################}
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}
-        {% endblock %}
-    {% endblock %}
+    {% endfor %}
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</body>
 </html>
+
+

@@ -3,43 +3,41 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-<div class="user-page">
+{# <div class="user-page"> #}
 {# <div class="example-wrapper"> #}
-    <div class="banner">
-        <img src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
-        <div class="user-pic">
-            {% if app.user.profilePic %}
-                <img src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
-            {% else  %}
-                <img src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
-            {% endif %}
-        </div>
-    </div>
-    <div class="user-container">
-        <div class="user-info">
-            <div class="edit-btns">
-                <a href="{{path('edit_user', {'id': app.user.id})}}">Edit Infos</a>
-            </div>
-            <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
-            <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>
-            <h4>Email : <br><p>{{ user.email }}</p></h4>
-            <h4>Country : <br><p>{{ user.country }}</p></h4>
-            <h4>City : <br><p>{{ user.city }}</p></h4>
-            <h4>About Me : <br><p>{{ user.biography }}</p></h4>
-        </div>
-        <div class="user-exp">
-            <div class="exp-left">
-                <h3>My skills :</h3>
-                {% for skill in userSkills %}
-                    <p>{{ skill }}</p>
-                {% endfor %}
-                <h3>My jobs offer :</h3>
-                {% for job in app.user.jobs %}
-                    <a href="{{ path('app_answers', {'id': job.id}) }}">{{ job.jobName }}</a> <br>
-                {% endfor %}
-            </div>      
-        </div>
+<div class="banner">
+    <img class="cover" src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
+    <div class="user-pic">
+        {% if app.user.profilePic %}
+            <img class="profile-pic" src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
+        {% else  %}
+            <img class="profile-pic" src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
+        {% endif %}
     </div>
 </div>
+<div class="user-container">
+    <div class="user-info">
+        <div class="edit-btns">
+            <a href="{{path('edit_user', {'id': app.user.id})}}">Edit Infos</a>
+        </div>
+        <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
+        <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>
+        <h3>Email : <br><p>{{ user.email }}</p></h3>
+        <h3>Country : <br><p>{{ user.country }}</p></h3>
+        <h3>City : <br><p>{{ user.city }}</p></h3>
+        <h3>About Me : <br><p>{{ user.biography }}</p></h3>
+    </div>
+    <div class="user-info">
+        <h3>My skills :</h3>
+        {% for skill in userSkills %}
+            <p>{{ skill }}</p>
+        {% endfor %}
+        <h3>My jobs offer :</h3>
+        {% for job in app.user.jobs %}
+            <a href="{{ path('app_answers', {'id': job.id}) }}">{{ job.jobName }}</a> <br>
+        {% endfor %}   
+    </div>
+</div>
+
 
 {% endblock %}

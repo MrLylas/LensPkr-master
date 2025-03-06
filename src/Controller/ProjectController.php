@@ -30,9 +30,11 @@ final class ProjectController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $form->setCreatedAt(new \DateTimeImmutable());
+            $newProject->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($newProject);
             $entityManager->flush();
+
+            return $this->redirectToRoute('project_feed');
         }
 
         return $this->render('project/new.html.twig', [

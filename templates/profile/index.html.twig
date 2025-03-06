@@ -3,12 +3,12 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-<div class="user-page">
-{# <div class="example-wrapper"> #}
+{# <div class="user-page"> #}
+<div class="example-wrapper">
     <div class="banner">
-        <img src="{{ asset('uploads/profile_pictures/' ~ user.banner) }}" alt="">
+        <img class="cover" src="{{ asset('uploads/profile_pictures/' ~ user.banner) }}" alt="">
         <div class="user-pic">
-            <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+            <img class="profile-pic" src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
         </div>
     </div>
     <div class="filter-card">

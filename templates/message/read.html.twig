@@ -3,18 +3,18 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-{# <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style> #}
 
-<div class="example-wrapper">
+{# <div class="example-wrapper"> #}
+<div class="reader">
     <a href="{{path('received')}}" class="btn btn-warning">Back</a>
-    <h1 class="text-center">Messagerie</h1>
     <h2>{{ message.title }}</h2>
     <p>Message de : <a href="{{path('app_profile', {'id': message.sender.id})}}">{{ message.sender.email }}</a></p>
     <p>{{ message.message }}</p>
     <p>{{message.createdAt | date('d/m/Y')}}</p>
-    <a href="{{path('reply', {'id': message.sender.id})}}" class="btn btn-primary">Repondre</a> <a class="btn btn-danger" href="{{path('delete', {'id': message.id})}}">Supprimer</a>
+    <div class="action-btn">
+        <a class="btn btn-primary" href="{{path('reply', {'id': message.sender.id})}}">Repondre</a> 
+        <a class="btn btn-danger" href="{{path('delete', {'id': message.id})}}">Supprimer</a>
+    </div>
 </div>
+{# </div> #}
 {% endblock %}
