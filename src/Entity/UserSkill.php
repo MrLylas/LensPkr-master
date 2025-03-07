@@ -39,27 +39,27 @@ class UserSkill
         return $this;
     }
 
-    public function getSkills(): ?Skill
+    public function getSkill(): ?Skill
     {
         return $this->skills;
     }
 
-    public function setSkills(?Skill $skills): static
+    public function setSkill(?Skill $skill): static
     {
-        $this->skills = $skills;
+        $this->skills = $skill;
 
         return $this;
     }
 
     
-    public function getLevels(): ?Level
+    public function getLevel(): ?Level
     {
         return $this->levels;
     }
     
-    public function setLevels(?Level $levels): static
+    public function setLevel(?Level $level): static
     {
-        $this->levels = $levels;
+        $this->levels = $level;
         
         return $this;
     }

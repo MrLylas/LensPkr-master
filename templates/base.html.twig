@@ -39,7 +39,18 @@
                     <a href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
                     <a href="{{ path('app_message') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
-                    <a href=""><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
+                    {# Menu déroulant #}
+                    {# <div class="dropdown"> #}
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
+                        {# <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Dropdown link
+                        </a> #}
+                        {# <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div> #}
                 {% endif %}
             </div>
         </nav>

@@ -220,6 +220,14 @@ h2{
             color: var(--secondary-color);
         }
     }
+    span{
+        a{
+            color: var(--tertiary-color);
+        }
+        a:hover{
+            color: var(--secondary-color);
+        }
+    }
 }
 
 /****************************** Login *************************************************/
@@ -300,7 +308,7 @@ h2{
     }
 }
 /****************************** Skill *************************************************/
-.user-container{
+/* .user-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -344,6 +352,7 @@ h2{
             }
             .form{
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
 
                 .form-control{
@@ -388,6 +397,24 @@ h2{
             }
         }
 }
+} */
+
+.container{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    h3{
+        color: var(--secondary-color);
+    }
+    li{
+        color : var(--tertiary-color);
+    }
 }
 /****************************** Message *************************************************/
 .message-container{

@@ -1,37 +1,108 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Éditer le Profil{% endblock %}
 
 {% block body %}
-{# <div class="user-page"> #}
-{# <div class="example-wrapper"> #}
-<div class="banner">
-    <img class="cover" src="{{ asset('uploads/profile_pictures/' ~ app.user.banner) }}" alt="">
-    <div class="user-pic">
-        {% if app.user.profilePic %}
-            <img class="profile-pic" src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
-        {% else  %}
-            <img class="profile-pic" src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
-        {% endif %}
-    </div>
-</div>
-<div class="user-container">
-    <div class="user-info">
-        <div class="edit-btns">
-            <a href="{{path('app_user_skill', {'id': app.user.id})}}">Cancel</a>
-        </div>
-        <div class="form">
-            {{form(UserForm)}}
-        </div>
-    </div>
-    <div class="user-exp">
-        <div class="exp-left">
-        </div>
-        <div class="exp-right">
-        </div>
-    </div>
-</div>
-{# </div> #}
+<div class="container">
+    <h2>Modifier le Profil</h2>
 
+    <h3>Ajouter une Compétence</h3>
+    <select id="skillSelect">
+        <option value="">-- Choisir une compétence --</option>
+        {% for skill in skills %}
+            <option value="{{ skill.id }}">{{ skill.skillName }}</option>
+        {% endfor %}
+    </select>
+
+    <select id="levelSelect">
+        <option value="">-- Choisir un niveau --</option>
+        {% for level in levels %}
+            <option value="{{ level.id }}">{{ level.levelName }}</option>
+        {% endfor %}
+    </select>
+
+    <button id="addSkillBtn">Ajouter</button>
+
+    <h3>Mes Compétences</h3>
+    <ul id="userSkillsList">
+        {% for userSkill in userSkills %}
+            <li data-skill-id="{{ userSkill.skill.id }}">
+                {{ userSkill.skill.skillName }} - Niveau: {{ userSkill.level.levelName }}
+                <button class="removeSkillBtn" data-skill-id="{{ userSkill.skill.id }}">❌</button>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Ajouter un skill
+        document.getElementById('addSkillBtn').addEventListener('click', function () {
+            let skillId = document.getElementById('skillSelect').value;
+            let levelId = document.getElementById('levelSelect').value;
+
+            if (!skillId || !levelId) {
+                alert('Veuillez sélectionner une compétence et un niveau.');
+                return;
+            }
+
+            fetch('{{ path("add_skill", {"id": app.user.id}) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: `skill_id=${skillId}&level_id=${levelId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let skillList = document.getElementById('userSkillsList');
+                    let newSkill = document.createElement('li');
+                    newSkill.setAttribute('data-skill-id', skillId);
+                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level} <button class="removeSkillBtn" data-skill-id="${skillId}">❌</button>`;
+                    skillList.appendChild(newSkill);
+                    attachRemoveEvent(newSkill.querySelector('.removeSkillBtn'));
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Erreur AJAX:', error));
+        });
+
+        // Fonction pour attacher l'événement de suppression
+        function attachRemoveEvent(button) {
+            button.addEventListener('click', function () {
+                let skillId = button.getAttribute('data-skill-id');
+
+                fetch('{{ path("remove_skill") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: `skill_id=${skillId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        let skillItem = document.querySelector(`li[data-skill-id="${skillId}"]`);
+                        if (skillItem) {
+                            skillItem.remove();
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Erreur AJAX:', error));
+            });
+        }
+
+        // Attacher l'événement de suppression à tous les boutons existants
+        document.querySelectorAll('.removeSkillBtn').forEach(button => {
+            attachRemoveEvent(button);
+        });
+    });
+</script>
 {% endblock %}
-
+ 

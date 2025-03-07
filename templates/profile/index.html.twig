@@ -3,9 +3,9 @@
 {% block body %}
 <a href="" class="edit-btn"><img src="{{ asset('images/hand.png') }}" alt="Skills button"></a>
 <div class="banner">
-    <img class="cover" src="{{ asset('uploads/profile_pictures/' ~ user.banner) }}" alt="">
+    <img class="cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="">
     <div class="user-pic">
-        <img class="profile-pic" src="{{ asset('uploads/profile_pictures/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+        <img class="profile-pic" src="{{ asset('uploads/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
     </div>
 </div>
 <div class="filter-card">

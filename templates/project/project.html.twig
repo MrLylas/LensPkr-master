@@ -4,13 +4,14 @@
 
 {% block body %}
 <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+<a href="{{path('edit_project', {'id': app.user.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Back button"></a>
 <div class="project-banner">
     <img class="banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
     <div class="banner-filter">
     </div>
     <a href="{{ path('app_profile', {'id': project.creator.id}) }}">
         <div class="profile-pic">
-            <img src="{{ asset('uploads/profile_pictures/' ~ project.creator.profilePic) }}" alt="Profile pic of {{ project.creator }}">
+            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="Profile pic of {{ project.creator }}">
         </div>
         <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
     </a>
