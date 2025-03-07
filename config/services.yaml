@@ -5,9 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     # profile_pic_directory: '%kernel.project_dir%/public/profile_pics'
-    upload_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
-    upload_image_directory: '%kernel.project_dir%/public/uploads/images'
-    upload_banner_directory: '%kernel.project_dir%/public/uploads/banners'
+    upload_directory: '%kernel.project_dir%/public/uploads'
+    # upload_image_directory: '%kernel.project_dir%/public/uploads/images'
+    # upload_banner_directory: '%kernel.project_dir%/public/uploads/banners'
 
 services:
     # default configuration for services in *this* file
@@ -22,8 +22,8 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $targetDirectory: '%upload_directory%'
-            $imageDirectory: '%upload_image_directory%'
-            $bannerDirectory: '%upload_banner_directory%'
+            # $imageDirectory: '%upload_image_directory%'
+            # $bannerDirectory: '%upload_banner_directory%'
 
     # définition du service FileUploader 
 

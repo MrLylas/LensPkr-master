@@ -57,7 +57,7 @@ final class ProfileController extends AbstractController
             unlink($path);
         }
         if ($user->getBanner() != null) {
-            $Bannerpath = $this->getParameter('upload_banner_directory')."/".$user->getBanner();
+            $Bannerpath = $this->getParameter('upload_directory')."/".$user->getBanner();
             unlink($Bannerpath);
         }
         if ($uploadedProfilePic) {

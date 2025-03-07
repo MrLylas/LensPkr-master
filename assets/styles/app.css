@@ -15,7 +15,6 @@ h2{
     margin-top: 10px;
     text-align: center;
 }
-
   
 
 /************************ Header *************************/
@@ -213,21 +212,67 @@ h2{
                 color: var(--secondary-color);
             }
         }
-            
-            .aside-title{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                font-size: large;
-                color: var(--secondary-color);
-
-                /* .aside-content{
-                    display: flex;
-                    flex-direction: column;
-                } */
-            }
+        .aside-title{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-size: large;
+            color: var(--secondary-color);
+        }
     }
 }
+
+/****************************** Login *************************************************/
+.register-card{
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: var(--secondary-color) 5px 5px 5px;
+    margin-top: 50px;
+    border: var(--secondary-color) 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: var(--main-color);
+
+    .form-control{
+        width: 500px;
+        background-color: var(--main-color);
+        color: var(--tertiary-color);
+        margin-bottom: 20px;
+    }
+    .form-control:hover{
+        border-color: var(--tertiary-color);
+        box-shadow: var(--secondary-color) 3px 3px 3px;
+    }
+    .form-control:focus{
+        border-color: var(--secondary-color);
+        box-shadow: var(--secondary-color) 3px 3px 3px;
+        color: var(--tertiary-color);
+    }
+    label{
+        color: var(--tertiary-color);
+    }
+    .btn{
+        background-color: var(--secondary-color);
+        color: var(--tertiary-color);
+    }
+    .btn:hover{
+        background-color: var(--tertiary-color);
+        color: var(--secondary-color);
+        box-shadow: var(--secondary-color) 3px 3px 3px;
+    }
+}
+/* .btn-lg{
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+    margin: 0 auto;
+}
+.btn-lg:hover{
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    box-shadow: var(--secondary-color) 3px 3px 3px;
+} */
 
 /****************************** Profile *************************************************/
 
