@@ -32,6 +32,12 @@ class ProjectImageType extends AbstractType
                     ]),
                 ],
             ])
+            // ->add('submit', SubmitType::class, [
+            //     'label' => 'Add Pics',
+            //     'attr' => [
+            //         'class' => 'btn'
+            //     ]
+            // ])
             // ->add('description', ImageType::class, [
             //     'label' => 'Add description'
             // ])

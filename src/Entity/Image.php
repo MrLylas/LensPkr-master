@@ -85,27 +85,27 @@ class Image
         return $this->projectImages;
     }
 
-    public function addProjectImage(ProjectImage $projectImage): static
-    {
-        if (!$this->projectImages->contains($projectImage)) {
-            $this->projectImages->add($projectImage);
-            $projectImage->setImage($this);
-        }
+    // public function addProjectImage(ProjectImage $projectImage): static
+    // {
+    //     if (!$this->projectImages->contains($projectImage)) {
+    //         $this->projectImages->add($projectImage);
+    //         $projectImage->setImage($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeProjectImage(ProjectImage $projectImage): static
-    {
-        if ($this->projectImages->removeElement($projectImage)) {
-            // set the owning side to null (unless already changed)
-            if ($projectImage->getImage() === $this) {
-                $projectImage->setImage(null);
-            }
-        }
+    // public function removeProjectImage(ProjectImage $projectImage): static
+    // {
+    //     if ($this->projectImages->removeElement($projectImage)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($projectImage->getImage() === $this) {
+    //             $projectImage->setImage(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function __toString(): string
     {

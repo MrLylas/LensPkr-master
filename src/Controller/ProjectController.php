@@ -6,7 +6,7 @@ use Dom\Entity;
 use App\Entity\Image;
 use App\Entity\Project;
 use App\Form\ProjectType;
-use App\Entity\ProjectImage;
+// use App\Entity\ProjectImage;
 use App\Service\FileUploader;
 use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
@@ -99,18 +99,33 @@ final class ProjectController extends AbstractController
     //     ]);
     // }
 
+    //Je pense avoir trouvé le problème. Mes relations entre mes entitées on été mal faites , il faut que je corrige cette erreur 
+    //avant de finir ma fonction d'upload d'image. 
     #[Route('/project/{id}/add-images', name: 'upload_project_images', methods: ['GET', 'POST'])]
     public function uploadImages(Project $project, Request $request, FileUploader $fileUploader, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ProjectImageType::class);
         $form->handleRequest($request);
+        // dd($form->isSubmitted());
+        // if ($request->isMethod('POST')) {
+        //     dd('Le formulaire est bien en POST');
+        // }
+
+        dd($request->files->all());
+        
+        // dd($form->getName());
+        // dd($request->request->all());
+
 
         
         
-        
-        
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             
+            // if (!$form->isValid()) {
+            //     foreach ($form->getErrors(true, true) as $error) {
+            //         echo $error->getMessage();
+            //     }
+            // }
             
             //     dump($request->isMethod('POST')); // Vérifie si le formulaire envoie bien une requête POST
             // dump($request->files->all()); // Affiche les fichiers envoyés
@@ -129,29 +144,29 @@ final class ProjectController extends AbstractController
                 $image = new Image();
                 $image->setName($fileName);
                 // $image->setDescription($description);
+                
+                $image->setCreatedAt(new \DateTimeImmutable());
+                
+                $em->persist($image);
+                
+                // Création d'une entrée ProjectImage pour lier l'image au projet
+                $projectImage = new ProjectImage();
+                $projectImage->setProject($project);
+                $projectImage->setImage($image);
+                
+                $em->persist($projectImage);
+            }
             
-            $image->setCreatedAt(new \DateTimeImmutable());
-
-            $em->persist($image);
-
-            // Création d'une entrée ProjectImage pour lier l'image au projet
-            $projectImage = new ProjectImage();
-            $projectImage->setProject($project);
-            $projectImage->setImage($image);
-
-            $em->persist($projectImage);
+            $em->flush();
+            
+            $this->addFlash('success', 'Images ajoutées avec succès !');
+            return $this->redirectToRoute('project', ['id' => $project->getId()]);
         }
-
-        $em->flush();
-
-        $this->addFlash('success', 'Images ajoutées avec succès !');
-        return $this->redirectToRoute('project', ['id' => $project->getId()]);
-    }
-
-    return $this->render('project/upload_images.html.twig', [
-        'form' => $form->createView(),
-        'project' => $project
-    ]);
+        
+        return $this->render('project/upload_images.html.twig', [
+            'form' => $form->createView(),
+            'project' => $project
+        ]);
 }
  
 
