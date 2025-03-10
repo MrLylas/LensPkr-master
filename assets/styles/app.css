@@ -187,6 +187,24 @@ h2{
     box-shadow: var(--tertiary-color) 3px 3px 3px;
     background-color: #ffffff00;
 }
+
+.add-image-btn{
+    position: fixed;
+    top: 120px;
+    right: 30px;
+    box-shadow: var(--secondary-color) 3px 3px 3px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    z-index: 100;
+}
+.add-image-btn:hover{
+    scale: 1.1;
+    cursor: pointer;
+    transition: 150ms ease-in-out;
+    box-shadow: var(--tertiary-color) 3px 3px 3px;
+    background-color: #ffffff00;
+}
 .offcanvas{
     background-color: var(--main-color);
     color: var(--tertiary-color);
@@ -308,7 +326,7 @@ h2{
     }
 }
 /****************************** Skill *************************************************/
-/* .user-container{
+.user-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -397,7 +415,7 @@ h2{
             }
         }
 }
-} */
+}
 
 .container{
     width: 100%;
@@ -907,6 +925,7 @@ h2{
 
 .project-page{
     display: flex;
+    flex-direction: column;
     width: 99%;
     margin: 0 auto;
     margin-top: 50px;
@@ -917,5 +936,22 @@ h2{
             color: var(--tertiary-color);
             padding-left: 20px;
             padding-right: 20px;
+        }
+
+        .images{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+
+            img{
+                max-width: 600px;
+                max-height: 350px;
+                object-fit: cover;
+                margin: 10px;
+                border-radius: 5px;
+                box-shadow: var(--secondary-color) 5px 5px 5px;
+            }
         }
 }

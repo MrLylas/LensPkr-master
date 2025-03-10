@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use Dom\Entity;
+use App\Entity\Image;
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Entity\ProjectImage;
+use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,13 +58,14 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/project/{id}/edit', name: 'edit_project')]
-    public function editProject(Request $request, EntityManagerInterface $entityManager): Response
+    public function editProject(Project $project,Request $request, EntityManagerInterface $entityManager): Response
     {
-        $project = $entityManager->getRepository(Project::class)->find($request->get('id'));
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $project->setCreatedAt(new \DateTimeImmutable());
+            $project->setCreator($this->getUser());
             $entityManager->persist($project);
             $entityManager->flush();
 
@@ -72,4 +76,36 @@ final class ProjectController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/project/{id}/add_image', name: 'add_image')]
+    public function addImageToProject(Project $project, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $projectImage = new ProjectImage();
+        $form = $this->createForm(ProjectImageType::class, $projectImage);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $projectImage->setProject($project);
+            // dd($projectImage);
+            $entityManager->persist($projectImage);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('project', ['id' => $project->getId()]);
+        }
+
+        return $this->render('project/add_image.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    //Delete Function :
+
+    // #[Route('/project/{id}/delete', name: 'delete_project')]
+    // public function deleteProject(Project $project, EntityManagerInterface $entityManager): Response
+    // {
+    //     $entityManager->remove($project);
+    //     $entityManager->flush();
+
+    //     return $this->redirectToRoute('project_feed');
+    // }
 }

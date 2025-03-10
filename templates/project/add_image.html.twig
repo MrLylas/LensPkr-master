@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectController!{% endblock %}
+
+{% block body %}
+    <h2>Add Some Pictures to Project</h2>
+    <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+    <div class="add-project">
+        {{ form(form) }}
+    </div>
+{% endblock %}

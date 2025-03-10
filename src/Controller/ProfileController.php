@@ -85,7 +85,7 @@ final class ProfileController extends AbstractController
 //     ]);
 // }
 
-#[Route('/profile/edit/{id}', name: 'edit_user')]
+#[Route('/profile/edit/{id}', name: 'edit_skill')]
     public function edit_user(User $user, EntityManagerInterface $entityManager): Response
     {
         $skills = $entityManager->getRepository(Skill::class)->findAll();
