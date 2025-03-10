@@ -5,7 +5,8 @@
 {% block body %}
 <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
 <a href="{{path('edit_project', {'id': project.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Edit Project button"></a>
-<a href="{{path('add_image', {'id': project.id})}}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a>
+{# <a href="{{path('add_image', {'id': project.id})}}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a> #}
+<a href="{{ path('upload_project_images', {'id': project.id}) }}" class="btn btn-primary">Ajouter des images</a>
 <div class="project-banner">
     <img class="banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
     <div class="banner-filter">
@@ -21,23 +22,13 @@
 <div class="project-page">
     <div class="description"><p>{{ project.description }}</p></div>
     <div class="images">
-        {# {% for image in project.images %}
-            <a href="{{ path('image', {'id': image.id}) }}">
-                <img src="{{ asset('uploads/' ~ image.image) }}" alt="Image of {{ project.projectName }}">
-            </a>
-        {% endfor %} #}
-        <div class="project-image">
-            <img src="{{ asset('images/Actors.jpg') }}" alt="Image of {{ project.projectName }}">
-            <p>Blablabla</p>
-        </div>
-        <div class="project-image">
-            <img src="{{ asset('images/Actors.jpg') }}" alt="Image of {{ project.projectName }}">
-            <p>Blablabla</p>
-        </div>
-        <div class="project-image">
-            <img src="{{ asset('images/Actors.jpg') }}" alt="Image of {{ project.projectName }}">
-            <p>Blablabla</p>
-        </div>
+        <div class="project-images">
+            {% for projectImage in project.projectImages %}
+        <img src="{{ asset('uploads/' ~ projectImage.image.name) }}" alt="Project Image">
+        <p>{{ projectImage.image.description }}</p>
+        <span>{{ projectImage.image.createdAt|date("H:i m/d/Y") }}</span>
+            {% endfor %}
+        </div>        
     </div>
 </div>
 {% endblock %}

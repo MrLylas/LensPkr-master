@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Entity\ProjectImage;
+use App\Service\FileUploader;
 use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -77,26 +78,82 @@ final class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/project/{id}/add_image', name: 'add_image')]
-    public function addImageToProject(Project $project, Request $request, EntityManagerInterface $entityManager): Response
+    // #[Route('/project/{id}/add_image', name: 'add_image')]
+    // public function addImageToProject(Project $project, Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $projectImage = new ProjectImage();
+    //     $form = $this->createForm(ProjectImageType::class, $projectImage);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         // $projectImage->setProject($project);
+    //         // dd($projectImage);
+    //         $entityManager->persist($projectImage);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('project', ['id' => $project->getId()]);
+    //     }
+
+    //     return $this->render('project/add_image.html.twig', [
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
+
+    #[Route('/project/{id}/add-images', name: 'upload_project_images', methods: ['GET', 'POST'])]
+    public function uploadImages(Project $project, Request $request, FileUploader $fileUploader, EntityManagerInterface $em): Response
     {
-        $projectImage = new ProjectImage();
-        $form = $this->createForm(ProjectImageType::class, $projectImage);
+        $form = $this->createForm(ProjectImageType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $projectImage->setProject($project);
-            // dd($projectImage);
-            $entityManager->persist($projectImage);
-            $entityManager->flush();
+        
+        
+        
+        
+        if ($form->isSubmitted() ) {
+            
+            
+            //     dump($request->isMethod('POST')); // Vérifie si le formulaire envoie bien une requête POST
+            // dump($request->files->all()); // Affiche les fichiers envoyés
+            // dd($form->isSubmitted(), $form->isValid()); // Vérifie si le formulaire est soumis et valide
+            
+            $images = $form->get('images')->getData(); // Récupère les fichiers
+            // $description = $form->get('description')->getData();
+            // dd($image);
+            
+            foreach ($images as $imageFile) {
+                // Upload de l'image
+                $fileName = $fileUploader->upload($imageFile);
+                
+                
+                // Création d'une entité Image
+                $image = new Image();
+                $image->setName($fileName);
+                // $image->setDescription($description);
+            
+            $image->setCreatedAt(new \DateTimeImmutable());
 
-            return $this->redirectToRoute('project', ['id' => $project->getId()]);
+            $em->persist($image);
+
+            // Création d'une entrée ProjectImage pour lier l'image au projet
+            $projectImage = new ProjectImage();
+            $projectImage->setProject($project);
+            $projectImage->setImage($image);
+
+            $em->persist($projectImage);
         }
 
-        return $this->render('project/add_image.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $em->flush();
+
+        $this->addFlash('success', 'Images ajoutées avec succès !');
+        return $this->redirectToRoute('project', ['id' => $project->getId()]);
     }
+
+    return $this->render('project/upload_images.html.twig', [
+        'form' => $form->createView(),
+        'project' => $project
+    ]);
+}
+ 
 
     //Delete Function :
 

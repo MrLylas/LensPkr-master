@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectController!{% endblock %}
+
+{% block body %}
+    {# <h2>Add Some Pictures to Project</h2> #}
+    <a href="{{ path('project', {'id': project.id}) }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+    <div class="add-project">
+        <h1>Ajouter des images au projet "{{ project.projectName }}"</h1>
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            {{ form_row(form.images) }}
+            <button type="submit" class="btn btn-success">Téléverser</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
