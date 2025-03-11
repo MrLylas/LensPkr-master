@@ -15,9 +15,54 @@ h2{
     margin-top: 10px;
     text-align: center;
 }
-  
+ 
+/************************ Home *****************************/
 
+.home-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+    height: 100vh;
+
+    svg{
+        overflow: visible;
+
+        path{
+            stroke: var(--secondary-color);
+            stroke-width: 2px;
+            stroke-dasharray: 415;
+            stroke-dashoffset: 415;
+            animation: dash 1s ease-in-out forwards;
+        }
+    }
+
+    .btns{
+
+        margin-top: 50px;
+
+        .btn{
+            color: var(--tertiary-color);
+            background-color: var(--secondary-color);
+            /* border: 1px solid var(--tertiary-color); */
+            box-shadow: var(--secondary-color) 3px 3px 3px; 
+            border-radius: 10px;
+            padding: 5px 10px;
+            margin: 10px;
+            cursor: pointer;
+    
+            &:hover{
+                background-color: var(--tertiary-color);
+                color: var(--secondary-color);
+                scale: 1.1;
+            }
+        }
+    }
+
+
+}
 /************************ Header *************************/
+
 .navbar{
     position: sticky;
     display: flex;
@@ -945,13 +990,55 @@ h2{
             flex-wrap: wrap;
             width: 100%;
 
-            img{
-                max-width: 600px;
-                max-height: 350px;
-                object-fit: cover;
-                margin: 10px;
+            .project-images{
+                border: var(--secondary-color) 1px solid;
                 border-radius: 5px;
-                box-shadow: var(--secondary-color) 5px 5px 5px;
+                box-shadow: var(--secondary-color) 3px 3px 3px;
+                width: 80%;
+                
+                img{
+                    width: 98%;
+                    object-fit: fill;
+                    margin: 10px;
+                    border-radius: 5px;
+                }
+
+                p{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    color: var(--tertiary-color);
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    margin-top: 10px;
+                }
+
+                span{
+                    color: var(--tertiary-color);
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    margin-right: 20px;
+                }
             }
+
         }
+}
+
+/* Keyframes */
+
+
+@keyframes dash {
+    0% {
+        fill: transparent;
+        stroke-dashoffset: 415;
+    }
+    80% {
+        scale: 1.1;
+        transform: translatex(-20px);
+    }
+    100% {
+        stroke-dashoffset: 0;
+        scale: 1;
+   }
 }

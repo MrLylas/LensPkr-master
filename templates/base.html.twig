@@ -28,8 +28,8 @@
                     <a class="btn btn-primary" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
                     <a class="btn btn-dark" href="{{path('post_job', {'id': app.user.id})}}">Post Jobs</a>
                     {% else %}
-                    <a class="btn btn-primary" href="{{path('app_login')}}">Login</a>
-                    <a class="btn btn-dark" href="{{path('app_register')}}">Sign in</a>
+                    {# <a class="btn btn-primary" href="{{path('app_login')}}">Login</a>
+                    <a class="btn btn-dark" href="{{path('app_register')}}">Sign in</a> #}
                     {% endif %}
                 </div>  
             </div>

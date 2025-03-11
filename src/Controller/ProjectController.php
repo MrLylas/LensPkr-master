@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Entity\Project;
 use App\Form\ProjectType;
 // use App\Entity\ProjectImage;
+use App\Entity\ProjectImage;
 use App\Service\FileUploader;
 use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
@@ -18,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProjectController extends AbstractController
 {
-    #[Route('/', name: 'project_feed')]
+    #[Route('/project', name: 'project_feed')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $projects = $entityManager->getRepository(Project::class)->findAll();
@@ -77,64 +78,19 @@ final class ProjectController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-    // #[Route('/project/{id}/add_image', name: 'add_image')]
-    // public function addImageToProject(Project $project, Request $request, EntityManagerInterface $entityManager): Response
-    // {
-    //     $projectImage = new ProjectImage();
-    //     $form = $this->createForm(ProjectImageType::class, $projectImage);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         // $projectImage->setProject($project);
-    //         // dd($projectImage);
-    //         $entityManager->persist($projectImage);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('project', ['id' => $project->getId()]);
-    //     }
-
-    //     return $this->render('project/add_image.html.twig', [
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
-
-    //Je pense avoir trouvé le problème. Mes relations entre mes entitées on été mal faites , il faut que je corrige cette erreur 
-    //avant de finir ma fonction d'upload d'image. 
+ 
     #[Route('/project/{id}/add-images', name: 'upload_project_images', methods: ['GET', 'POST'])]
     public function uploadImages(Project $project, Request $request, FileUploader $fileUploader, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ProjectImageType::class);
         $form->handleRequest($request);
-        // dd($form->isSubmitted());
-        // if ($request->isMethod('POST')) {
-        //     dd('Le formulaire est bien en POST');
-        // }
-
-        dd($request->files->all());
-        
-        // dd($form->getName());
-        // dd($request->request->all());
-
-
-        
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            // if (!$form->isValid()) {
-            //     foreach ($form->getErrors(true, true) as $error) {
-            //         echo $error->getMessage();
-            //     }
-            // }
-            
-            //     dump($request->isMethod('POST')); // Vérifie si le formulaire envoie bien une requête POST
-            // dump($request->files->all()); // Affiche les fichiers envoyés
-            // dd($form->isSubmitted(), $form->isValid()); // Vérifie si le formulaire est soumis et valide
-            
             $images = $form->get('images')->getData(); // Récupère les fichiers
-            // $description = $form->get('description')->getData();
-            // dd($image);
+            $description = $form->get('description')->getData();
             
+
             foreach ($images as $imageFile) {
                 // Upload de l'image
                 $fileName = $fileUploader->upload($imageFile);
@@ -143,7 +99,7 @@ final class ProjectController extends AbstractController
                 // Création d'une entité Image
                 $image = new Image();
                 $image->setName($fileName);
-                // $image->setDescription($description);
+                $image->setDescription($description->getDescription());
                 
                 $image->setCreatedAt(new \DateTimeImmutable());
                 
@@ -167,6 +123,16 @@ final class ProjectController extends AbstractController
             'form' => $form->createView(),
             'project' => $project
         ]);
+    }
+
+    #[Route('/project/{id}/delete_image', name: 'delete_image')]
+    public function deleteImage(ProjectImage $projectImage, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($projectImage);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('project_feed');
+    }
 }
  
 
@@ -180,4 +146,4 @@ final class ProjectController extends AbstractController
 
     //     return $this->redirectToRoute('project_feed');
     // }
-}
+
