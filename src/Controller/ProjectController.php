@@ -131,7 +131,7 @@ final class ProjectController extends AbstractController
         $entityManager->remove($projectImage);
         $entityManager->flush();
 
-        return $this->redirectToRoute('project_feed');
+        return $this->redirectToRoute('project', ['id' => $projectImage->getProject()->getId()]);
     }
 }
  

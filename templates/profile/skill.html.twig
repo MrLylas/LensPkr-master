@@ -17,9 +17,6 @@
 </div>
 <div class="user-container">
     <div class="user-info">
-        {# <div class="edit-btns">
-            <a href="{{path('edit_user', {'id': app.user.id})}}">Edit Infos</a>
-        </div> #}
         <h3>Name : <br><p>{{ user.name }}{{" "}}{{ user.forename }}</p></h3>
         <h3>Pseudo : <br><p>{{ user.pseudo }}</p></h3>
         <h3>Email : <br><p>{{ user.email }}</p></h3>
@@ -28,6 +25,7 @@
         <h3>About Me : <br><p>{{ user.biography }}</p></h3>
     </div>
     <div class="user-info">
+        <a href="{{path('edit_profile')}}">Edit</a>
         <h3>My skills :</h3>
         {% for skill in userSkills %}
             <p>{{ skill }}</p>

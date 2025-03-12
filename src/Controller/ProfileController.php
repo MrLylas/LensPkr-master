@@ -36,62 +36,20 @@ final class ProfileController extends AbstractController
         ]);
     }
 
-//     #[Route('/profile/edit/{id}', name: 'edit_user')]
-//     public function edit_user(Request $request, User $user, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
-//     {
-//     // Création du formulaire
-//     $userForm = $this->createForm(UserType::class, $user);
-//     $userForm->handleRequest($request);
-//     // Si le formulaire est soumis et valide
-//     if ($userForm->isSubmitted() && $userForm->isValid()) {
-//         $uploadedProfilePic = $userForm->get('profile_pic')->getData();
-//         $uploadedBanner = $userForm->get('banner')->getData();
-
-//         // Si la photo de profil existe, supprimer le fichier existant
-//         if ($user->getProfilePic() !== null) {
-//             $path = $this->getParameter('upload_directory') . "/" . $user->getProfilePic();
-//             if (file_exists($path)) {
-//                 unlink($path);
-//             }
-//         }
-//         if ($uploadedProfilePic) {
-//             $newFilename = $fileUploader->upload($uploadedProfilePic);
-//             $user->setProfilePic($newFilename);
-//         }
-
-//         // Si la bannière existe, supprimer le fichier existant
-//         if ($user->getBanner() !== null) {
-//             $path = $this->getParameter('upload_directory') . "/" . $user->getBanner();
-//             if (file_exists($path)) {
-//                 unlink($path);
-//             }
-//         }
-
-//         // Si une nouvelle bannière a été upload
-//         if ($uploadedBanner) {
-//             $newBanner = $fileUploader->upload($uploadedBanner);
-//             $user->setBanner($newBanner);
-//         }
-
-//         // Enregistrer les modifications
-//         $entityManager->persist($user);
-//         $entityManager->flush();
-        
-//         // Redirection
-//         return $this->redirectToRoute('app_user_skill', ['id' => $this->getUser()->getId()]);
-//     }
-//     return $this->render('/profile/edit.html.twig', [
-//         'UserForm' => $userForm->createView(),
-//     ]);
-// }
-
-#[Route('/profile/edit/{id}', name: 'edit_skill')]
-    public function edit_user(User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/profile/edit', name: 'edit_profile')]
+    public function editProfile(EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser(); // Récupérer l'utilisateur connecté
+    
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+        }
+    
+        // Récupérer les compétences et niveaux
         $skills = $entityManager->getRepository(Skill::class)->findAll();
         $levels = $entityManager->getRepository(Level::class)->findAll();
-
-        return $this->render('/profile/edit.html.twig', [
+    
+        return $this->render('profile/edit.html.twig', [
             'user' => $user,
             'userSkills' => $user->getUserSkills(),
             'skills' => $skills,
@@ -102,29 +60,42 @@ final class ProfileController extends AbstractController
     #[Route('/profile/add-skill', name: 'add_skill', methods: ['POST'])]
     public function addSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $user = $this->getUser();
-        $skillId = $request->request->get('skill_id');
-        $levelId = $request->request->get('level_id');
-
-        if (!$skillId || !$levelId) {
-            return new JsonResponse(['success' => false, 'message' => 'Données manquantes'], 400);
+        if (!$this->getUser()) {
+            return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 403);
         }
-
-        $skill = $entityManager->getRepository(Skill::class)->find($skillId);
-        $level = $entityManager->getRepository(Level::class)->find($levelId);
-
+    
+        $data = json_decode($request->getContent(), true);
+    
+        if (!$data || !isset($data['skill_id'], $data['level_id'])) {
+            return new JsonResponse(['success' => false, 'message' => 'Données invalides'], 400);
+        }
+    
+        $skill = $entityManager->getRepository(Skill::class)->find($data['skill_id']);
+        $level = $entityManager->getRepository(Level::class)->find($data['level_id']);
+    
         if (!$skill || !$level) {
-            return new JsonResponse(['success' => false, 'message' => 'Compétence ou niveau invalide'], 404);
+            return new JsonResponse(['success' => false, 'message' => 'Compétence ou niveau introuvable'], 404);
         }
-
+    
+        // Vérifier si la compétence existe déjà
+        $existingSkill = $entityManager->getRepository(UserSkill::class)->findOneBy([
+            'user' => $this->getUser(),
+            'skill' => $skill
+        ]);
+    
+        if ($existingSkill) {
+            return new JsonResponse(['success' => false, 'message' => 'Cette compétence est déjà ajoutée'], 400);
+        }
+    
+        // Ajouter la compétence
         $userSkill = new UserSkill();
-        $userSkill->setUser($user);
+        $userSkill->setUser($this->getUser());
         $userSkill->setSkill($skill);
         $userSkill->setLevel($level);
-
+    
         $entityManager->persist($userSkill);
         $entityManager->flush();
-
+    
         return new JsonResponse([
             'success' => true,
             'message' => 'Compétence ajoutée',
@@ -133,17 +104,24 @@ final class ProfileController extends AbstractController
             'skill_id' => $skill->getId(),
         ]);
     }
+    
+     
 
     #[Route('/profile/remove-skill', name: 'remove_skill', methods: ['POST'])]
     public function removeSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $user = $this->getUser();
-        $skillId = $request->request->get('skill_id');
+        if (!$this->getUser()) {
+            return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 403);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $skillId = $data['skill_id'] ?? null;
 
         if (!$skillId) {
             return new JsonResponse(['success' => false, 'message' => 'ID de compétence manquant'], 400);
         }
 
+        $user = $this->getUser();
         $userSkill = $entityManager->getRepository(UserSkill::class)->findOneBy([
             'user' => $user,
             'skill' => $skillId
@@ -158,16 +136,14 @@ final class ProfileController extends AbstractController
 
         return new JsonResponse(['success' => true, 'message' => 'Compétence supprimée']);
     }
- 
-
-    #[Route('/profile/skill/{id}', name: 'app_user_skill')]
+    #[Route('/profile/skill', name: 'app_user_skill')]
     public function show_skill(User $user, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
 
         $skills = $entityManager->getRepository(UserSkill::class)->findSkillNotInUser($user->getId());
 
 
-        $user = $this->getUser();
         $userSkills = $user->getUserSkills();
         $user_id = $user->getId();
         
@@ -181,25 +157,7 @@ final class ProfileController extends AbstractController
         ]);
     }
 
-    // #[Route('/profile/job/{id}', name: 'skill_by_user')]
-    // public function show_skill_by_user(User $user, EntityManagerInterface $entityManager): Response
-    // {
-    //     $skills = $entityManager->getRepository(UserSkill::class)->findSkillNotInUser($user->getId());
 
-
-    //     $user = $this->getUser();
-    //     $userSkills = $user->getUserSkills();
-    //     $user_id = $user->getId();
-        
-
-    //     return $this->render('profile/skill.html.twig', [
-    //         'controller_name' => 'UserSkillController',
-    //         'user' => $user,
-    //         'userSkills' => $userSkills,
-    //         'skills' => $skills,
-    //         'id' => $user_id,
-    //     ]);
-    // }
 
     #[Route('/profile/job/answer/{id}', name: 'app_answers')]
     public function showAnswers(Job $job): Response{

@@ -28,7 +28,6 @@
         {% for userSkill in userSkills %}
             <li data-skill-id="{{ userSkill.skill.id }}">
                 {{ userSkill.skill.skillName }} - Niveau: {{ userSkill.level.levelName }}
-                <button class="removeSkillBtn" data-skill-id="{{ userSkill.skill.id }}">❌</button>
             </li>
         {% endfor %}
     </ul>
@@ -36,7 +35,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Ajouter un skill
         document.getElementById('addSkillBtn').addEventListener('click', function () {
             let skillId = document.getElementById('skillSelect').value;
             let levelId = document.getElementById('levelSelect').value;
@@ -46,13 +44,13 @@
                 return;
             }
 
-            fetch('{{ path("add_skill", {"id": app.user.id}) }}', {
+            fetch('{{ path("add_skill") }}', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                 },
-                body: `skill_id=${skillId}&level_id=${levelId}`
+                body: JSON.stringify({ skill_id: skillId, level_id: levelId })
             })
             .then(response => response.json())
             .then(data => {
@@ -60,47 +58,13 @@
                     let skillList = document.getElementById('userSkillsList');
                     let newSkill = document.createElement('li');
                     newSkill.setAttribute('data-skill-id', skillId);
-                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level} <button class="removeSkillBtn" data-skill-id="${skillId}">❌</button>`;
+                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level}`;
                     skillList.appendChild(newSkill);
-                    attachRemoveEvent(newSkill.querySelector('.removeSkillBtn'));
                 } else {
                     alert(data.message);
                 }
             })
             .catch(error => console.error('Erreur AJAX:', error));
-        });
-
-        // Fonction pour attacher l'événement de suppression
-        function attachRemoveEvent(button) {
-            button.addEventListener('click', function () {
-                let skillId = button.getAttribute('data-skill-id');
-
-                fetch('{{ path("remove_skill") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    body: `skill_id=${skillId}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        let skillItem = document.querySelector(`li[data-skill-id="${skillId}"]`);
-                        if (skillItem) {
-                            skillItem.remove();
-                        }
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => console.error('Erreur AJAX:', error));
-            });
-        }
-
-        // Attacher l'événement de suppression à tous les boutons existants
-        document.querySelectorAll('.removeSkillBtn').forEach(button => {
-            attachRemoveEvent(button);
         });
     });
 </script>

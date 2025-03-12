@@ -99,6 +99,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'creator', orphanRemoval: true)]
     private Collection $projects;
 
+    /**
+     * @var Collection<int, Team>
+     */
+    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'creator')]
+    private Collection $teams;
+
     public function __construct()
     {
         $this->userSkills = new ArrayCollection();
@@ -107,6 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -484,6 +491,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($project->getCreator() === $this) {
                 $project->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): static
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+            $team->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): static
+    {
+        if ($this->teams->removeElement($team)) {
+            // set the owning side to null (unless already changed)
+            if ($team->getCreator() === $this) {
+                $team->setCreator(null);
             }
         }
 

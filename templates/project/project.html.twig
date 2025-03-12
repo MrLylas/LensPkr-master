@@ -6,7 +6,9 @@
 <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
 <a href="{{path('edit_project', {'id': project.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Edit Project button"></a>
 {# <a href="{{path('add_image', {'id': project.id})}}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a> #}
-<a href="{{ path('upload_project_images', {'id': project.id}) }}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a>
+{% if app.user == project.creator %}    
+    <a href="{{ path('upload_project_images', {'id': project.id}) }}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a>
+{% endif %}
 <div class="project-banner">
     <img class="banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
     <div class="banner-filter">
@@ -27,7 +29,9 @@
             <img src="{{ asset('uploads/' ~ projectImage.image.name) }}" alt="Project Image">
             <span>{{ projectImage.image.createdAt|date("H:i m/d/Y") }}</span>
             <p>{{ projectImage.image.description }}</p>
-            <a href="{{ path('delete_image', {'id': projectImage.id}) }}" class="delete-btn"></a>
+            {% if app.user == project.creator %}    
+                <a href="{{ path('delete_image', {'id': projectImage.id}) }}" class="delete-btn">Delete</a>
+            {% endif %}
         </div>        
         {% endfor %}
     </div>

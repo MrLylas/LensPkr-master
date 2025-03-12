@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TeamController!{% endblock %}
+
+{% block body %}
+<div class="team-form">
+    {{form_start(form)}}
+        {{form_row(form.name)}}
+        {{form_row(form.description)}}
+    {{form_end(form)}}
+</div>
+{% endblock %}
