@@ -26,18 +26,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ProfileController extends AbstractController
 {
-    #[Route('/profile/{id}', name: 'app_profile')]
-    public function index(user $user): Response
-    {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
-            'user' => $user,
-            'id'=> $user->getId(),
-        ]);
-    }
-
     #[Route('/profile/edit', name: 'edit_profile')]
-    public function editProfile(EntityManagerInterface $entityManager): Response
+    public function editProfile(User $user,EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
     
@@ -56,6 +46,17 @@ final class ProfileController extends AbstractController
             'levels' => $levels,
         ]);
     }
+
+    #[Route('/profile/{id}', name: 'app_profile')]
+    public function index(User $user): Response
+    {
+        return $this->render('profile/index.html.twig', [
+            'controller_name' => 'ProfileController',
+            'user' => $user,
+            'id'=> $user->getId(),
+        ]);
+    }
+
 
     #[Route('/profile/add-skill', name: 'add_skill', methods: ['POST'])]
     public function addSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
@@ -136,8 +137,8 @@ final class ProfileController extends AbstractController
 
         return new JsonResponse(['success' => true, 'message' => 'Compétence supprimée']);
     }
-    #[Route('/profile/skill', name: 'app_user_skill')]
-    public function show_skill(User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/profile/skill/{id}', name: 'app_user_skill')]
+    public function show_skill(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 
@@ -164,13 +165,9 @@ final class ProfileController extends AbstractController
 
         $user = $this->getUser();
 
-        // $asks = $entityManager->getRepository(Ask::class)->findBy(['job' => $job->getId()]);
-
-
         return $this->render('profile/answers.html.twig', [
             'controller_name' => 'UserSkillController',
             'user' => $user,
-            // 'asks' => $asks,
             'job' => $job
         ]);
     }

@@ -4,7 +4,7 @@
 
 {% block body %}
 <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
-<a href="{{path('edit_skill', {'id': app.user.id})}}" class="edit-btn"><img src="{{ asset('images/skill.svg') }}" alt="Back button"></a>
+<a href="{{ path('add_skill') }}" class="edit-btn"><img src="{{ asset('images/skill.svg') }}" alt="Back button"></a>
 <div class="banner">
     <img class="cover" src="{{ asset('uploads/' ~ app.user.banner) }}" alt="">
     <div class="user-pic">

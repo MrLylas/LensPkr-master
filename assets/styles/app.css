@@ -1,4 +1,4 @@
-*{margin: 0;padding: 0;box-sizing: border-box;text-decoration: none;}
+*{margin: 0;padding: 0;box-sizing: border-box;text-decoration: none;font-family: "Jura", serif;}
 :root {
     --main-color: #212020;
     /* --secondary-color: #A30510 ; */
@@ -7,7 +7,6 @@
   }
 
 body {
-    font-family: "Jura", serif;
     background-color: var(--main-color);
 }
 
@@ -297,6 +296,8 @@ h2{
 /****************************** Login *************************************************/
 .register-card{
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 80%;
     margin: 0 auto;
@@ -307,44 +308,54 @@ h2{
     padding: 10px;
     background-color: var(--main-color);
 
-    .form-control{
+    form{
+        display: flex;
+        flex-direction: column;
+        .form-control{
+            width: 500px;
+            background-color: var(--main-color);
+            color: var(--tertiary-color);
+            margin-bottom: 20px;
+        }
+        .form-control:hover{
+            border-color: var(--tertiary-color);
+            box-shadow: var(--secondary-color) 3px 3px 3px;
+        }
+        .form-control:focus{
+            border-color: var(--secondary-color);
+            box-shadow: var(--secondary-color) 3px 3px 3px;
+            color: var(--tertiary-color);
+        }
+        label{
+            color: var(--tertiary-color);
+        }
+        .btn{
+            background-color: var(--secondary-color);
+            color: var(--tertiary-color);
+        }
+        .btn:hover{
+            background-color: var(--tertiary-color);
+            color: var(--secondary-color);
+            box-shadow: var(--secondary-color) 3px 3px 3px;
+        }
+    }
+    .register-btn{
+        background-color: var(--tertiary-color);
+        font-size: large;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        color: var(--main-color);
         width: 500px;
-        background-color: var(--main-color);
-        color: var(--tertiary-color);
-        margin-bottom: 20px;
     }
-    .form-control:hover{
-        border-color: var(--tertiary-color);
-        box-shadow: var(--secondary-color) 3px 3px 3px;
-    }
-    .form-control:focus{
-        border-color: var(--secondary-color);
-        box-shadow: var(--secondary-color) 3px 3px 3px;
-        color: var(--tertiary-color);
-    }
-    label{
-        color: var(--tertiary-color);
-    }
-    .btn{
+    .register-btn:hover{
         background-color: var(--secondary-color);
         color: var(--tertiary-color);
+        transition: 300ms ease-in-out;
     }
-    .btn:hover{
-        background-color: var(--tertiary-color);
-        color: var(--secondary-color);
-        box-shadow: var(--secondary-color) 3px 3px 3px;
-    }
+
 }
-/* .btn-lg{
-    background-color: var(--secondary-color);
-    color: var(--tertiary-color);
-    margin: 0 auto;
-}
-.btn-lg:hover{
-    background-color: var(--tertiary-color);
-    color: var(--secondary-color);
-    box-shadow: var(--secondary-color) 3px 3px 3px;
-} */
 
 /****************************** Profile *************************************************/
 
@@ -812,7 +823,7 @@ h2{
         border: var(--secondary-color) 1px solid;
         border-radius: 5px;
         padding: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         cursor: pointer;
         text-decoration: none;
         position: relative;
@@ -1122,12 +1133,16 @@ h2{
         }
         #new_team_name{
             background-color: #212020;
+            color: var(--tertiary-color);
             border: 1px solid var(--secondary-color);
+            padding: 5px;
         }
         textarea{
             height: 400px;
             background-color: #212020;
+            color: var(--tertiary-color);
             border: 1px solid var(--secondary-color);
+            padding: 5px;
         }
         #new_team_name:hover{
             border: 1px solid var(--tertiary-color);
@@ -1146,7 +1161,8 @@ h2{
         #new_team_submit:hover{
             margin-top: 15px;
             border: 1px solid var(--tertiary-color);
-            color: var(--secondary-color);
+            color: var(--tertiary-color);
+            background-color: var(--secondary-color);
         }
     }
 }

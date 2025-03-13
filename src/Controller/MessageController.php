@@ -95,16 +95,6 @@ final class MessageController extends AbstractController{
         return $this->render('message/received.html.twig');
     }
 
-    // #[Route('/message/read/{id}', name: 'read')]
-    // public function read(Message $message, EntityManagerInterface $entityManager): Response
-    // {
-    //     $message->setIsRead(true);
-    //     $entityManager->persist($message);
-    //     $entityManager->flush();
-
-    //     return $this->render('message/read.html.twig', compact('message'));
-    // }
-
     #[Route('/message/read/{id}', name: 'read')]
     public function read(Message $message, EntityManagerInterface $entityManager): Response
     {

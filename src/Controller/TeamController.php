@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TeamController extends AbstractController
 {
-    #[Route('/team', name: 'app_team')]
+    #[Route('/team', name: 'team_feed')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $teams = $entityManager->getRepository(Team::class)->findAll();
@@ -54,7 +54,7 @@ final class TeamController extends AbstractController
             $entityManager->persist($newTeam);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_team');
+            return $this->redirectToRoute('team_feed');
         }
 
         return $this->render('team/new.html.twig', [

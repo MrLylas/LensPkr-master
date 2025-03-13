@@ -28,14 +28,12 @@
                     <a class="btn btn-primary" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
                     <a class="btn btn-dark" href="{{path('post_job', {'id': app.user.id})}}">Post Jobs</a>
                     {% else %}
-                    {# <a class="btn btn-primary" href="{{path('app_login')}}">Login</a>
-                    <a class="btn btn-dark" href="{{path('app_register')}}">Sign in</a> #}
                     {% endif %}
                 </div>  
             </div>
             <div class="nav-right">
                 {% if app.user is not null %}        
-                    <a href="{{ path('app_user_skill') }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
+                    <a href="{{ path('app_user_skill', {id: app.user.id}) }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
                     <a href="{{ path('app_message') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
                     <a href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
@@ -62,7 +60,9 @@
         {% endfor %}
 
         {############################################################## Sidebar ########################################################}
+        {% if app.user is not null %}  
         <button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.png') }}" alt="Menu Burger"></button>
+        {% endif %}
         {# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
         {% block body %}
         {% endblock %}
@@ -103,6 +103,7 @@
                     <hr>
                     <div class="aside-content">
                         <a href="{{path('new_team')}}">New Team</a><br>
+                        <a href="{{path('team_feed')}}">Recents Teams</a><br>
                         <a href="">My Teams</a><br>
                         <a href="">Popular Teams</a><br>
                         <a href="">Followed Teams</a><br>
