@@ -1,0 +1,77 @@
+    #[Route('/profile/add-skill', name: 'add_skill', methods: ['POST'])]
+    public function addSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 403);
+        }
+    
+        $data = json_decode($request->getContent(), true);
+    
+        if (!$data || !isset($data['skill_id'], $data['level_id'])) {
+            return new JsonResponse(['success' => false, 'message' => 'Données invalides'], 400);
+        }
+    
+        $skill = $entityManager->getRepository(Skill::class)->find($data['skill_id']);
+        $level = $entityManager->getRepository(Level::class)->find($data['level_id']);
+    
+        if (!$skill || !$level) {
+            return new JsonResponse(['success' => false, 'message' => 'Compétence ou niveau introuvable'], 404);
+        }
+    
+        // Vérifier si la compétence existe déjà
+        $existingSkill = $entityManager->getRepository(UserSkill::class)->findOneBy([
+            'user' => $this->getUser(),
+            'skill' => $skill
+        ]);
+    
+        if ($existingSkill) {
+            return new JsonResponse(['success' => false, 'message' => 'Cette compétence est déjà ajoutée'], 400);
+        }
+    
+        // Ajouter la compétence
+        $userSkill = new UserSkill();
+        $userSkill->setUser($this->getUser());
+        $userSkill->setSkill($skill);
+        $userSkill->setLevel($level);
+    
+        $entityManager->persist($userSkill);
+        $entityManager->flush();
+    
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Compétence ajoutée',
+            'skill' => $skill->getSkillName(),
+            'level' => $level->getLevelName(),
+            'skill_id' => $skill->getId(),
+        ]);
+    }
+    
+
+
+
+
+
+
+                fetch('{{ path("add_skill") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ skill_id: skillId, level_id: levelId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let skillList = document.getElementById('userSkillsList');
+                    let newSkill = document.createElement('li');
+                    newSkill.setAttribute('data-skill-id', skillId);
+                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level}`;
+                    skillList.appendChild(newSkill);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Erreur AJAX:', error));
+        });
+    });

@@ -46,17 +46,16 @@ final class ProfileController extends AbstractController
             'levels' => $levels,
         ]);
     }
-
-    #[Route('/profile/{id}', name: 'app_profile')]
-    public function index(User $user): Response
-    {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
-            'user' => $user,
-            'id'=> $user->getId(),
-        ]);
-    }
-
+    
+    // #[Route('/profile/{id}', name: 'app_profile')]
+    // public function index(User $user): Response
+    // {
+    //     return $this->render('profile/index.html.twig', [
+    //         'controller_name' => 'ProfileController',
+    //         'user' => $user,
+    //         'id'=> $user->getId(),
+    //     ]);
+    // }
 
     #[Route('/profile/add-skill', name: 'add_skill', methods: ['POST'])]
     public function addSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
@@ -106,8 +105,6 @@ final class ProfileController extends AbstractController
         ]);
     }
     
-     
-
     #[Route('/profile/remove-skill', name: 'remove_skill', methods: ['POST'])]
     public function removeSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -137,6 +134,7 @@ final class ProfileController extends AbstractController
 
         return new JsonResponse(['success' => true, 'message' => 'Compétence supprimée']);
     }
+    
     #[Route('/profile/skill/{id}', name: 'app_user_skill')]
     public function show_skill(EntityManagerInterface $entityManager): Response
     {

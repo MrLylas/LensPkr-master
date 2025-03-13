@@ -43,8 +43,9 @@
                 alert('Veuillez sélectionner une compétence et un niveau.');
                 return;
             }
+            console.log("URL de la requête :", '{{ path("add_skill") }}');
 
-            fetch('{{ path("add_skill") }}', {
+            fetch('{{ path("add_skill")}}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +65,10 @@
                     alert(data.message);
                 }
             })
-            .catch(error => console.error('Erreur AJAX:', error));
+            .catch(error => {
+                console.error('Erreur AJAX:', error);
+                alert('Une erreur est survenue, veuillez réessayer.');
+            });
         });
     });
 </script>
