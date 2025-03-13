@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use Dom\Entity;
 use App\Entity\Team;
 use App\Form\NewTeamType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Dom\Entity;
 use PHPUnit\TextUI\XmlConfiguration\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TeamController extends AbstractController
@@ -21,7 +22,7 @@ final class TeamController extends AbstractController
     {
         $teams = $entityManager->getRepository(Team::class)->findAll();
 
-        return $this->render('team/index.html.twig', [
+        return $this->render('team/recent.html.twig', [
             'controller_name' => 'TeamController',
             'teams' => $teams
         ]);
@@ -61,5 +62,36 @@ final class TeamController extends AbstractController
             'controller_name' => 'TeamController',
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/team/{id}', name: 'team_show')]
+    public function show(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $team = $entityManager->getRepository(Team::class)->find($id);
+
+        return $this->render('team/show.html.twig', [
+            'controller_name' => 'TeamController',
+            'team' => $team
+        ]);
+    }
+
+    #[Route('/team/{id}/follow', name: 'team_follow')]
+    public function follow(Team $team, EntityManagerInterface $entityManager, UserInterface $user): Response
+    {
+        // Vérifier si l'utilisateur suit déjà l'équipe
+        if ($user->getFollowedTeams()->contains($team)) {
+            // Si l'utilisateur suit déjà, on désabonne (unfollow)
+            $user->removeFollowedTeam($team);
+            $this->addFlash('success', 'Vous avez arrêté de suivre cette équipe.');
+        } else {
+            // Sinon, on ajoute l'équipe à la liste des suivis
+            $user->addFollowedTeam($team);
+            $this->addFlash('success', 'Vous suivez désormais cette équipe.');
+        }
+
+        // Sauvegarder les changements en base de données
+        $entityManager->flush();
+
+        return $this->redirectToRoute('team_show', ['id' => $team->getId()]);
     }
 }

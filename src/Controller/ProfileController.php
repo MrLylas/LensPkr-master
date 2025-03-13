@@ -26,19 +26,26 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ProfileController extends AbstractController
 {
-    #[Route('/profile/edit', name: 'edit_profile')]
-    public function editProfile(User $user,EntityManagerInterface $entityManager): Response
+
+    #[Route('/profile', name: 'app_profile')]
+    public function index(): Response
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
-    
+        return $this->render('profile/index.html.twig', [
+            'controller_name' => 'ProfileController',
+        ]);
+    }
+
+    #[Route('/profile/edit', name: 'edit_profile')]
+    public function editProfile(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
         if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+            throw $this->createAccessDeniedException('Vous devez être connecté.');
         }
-    
-        // Récupérer les compétences et niveaux
+
         $skills = $entityManager->getRepository(Skill::class)->findAll();
         $levels = $entityManager->getRepository(Level::class)->findAll();
-    
+
         return $this->render('profile/edit.html.twig', [
             'user' => $user,
             'userSkills' => $user->getUserSkills(),
@@ -46,56 +53,44 @@ final class ProfileController extends AbstractController
             'levels' => $levels,
         ]);
     }
-    
-    // #[Route('/profile/{id}', name: 'app_profile')]
-    // public function index(User $user): Response
-    // {
-    //     return $this->render('profile/index.html.twig', [
-    //         'controller_name' => 'ProfileController',
-    //         'user' => $user,
-    //         'id'=> $user->getId(),
-    //     ]);
-    // }
 
     #[Route('/profile/add-skill', name: 'add_skill', methods: ['POST'])]
     public function addSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+        if (!$user) {
             return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 403);
         }
-    
+
         $data = json_decode($request->getContent(), true);
-    
         if (!$data || !isset($data['skill_id'], $data['level_id'])) {
             return new JsonResponse(['success' => false, 'message' => 'Données invalides'], 400);
         }
-    
+
         $skill = $entityManager->getRepository(Skill::class)->find($data['skill_id']);
         $level = $entityManager->getRepository(Level::class)->find($data['level_id']);
-    
+
         if (!$skill || !$level) {
             return new JsonResponse(['success' => false, 'message' => 'Compétence ou niveau introuvable'], 404);
         }
-    
-        // Vérifier si la compétence existe déjà
+
         $existingSkill = $entityManager->getRepository(UserSkill::class)->findOneBy([
-            'user' => $this->getUser(),
+            'user' => $user,
             'skill' => $skill
         ]);
-    
+
         if ($existingSkill) {
             return new JsonResponse(['success' => false, 'message' => 'Cette compétence est déjà ajoutée'], 400);
         }
-    
-        // Ajouter la compétence
+
         $userSkill = new UserSkill();
-        $userSkill->setUser($this->getUser());
+        $userSkill->setUser($user);
         $userSkill->setSkill($skill);
         $userSkill->setLevel($level);
-    
+
         $entityManager->persist($userSkill);
         $entityManager->flush();
-    
+
         return new JsonResponse([
             'success' => true,
             'message' => 'Compétence ajoutée',
@@ -104,11 +99,12 @@ final class ProfileController extends AbstractController
             'skill_id' => $skill->getId(),
         ]);
     }
-    
+
     #[Route('/profile/remove-skill', name: 'remove_skill', methods: ['POST'])]
     public function removeSkill(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+        if (!$user) {
             return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 403);
         }
 
@@ -119,7 +115,6 @@ final class ProfileController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'ID de compétence manquant'], 400);
         }
 
-        $user = $this->getUser();
         $userSkill = $entityManager->getRepository(UserSkill::class)->findOneBy([
             'user' => $user,
             'skill' => $skillId
@@ -134,7 +129,7 @@ final class ProfileController extends AbstractController
 
         return new JsonResponse(['success' => true, 'message' => 'Compétence supprimée']);
     }
-    
+
     #[Route('/profile/skill/{id}', name: 'app_user_skill')]
     public function show_skill(EntityManagerInterface $entityManager): Response
     {
@@ -170,3 +165,9 @@ final class ProfileController extends AbstractController
         ]);
     }
 }
+
+
+
+
+
+ 

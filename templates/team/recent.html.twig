@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TeamController!{% endblock %}
+
+{% block body %}
+<div class="team-wrapper">
+{% for team in teams %}
+    <a href="{{path('team_show', {'id': team.id})}}" class="team-card">
+        <div class="list-team-profile">
+            <img class="list-team-pic" src="{{ asset('uploads/' ~ team.teamPic)}}" alt="Team\'s profile picture">
+            <h3>{{team.name}}</h3>
+        </div>
+        <div class="list-description">
+            <p>{{team.description}}</p>
+        </div>
+        <img class="list-banner-pic" src="{{asset('uploads/' ~ team.teamBanner )}}" alt="Team\'s banner picture">
+    </a>
+{% endfor %}
+</div>
+{% endblock %}

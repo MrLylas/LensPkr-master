@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TeamRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,18 @@ class Team
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $team_banner = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'followedTeams')]
+    #[ORM\JoinTable(name: 'team_user')] 
+    private Collection $follow;
+
+    public function __construct()
+    {
+        $this->follow = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,4 +123,34 @@ class Team
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFollow(): Collection
+    {
+        return $this->follow;
+    }
+
+// src/Entity/Team.php
+
+public function addFollow(User $follow): static
+{
+    if (!$this->follow->contains($follow)) {
+        $this->follow->add($follow);
+        $follow->addFollowedTeam($this); // Assurez-vous que la relation est bien bidirectionnelle
+    }
+
+    return $this;
+}
+
+public function removeFollow(User $follow): static
+{
+    if ($this->follow->removeElement($follow)) {
+        $follow->removeFollowedTeam($this); // Retirer l'équipe de la liste des équipes suivies par l'utilisateur
+    }
+
+    return $this;
+}
+
 }

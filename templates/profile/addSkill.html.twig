@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+{# <div class="user-page"> #}
+{# <div class="example-wrapper"> #}
+{# <div class="banner">
+    <img class="cover" src="{{ asset('uploads/' ~ app.user.banner) }}" alt="">
+    <div class="user-pic">
+        {% if app.user.profilePic %}
+            <img class="profile-pic" src="{{ asset('uploads/' ~ app.user.profilePic) }}" alt="{{ app.user.name }}{{" "}}{{ app.user.forename }}'s Profile Pic">
+        {% else  %}
+            <img class="profile-pic" src="{{ asset('images/default_user.jpg') }}" alt="Default profile pic">
+        {% endif %}
+    </div>
+</div>
+<div class="user-container">
+    <div class="user-info">
+        <div class="edit-btns">
+            <a href="{{path('app_user_skill', {'id': app.user.id})}}">Cancel</a>
+        </div>
+        <div class="form">
+            {{form(UserForm)}}
+        </div>
+    </div>
+    <div class="user-exp">
+        <div class="exp-left">
+        </div>
+        <div class="exp-right">
+        </div>
+    </div>
+</div> #}
+{# </div> #}
+
+{% endblock %}
+

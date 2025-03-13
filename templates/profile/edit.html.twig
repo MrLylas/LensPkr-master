@@ -28,6 +28,7 @@
         {% for userSkill in userSkills %}
             <li data-skill-id="{{ userSkill.skill.id }}">
                 {{ userSkill.skill.skillName }} - Niveau: {{ userSkill.level.levelName }}
+                <button class="remove-skill" data-skill-id="{{ userSkill.skill.id }}">Supprimer</button>
             </li>
         {% endfor %}
     </ul>
@@ -43,9 +44,8 @@
                 alert('Veuillez sélectionner une compétence et un niveau.');
                 return;
             }
-            console.log("URL de la requête :", '{{ path("add_skill") }}');
 
-            fetch('{{ path("add_skill")}}', {
+            fetch('{{ path("add_skill") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,18 +59,38 @@
                     let skillList = document.getElementById('userSkillsList');
                     let newSkill = document.createElement('li');
                     newSkill.setAttribute('data-skill-id', skillId);
-                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level}`;
+                    newSkill.innerHTML = `${data.skill} - Niveau: ${data.level} <button class="remove-skill" data-skill-id="${skillId}">Supprimer</button>`;
                     skillList.appendChild(newSkill);
                 } else {
                     alert(data.message);
                 }
-            })
-            .catch(error => {
-                console.error('Erreur AJAX:', error);
-                alert('Une erreur est survenue, veuillez réessayer.');
             });
+        });
+
+        document.getElementById('userSkillsList').addEventListener('click', function (event) {
+            if (event.target.classList.contains('remove-skill')) {
+                let skillId = event.target.getAttribute('data-skill-id');
+
+                fetch('{{ path("remove_skill") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({ skill_id: skillId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        event.target.parentElement.remove();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            }
         });
     });
 </script>
 {% endblock %}
+
  
