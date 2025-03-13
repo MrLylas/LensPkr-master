@@ -3,24 +3,29 @@
 {% block title %}Hello TeamController!{% endblock %}
 
 {% block body %}
-{# <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
-<a href="{{path('edit_project', {'id': project.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Edit Project button"></a> #}
+<a href="{{ path('team_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
+{# <a href="{{path('edit_project', {'id': project.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Edit Project button"></a> #}
 {# <a href="{{path('add_image', {'id': project.id})}}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a> #}
 <div class="team-profile">
-    {# <div class="banner"> #}
         <img class="banner-img" src="{{ asset('uploads/' ~ team.teamBanner) }}" alt="Project banner">
         <div class="banner-filter"></div>
-    {# </div> #}
+        <h2>{{ team.name }}</h2>
     <div class="team-page">
-        <div class="description"><p>{{ team.description }}</p></div>
+        <span>{{ team.createdAt|date("H:i m/d/Y") }}</span>
+        {% if  followers|length != 0 %}
+        <p>{{ followers|length}} Follower(s)</p>
+        {% else %}
+        <p>No followers</p>
+        {% endif %}
+        <p>{{ team.description }}</p>
     </div>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     {% if app.user.followedTeams.contains(team) %}
-        <a href="{{ path('team_follow', {'id': team.id}) }}">Unfollow</a>
+        <a class="unfollow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Unfollow</a>
     {% else %}
-        <a href="{{ path('team_follow', {'id': team.id}) }}">Follow</a>
+        <a class="follow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Follow</a>
     {% endif %}
-{% endif %}
+    {% endif %}
 </div>
 {% endblock %}
 

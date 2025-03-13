@@ -68,10 +68,12 @@ final class TeamController extends AbstractController
     public function show(EntityManagerInterface $entityManager, int $id): Response
     {
         $team = $entityManager->getRepository(Team::class)->find($id);
+        $followers = $team->getFollow();
 
         return $this->render('team/show.html.twig', [
             'controller_name' => 'TeamController',
-            'team' => $team
+            'team' => $team,
+            'followers' => $followers
         ]);
     }
 
