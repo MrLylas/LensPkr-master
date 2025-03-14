@@ -18,9 +18,6 @@ class PostJobType extends AbstractType
         $builder
             ->add('job_name')
             ->add('description')
-            // ->add('creation', null, [
-            //     'widget' => 'single_text',
-            // ])
             ->add('submit', SubmitType::class,[
                 'label' => 'Ajouter',
                 'attr' => [

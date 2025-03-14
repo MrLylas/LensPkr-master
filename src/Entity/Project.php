@@ -35,6 +35,9 @@ class Project
     #[ORM\OneToMany(targetEntity: ProjectImage::class, mappedBy: 'project', orphanRemoval: true)]
     private Collection $projectImages;
 
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    private ?Team $team = null;
+
     public function __construct()
     {
         $this->projectImages = new ArrayCollection();
@@ -125,6 +128,18 @@ class Project
                 $projectImage->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): static
+    {
+        $this->team = $team;
 
         return $this;
     }

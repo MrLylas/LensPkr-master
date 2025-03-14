@@ -49,10 +49,17 @@ class Team
     #[ORM\JoinTable(name: 'team_membership')] 
     private Collection $membership;
 
+    /**
+     * @var Collection<int, Project>
+     */
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'team')]
+    private Collection $projects;
+
     public function __construct()
     {
         $this->follow = new ArrayCollection();
         $this->membership = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +190,36 @@ public function removeMembership(User $user): static
 {
     if ($this->membership->removeElement($user)){
         $user->removeMyTeam($this);
+    }
+
+    return $this;
+}
+
+/**
+ * @return Collection<int, Project>
+ */
+public function getProjects(): Collection
+{
+    return $this->projects;
+}
+
+public function addProject(Project $project): static
+{
+    if (!$this->projects->contains($project)) {
+        $this->projects->add($project);
+        $project->setTeam($this);
+    }
+
+    return $this;
+}
+
+public function removeProject(Project $project): static
+{
+    if ($this->projects->removeElement($project)) {
+        // set the owning side to null (unless already changed)
+        if ($project->getTeam() === $this) {
+            $project->setTeam(null);
+        }
     }
 
     return $this;
