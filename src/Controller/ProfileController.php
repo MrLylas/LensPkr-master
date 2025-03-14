@@ -22,16 +22,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ProfileController extends AbstractController
 {
 
-    #[Route('/profile', name: 'app_profile')]
-    public function index(): Response
+    #[Route('/profile/{pseudo}', name: 'app_profile')]
+    public function index($pseudo, EntityManagerInterface $entityManager): Response
     {
+        $user = $entityManager->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]);
+        if (!$user) {
+            throw new NotFoundHttpException('Utilisateur non trouvé');
+        }
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
+            'user' => $user,
         ]);
     }
 

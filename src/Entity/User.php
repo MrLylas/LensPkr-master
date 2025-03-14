@@ -111,6 +111,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'follow')]
     private Collection $followedTeams;
 
+    /**
+     * @var Collection<int, Team>
+     */
+    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'membership')]
+    private Collection $myTeams;
+
     public function __construct()
     {
         $this->userSkills = new ArrayCollection();
@@ -121,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->projects = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->followedTeams = new ArrayCollection();
+        $this->myTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -558,6 +565,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $followedTeam->removeFollow($this); 
         }
     
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getMyTeams(): Collection
+    {
+        return $this->myTeams;
+    }
+
+    public function addMyTeam(Team $myTeam): static
+    {
+        if (!$this->myTeams->contains($myTeam)) {
+            $this->myTeams->add($myTeam);
+            $myTeam->addMembership($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyTeam(Team $myTeam): static
+    {
+        if ($this->myTeams->removeElement($myTeam)) {
+            $myTeam->removeMembership($this);
+        }
+
         return $this;
     }
 }

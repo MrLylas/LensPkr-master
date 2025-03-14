@@ -9,6 +9,17 @@
     </div>
 </div>
 <div class="filter-card">
-    <input class="search" type="text">
+    {% if app.user and app.user.myTeams is not empty %}
+    <form method="post" action="{{ path('team_add_member', {userId: user.id}) }}">
+        <label for="team">Choisissez une équipe :</label>
+        <select name="teamId" id="team" required>
+            {% for team in app.user.myTeams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ajouter cette personne</button>
+    </form>
+    {% endif %}
+
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@
 <div class="project-banner">
     <img class="banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
     <div class="banner-filter"></div>
-    <a href="{{ path('app_profile', {'id': project.creator.id}) }}">
+    <a href="{{ path('app_profile', {'pseudo': project.creator.pseudo}) }}">
         <div class="profile-pic">
             <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="Profile pic of {{ project.creator }}">
         </div>

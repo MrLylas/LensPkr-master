@@ -42,9 +42,17 @@ class Team
     #[ORM\JoinTable(name: 'team_user')] 
     private Collection $follow;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'myTeams')]
+    #[ORM\JoinTable(name: 'team_membership')] 
+    private Collection $membership;
+
     public function __construct()
     {
         $this->follow = new ArrayCollection();
+        $this->membership = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +156,33 @@ public function removeFollow(User $follow): static
 {
     if ($this->follow->removeElement($follow)) {
         $follow->removeFollowedTeam($this); // Retirer l'équipe de la liste des équipes suivies par l'utilisateur
+    }
+
+    return $this;
+}
+
+/**
+ * @return Collection<int, User>
+ */
+public function getMembership(): Collection
+{
+    return $this->membership;
+}
+
+public function addMembership(User $user): static
+{
+    if (!$this->membership->contains($user)) {
+        $this->membership->add($user);
+        $user->addMyTeam($this);
+    }
+
+    return $this;
+}
+
+public function removeMembership(User $user): static
+{
+    if ($this->membership->removeElement($user)){
+        $user->removeMyTeam($this);
     }
 
     return $this;
