@@ -33,13 +33,17 @@
             </div>
             <div class="nav-right">
                 {% if app.user is not null %}        
-                    <a href="{{ path('app_user_skill', {id: app.user.id}) }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
-                    <a href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
-                    <a href="{{ path('app_message') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
-                    <a href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
+                    <a class="icons" href="{{ path('app_user_skill', {id: app.user.id}) }}"><img class="nav-icons" src="{{ asset('images/User.svg') }}" alt="Profile"></a>
+                    <a class="icons" href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a>
+                    <a class="icons" href="{{ path('app_message') }}"><img class="nav-icons" src="{{ asset('images/mailbox.png') }}" alt="Mailbox"></a>
+                    <a class="icons" href=""><img class="nav-icons" src="{{ asset('images/Bell.svg') }}" alt="Notifications"></a>
+                    <a href="{{ path('logout') }}"><img src="{{ asset('images/online.svg') }}" alt="Logout"></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><img src="{{ asset('images/offline.svg') }}" alt="Login"></a>
+                {% endif %}
                     {# Menu déroulant #}
                     {# <div class="dropdown"> #}
-                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a>
+                        {# <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a> #}
                         {# <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Dropdown link
                         </a> #}
@@ -49,7 +53,7 @@
                           <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </div> #}
-                {% endif %}
+                {# {% endif %} #}
             </div>
         </nav>
         {% for message in app.flashes('success') %}

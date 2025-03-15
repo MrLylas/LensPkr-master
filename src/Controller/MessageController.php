@@ -26,25 +26,30 @@ final class MessageController extends AbstractController{
     #[Route('/message/send', name: 'send')]
     public function send(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Création du formulaire
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
+        // Traitement du formulaire
         $form->handleRequest($request);
-
+        // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            // l'auteur du message en fonction de l'utilisateur en session
             $message->setSender($this->getUser());
-            // $entityManager = $this->getDoctrine()->getManager();
+            // La date et l'heure en fonction de la date et heure au moment de la soumission du formulaire
             $message->setCreatedAt(new \DateTimeImmutable());
+            // Préparation à l'envoi du message en BDD
             $entityManager->persist($message);
+            // Envoi du message
             $entityManager->flush();
-
+            // Ajout d'un message flash
             $this->addFlash(
                 'success',
                 'Message envoyé'
             );
-
+            // Redirection vers la page de messagerie
             return $this->redirectToRoute('app_message');
         }
-
+        // Affichage du formulaire
         return $this->render('message/send.html.twig', [
             'form' => $form->createView(),
             
@@ -74,15 +79,15 @@ final class MessageController extends AbstractController{
             $entityManager->persist($message);
             // envoi du message
             $entityManager->flush();
-
+            // Ajout d'un message flash
             $this->addFlash(
                 'success',
                 'Message envoyé'
             );
-
+            // Redirection vers la page de messagerie
             return $this->redirectToRoute('app_message');
         }
-
+        // Affichage du formulaire
         return $this->render('message/reply.html.twig', [
             'form' => $form->createView(),
             
@@ -98,26 +103,33 @@ final class MessageController extends AbstractController{
     #[Route('/message/read/{id}', name: 'read')]
     public function read(Message $message, EntityManagerInterface $entityManager): Response
     {
+        // Recuperation de l'utilisateur en session
         $user = $this->getUser();
-
+        // Mise à jour du statut du message
         $message->setIsRead(true);
+        // Préparation à l'envoi du message en BDD
         $entityManager->persist($message);
+        // Envoi du message
         $entityManager->flush();
 
         
         // Vérification : L'utilisateur doit être l'expéditeur ou le destinataire du message
         if ($message->getSender() !== $user && $message->getRecipient() !== $user) {
+            // Redirection vers la page de messagerie
             return $this->redirectToRoute('app_message');
         }
+        // Affichage du message
         return $this->render('message/read.html.twig', compact('message'));
     }
 
     #[Route('/message/delete/{id}', name: 'delete')]
     public function delete(Message $message, EntityManagerInterface $entityManager): Response
     {
+        // Suppression du message
         $entityManager->remove($message);
+        // Enregistrement en BDD
         $entityManager->flush();
-
+        // Redirection vers la page de messagerie
         return $this->redirectToRoute('received');
     }
 

@@ -25,8 +25,9 @@ final class TeamController extends AbstractController
     #[Route('/team', name: 'team_feed')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        // Récupérer les équipes
         $teams = $entityManager->getRepository(Team::class)->findAll();
-
+        // Afficher les équipes
         return $this->render('team/recent.html.twig', [
             'controller_name' => 'TeamController',
             'teams' => $teams
@@ -36,15 +37,19 @@ final class TeamController extends AbstractController
     #[Route('/team/new', name: 'new_team')]
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
+        // Construction du formulaire
         $newTeam = new Team();
+        // Envoyer le formulaire
         $form = $this->createForm(NewTeamType::class, $newTeam);
+        // Traiter le formulaire
         $form->handleRequest($request);
 
+        // Si le formulaire est envoyé
         if($form->isSubmitted() && $form->isValid()) {
-
+            // Récupérer le fichier
             $teamPic = $form->get('team_pic')->getData();
             $bannerPic = $form->get('team_banner')->getData();
-
+            // Enregistrer le fichier
             if ($teamPic) {
                 $fileName = $fileUploader->upload($teamPic);
                 $newTeam->setTeamPic($fileName);
@@ -53,17 +58,21 @@ final class TeamController extends AbstractController
                 $fileName = $fileUploader->upload($bannerPic);
                 $newTeam->setTeamBanner($fileName);
             }
+            // Enregistrer l'equipe
             $newTeam = $form->getData();
+            // Declarer la date
             $newTeam->setCreatedAt(new \DateTimeImmutable());
+            // Declarer le createur
             $newTeam->setCreator($this->getUser());
+            // Ajouter le createur a l'equipe
             $newTeam->addMembership($this->getUser());
-
+            // Enregistrer
             $entityManager->persist($newTeam);
             $entityManager->flush();
-
+            // Redirection vers le feed d'equipe
             return $this->redirectToRoute('team_feed');
         }
-
+        // Afficher le formulaire
         return $this->render('team/new.html.twig', [
             'controller_name' => 'TeamController',
             'form' => $form->createView(),
@@ -73,8 +82,11 @@ final class TeamController extends AbstractController
     #[Route('/team/{id}', name: 'team_show')]
     public function show(ProjectRepository $projectRepository,EntityManagerInterface $entityManager, int $id): Response
     {
+        // je recupere l'equipe
         $team = $entityManager->getRepository(Team::class)->find($id);
+        // je recupere ses followers dans mon entité team
         $followers = $team->getFollow();
+        // je recupere ses projets
         $projects = $projectRepository->teamProjects($id);
 
         return $this->render('team/show.html.twig', [

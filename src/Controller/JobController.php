@@ -69,20 +69,25 @@ final class JobController extends AbstractController
     #[Route('/job/post/{id}', name: 'post_job')]
     public function post_job(Request $request,User $user, EntityManagerInterface $entityManager): Response
     {
+        // Construction du formulaire
         $post = new Job();
         $form = $this->createForm(PostJobType::class, $post);
+        // Traitement du formulaire
         $form->handleRequest($request);
+        // Ajout de l'utilisateur connecté
         $user = $this->getUser();
         $post->setUser($user);
+        // Ajout de la date
         $post->setCreation(new \DateTime());
-
+        // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer l'annonce
             $entityManager->persist($post);
             $entityManager->flush();
-
+            // Redirection vers la page des annonces
             return $this->redirectToRoute('app_jobs', ['id' => $user->getId()]);
         }
-
+        // Affichage du formulaire
         return $this->render('job/post.html.twig', [
             'controller_name' => 'JobController',
             'user' => $user,
@@ -94,9 +99,8 @@ final class JobController extends AbstractController
     #[Route('/job/detail/{id}/', name: 'app_job_detail')]
     public function job_detail(Job $job, EntityManagerInterface $entityManager): Response
     {
+        // Récupérer l'utilisateur en session
         $user = $this->getUser();
-        // $asks = $job->getAsks();
-        // dd($ask);
 
         return $this->render('job/detail.html.twig',
         [
