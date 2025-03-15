@@ -35,6 +35,7 @@ class ProjectType extends AbstractType
             ])
             ->add('team', EntityType::class, [
                 'class' => Team::class,
+                // Cette ternaire permet de filtrer les équipes de l'utilisateur en fonction de l'utilisateur connecté
                 'choices' => $user ? $user->getMyTeams() : [], // On filtre par les équipes de l'utilisateur
                 'choice_label' => 'name',
                 'placeholder' => 'Sélectionnez une équipe',

@@ -1,13 +1,12 @@
 *{margin: 0;padding: 0;box-sizing: border-box;text-decoration: none;font-family: "Jura", serif;}
 :root {
     --main-color: #212020;
-    /* --secondary-color: #A30510 ; */
     --secondary-color: #E71D36 ;
     --tertiary-color: #F3EEEE;
-  }
+}
 
 body {
-    background-color: var(--main-color);
+    animation: bg_animation 0.5s ease-in-out forwards;
 }
 
 h2{
@@ -25,6 +24,11 @@ h2{
     margin-top: 10vh;
     height: 100vh;
 
+    p{
+        text-align: center;
+        color: var(--tertiary-color);
+    }
+
     svg{
         overflow: visible;
 
@@ -40,23 +44,48 @@ h2{
     .btns{
 
         margin-top: 50px;
+        display: flex;
+        justify-content: center;
 
         .btn{
             color: var(--tertiary-color);
             background-color: var(--secondary-color);
-            /* border: 1px solid var(--tertiary-color); */
+            font-size: xx-large;
             box-shadow: var(--secondary-color) 3px 3px 3px; 
             border-radius: 10px;
-            padding: 5px 10px;
+            padding: 10px 20px;
             margin: 10px;
+            margin-bottom: 50px;
             cursor: pointer;
-    
+            
             &:hover{
                 background-color: var(--tertiary-color);
                 color: var(--secondary-color);
                 scale: 1.1;
             }
         }
+    }
+    section{
+        color: var(--tertiary-color);
+        text-align: center;
+        padding-left: 50px;
+        padding-right: 50px;
+        display: inline-block;
+
+        #title{
+            color: var(--secondary-color);
+            letter-spacing: 10px;
+            border-right: 5px solid var(--secondary-color);
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+        }
+    }
+    article{
+        color: var(--tertiary-color);
+        text-align: center;
+        padding: 50px;
     }
 
 
@@ -160,10 +189,10 @@ h2{
             align-items: center;
             margin-right: 10px;
             a{
-                background-color: var(--main-color);
+                /* background-color: var(--main-color); */
                 border-radius: 50%;
                 padding: 6px;
-                box-shadow: var(--secondary-color) 2px 2px 2px;
+                /* box-shadow: var(--secondary-color) 2px 2px 2px; */
 
                 .nav-icons{
                     height: 25px;
@@ -175,7 +204,8 @@ h2{
                 scale: 1.1;
                 cursor: pointer;
                 transition: 150ms ease-in-out;
-                box-shadow: var(--tertiary-color) 3px 3px 3px;
+                box-shadow: var(--secondary-color) 3px 3px 3px;
+                background-color: var(--main-color);
             }
         }
 }
@@ -1148,7 +1178,76 @@ h2{
                 padding-right: 20px;
             }
     }
+    .team-projects{
+        display: flex;
+        flex-direction: column;
+        width: 99%;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 10px;
+        margin-bottom: 10px;
+    
+            p{
+                color: var(--tertiary-color);
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .project-card{
+                border: solid 1px var(--secondary-color);
+                border-radius: 15px;
+                box-shadow: var(--secondary-color) 3px 3px 3px;
+                width: 100%;
+                height: 200px;
+                margin-bottom: 20px;
+                overflow: hidden;
+                
+                .list-project{
+                    display: flex;
+                    flex-direction: row;
+                    position: absolute;
+                    margin-left: 10px;
+                    align-items: center;
+                    h3{
+                        color: var(--tertiary-color);
+                        font-size: large;
+                        font-weight: bold;
+                    }
+                    .list-team-pic{
+                        margin-right: 10px;
+                        height: 50px;
+                        width: auto;
+                        border-radius: 50%;
+                    }
+                }
+                
+                .list-banner-pic{
+                    width: 100%;
+                    object-fit: cover;
+                }
+                
+                .list-description{
+                    position: absolute;
+                    margin-top: 50px;
+                    margin-left: 10px;
+                    display: flex;
+                    justify-content: center;
+                    object-fit: cover;
+                    max-height: 100px; /* Ajuste la hauteur selon le design */
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    line-clamp: 3; /* Nombre max de lignes avant de couper */
+                    -webkit-box-orient: vertical;
+                    word-break: break-word;
+                    p{
+                        width: 80%;
+                        color: var(--tertiary-color);
+                    }
+                }
+            }
+    }
 }
+    
 
 
 /******************************* Recent *************************************************/
@@ -1294,4 +1393,22 @@ h2{
         stroke-dashoffset: 0;
         scale: 1;
    }
+}
+@keyframes bg_animation{
+    0%{
+        background-color: var(--main-color);
+        opacity: 0;
+    }
+    100%{
+        background-color: var(--main-color);
+        opacity: 1;
+    }
+}
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--tertiary-color); }
 }

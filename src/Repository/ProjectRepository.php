@@ -16,6 +16,16 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function teamProjects($team_id)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.team = :team_id')
+            ->setParameter('team_id', $team_id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */

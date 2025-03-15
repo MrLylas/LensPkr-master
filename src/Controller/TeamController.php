@@ -10,6 +10,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\TextUI\XmlConfiguration\File;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -70,15 +71,17 @@ final class TeamController extends AbstractController
     }
 
     #[Route('/team/{id}', name: 'team_show')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
+    public function show(ProjectRepository $projectRepository,EntityManagerInterface $entityManager, int $id): Response
     {
         $team = $entityManager->getRepository(Team::class)->find($id);
         $followers = $team->getFollow();
+        $projects = $projectRepository->teamProjects($id);
 
         return $this->render('team/show.html.twig', [
             'controller_name' => 'TeamController',
             'team' => $team,
-            'followers' => $followers
+            'followers' => $followers,
+            'projects' => $projects,
         ]);
     }
 

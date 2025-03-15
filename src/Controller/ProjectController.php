@@ -11,6 +11,7 @@ use App\Entity\ProjectImage;
 use App\Service\FileUploader;
 use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -133,5 +134,6 @@ final class ProjectController extends AbstractController
 
         return $this->redirectToRoute('project', ['id' => $projectImage->getProject()->getId()]);
     }
+    
 }
  
