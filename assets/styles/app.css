@@ -942,6 +942,17 @@ h2{
     margin: 0 auto;
     margin-top: 50px;
 
+    .like-icon {
+        width: 24px;
+        height: 24px;
+        filter: grayscale(1);
+        transition: filter 0.3s ease-in-out;
+    }
+    
+    .liked .like-icon {
+        filter: grayscale(0);
+    }
+
     .project-card{
         width: 30%;
         margin: 0 auto;

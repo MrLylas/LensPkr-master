@@ -7,6 +7,9 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
+// importation du script like 
+import './like.js';
+
 // console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
 function previewImage(input) {

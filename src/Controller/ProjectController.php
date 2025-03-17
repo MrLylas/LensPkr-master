@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use Dom\Entity;
 use App\Entity\Image;
+use PHPUnit\Util\Json;
 use App\Entity\Project;
-use App\Form\ProjectType;
 // use App\Entity\ProjectImage;
+use App\Form\ProjectType;
 use App\Entity\ProjectImage;
 use App\Service\FileUploader;
 use App\Form\ProjectImageType;
@@ -16,6 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProjectController extends AbstractController
@@ -133,6 +137,44 @@ final class ProjectController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('project', ['id' => $projectImage->getProject()->getId()]);
+    }
+
+    #[Route('/project/{id}/like', name: 'like_project', methods: ['POST'])]
+    public function likeProject(Project $project, EntityManagerInterface $entityManager, Request $request, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    {
+        // Récuperation des données de la requête json
+        $data = json_decode($request->getContent(), true);
+        $_token = $data['_token'];
+
+        $csrfToken = new CsrfToken('like'.$project->getId(), $_token);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid token'], Response::HTTP_FORBIDDEN);
+        }
+
+        // Vérification de la validité du token
+        // if (!$this->isCsrfTokenValid('like'.$project->getId(), $_token)) {
+        //     return new JsonResponse(['error' => 'Invalid token'], Response::HTTP_FORBIDDEN);
+        // }
+
+        // On vérifie que l'utilisateur est connecté
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // On Vérifie si l'utilisateur a deja liké
+        $liked = $project->getLikes()->contains($user);
+
+        if ($liked){
+            $project->removeLike($user);
+        } else {
+            $project->addLike($user);
+        }
+
+        $entityManager->persist($project);
+        $entityManager->flush();
+
+        return new JsonResponse(['likes' => count($project->getLikes())]);
     }
     
 }

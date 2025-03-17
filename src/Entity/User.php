@@ -99,6 +99,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'creator', orphanRemoval: true)]
     private Collection $projects;
 
+    #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'likes')]
+    #[ORM\JoinTable(name: 'user_project_likes')]
+    private $likedProjects;
+
     /**
      * @var Collection<int, Team>
      */
@@ -128,6 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->teams = new ArrayCollection();
         $this->followedTeams = new ArrayCollection();
         $this->myTeams = new ArrayCollection();
+        $this->likedProjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -593,5 +598,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getLikedProjects(): Collection
+    {
+        return $this->likedProjects;
     }
 }

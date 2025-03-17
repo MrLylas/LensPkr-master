@@ -22,8 +22,14 @@
             <div class="date">
                 <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
             </div>
+            <div class="interact-btns">
+            </div>
         </div>
     </a>
+    <button class="like-btn" data-id="{{ project.id }}" data-token="{{ csrf_token('like' ~ project.id) }}">
+        <img src="{{ asset('images/heart.svg') }}" class="like-icon" />
+        <span class="like-count">0</span>
+    </button>     
     {% endfor %}
 </div>
 {% endblock %}
