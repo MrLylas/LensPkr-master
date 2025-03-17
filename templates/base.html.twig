@@ -16,7 +16,11 @@
 {############################################################## Navbar ########################################################}
         <nav class="navbar navbar-expand-lg">
             <div>
-                <a href="{{path('project_feed')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                {% if app.user is not null %}
+                    <a href="{{path('project_feed')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                {% else %}
+                    <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                {% endif %}
             </div>
             <div class="nav-mid">
                 <div class="input-group mb-3">

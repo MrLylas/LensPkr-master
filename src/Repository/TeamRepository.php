@@ -16,6 +16,15 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
+    public function recentsTeams()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Team[] Returns an array of Team objects
 //     */

@@ -16,6 +16,15 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function recentProjects()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function teamProjects($team_id)
     {
         return $this->createQueryBuilder('p')
@@ -25,6 +34,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
 
 //    /**
 //     * @return Project[] Returns an array of Project objects
