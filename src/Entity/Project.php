@@ -159,19 +159,20 @@ class Project
         return $this->likes;
     }
 
-    public function addLike(User $like): static
+    public function addLike(User $user): static
     {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
+        if (!$this->likes->contains($user)) {
+            $this->likes->add($user);
+            $user->addLikedProject($this); // Mise à jour côté User
         }
-
         return $this;
     }
-
-    public function removeLike(User $like): static
+    
+    public function removeLike(User $user): static
     {
-        $this->likes->removeElement($like);
-
+        if ($this->likes->removeElement($user)) {
+            $user->removeLikedProject($this); // Mise à jour côté User
+        }
         return $this;
     }
 }

@@ -18,7 +18,7 @@
         <div class="{{bold}}">From : {{ message.sender.email }}</div>
         <div class="{{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
         <div class="{{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
-        <div class="{{bold}}"><a href="{{ path('delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
+        <div class="{{bold}}"><a href="{{ path('received_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
     </div>
     {% endfor %}
 {% endblock %}

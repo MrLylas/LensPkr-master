@@ -5,31 +5,37 @@
 {% block body %}
 <div class="wrapper">
     {% for project in projects %}
-    <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
-        <div class="card">
-            <div class="img-card">
-                <img src="{{ asset('images/Actors.jpg') }}" alt="Actors">
-            </div>
-            <div class="label">
-                <div class="creator">
-                    <div class="creator-pic">
-                        <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="">
-                    </div>
-                    <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
+    <div class="project-box">
+        <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
+            <div class="card">
+                <div class="img-card">
+                    <img src="{{ asset('images/Actors.jpg') }}" alt="Actors">
                 </div>
-                <h3>{{ project.projectName }}</h3>
+                <div class="label">
+                    <div class="creator">
+                        <div class="creator-pic">
+                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="">
+                        </div>
+                        <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
+                    </div>
+                    <h3>{{ project.projectName }}</h3>
+                </div>
+                <div class="date">
+                    <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
+                </div>
+                <div class="interact-btns">
+                </div>
             </div>
-            <div class="date">
-                <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
-            </div>
-            <div class="interact-btns">
-            </div>
-        </div>
-    </a>
-    <button class="like-btn" data-id="{{ project.id }}" data-token="{{ csrf_token('like' ~ project.id) }}">
-        <img src="{{ asset('images/heart.svg') }}" class="like-icon" />
-        <span class="like-count">0</span>
-    </button>     
+        </a>
+        <button class="like-btn" 
+            data-id="{{ project.id }}" 
+            data-token="{{ csrf_token('like' ~ project.id) }}">
+            <img src="{% if app.user and project.likes.contains(app.user) %}{{ asset('images/filledheart.svg') }}{% else %}{{ asset('images/heart.svg') }}{% endif %}" class="like-icon"/>
+            <span class="like-count">{{ project.getLikes|length }}</span>
+        </button>
+    </div>
+
+ 
     {% endfor %}
 </div>
 {% endblock %}

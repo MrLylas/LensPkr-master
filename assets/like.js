@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
             let likes = this.querySelector('.like-count');
             // Récupérer l'icone
             let icon = this.querySelector('.like-icon');
+            // let timeStamp = new Date().getTime();
+            var heartIconUrl = window.heartIconUrl;  // L'URL des images SVG
+            var filledHeartIconUrl = window.filledHeartIconUrl;
+
+            console.log(icon);
             // Envoyer la requete à /projet/{id}/like en methode POST
             fetch(`/project/${id}/like`, {
                 method: 'POST',
@@ -34,18 +39,45 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             // On recupere les donnees de la response
             .then(data => {
+                console.log(data);
                 // Si les donnees contiennent les likes
                 if (data.likes !== undefined) { 
+
                     // On met a jour le nombre de likes
-                    // this.querySelector('.like-count').textContent = data.likes;
                     likes.textContent = data.likes;
-                    // On met a jour l'icone
-                    this.classList.toggle('liked');
+                    // Si le bouton est like
+                    if (data.liked) {
+                    this.classList.add('liked');
+                    icon.classList.add('filled');
+                    icon.src = filledHeartIconUrl;
+                        // On ajoute le like au localStorage
+                    localStorage.setItem(`likes-${id}`, 'liked');
+                    localStorage.setItem(`likes-${id}`, 'filled');
+                    }else{
+                        // Si le bouton n'est pas like
+                        this.classList.remove('liked');
+                        icon.classList.remove('filled');
+                        icon.src = heartIconUrl;
+                            // On retire le like au localStorage
+                        localStorage.removeItem(`likes-${id}`);
+                    }
                 }
             })
             .catch(error => {
                 console.error('Erreur AJAX:', error);
             });
         });
+        // On recupere l'ID du projet via l'attribut data-id du bouton
+        let id = button.dataset.id;
+        // On recupere les likes stocké dans le localStorage
+        let storedLikes = localStorage.getItem(`likes-${id}`);
+        console.log(storedLikes);
+        // Si le bouton est like
+        if (storedLikes === 'liked'){
+            // On ajoute la classe liked au bouton
+            button.classList.add('liked');
+            // On ajoute la classe filled au bouton
+            button.querySelector('.like-icon').classList.add('filled');
+        }
     });
 });

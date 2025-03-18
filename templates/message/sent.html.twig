@@ -4,27 +4,27 @@
 
 {% block body %}
 <h2 class="text-center">Boite de reception</h2>
-<p>Vous avez {{ app.user.received|length }} messages</p>
+<p>Vous avez envoyé {{ app.user.sent|length }} messages</p>
 <a href="{{ path('app_message') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
-<div class="col-3">De</div>
-<div class="col-3">Sujet</div>
-<div class="col-3">Date</div>
-<div class="col-3">Actions</div>
-    {% for message in app.user.received %}
-        <div class="message-container">
-    {% if message.isRead == false %}
-                {% set bold = 'fw-bold' %}
-            {% else %}
-                {% set bold = '' %}
-            {% endif %}
-            <div class="col-3 {{bold}}">{{ message.sender.email }}</div>
-            <div class="col-3 {{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
-            <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
-            <div class="col-3"><a href="{{ path('delete', {'id': message.id}) }}">Delete</a></div>
-        </div>
-        {% endfor %}
-        {# <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-            Voir mes dossiers
-        </a>  
-        <a href="{{ path('send') }}" class="btn btn-primary">Envoyer un message</a>   #}
+{% if app.user.sent|length > 0 %}
+    <div class="col-3">De</div>
+    <div class="col-3">Sujet</div>
+    <div class="col-3">Date</div>
+    <div class="col-3">Actions</div>
+        {% for message in app.user.sent %}
+            <div class="message-container">
+        {% if message.isRead == false %}
+                    {% set bold = 'fw-bold' %}
+                {% else %}
+                    {% set bold = '' %}
+                {% endif %}
+                <div class="col-3 {{bold}}">{{ message.sender.email }}</div>
+                <div class="col-3 {{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
+                <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
+                <div class="col-3"><a href="{{ path('sent_delete', {'id': message.id}) }}">Delete</a></div>
+            </div>
+            {% endfor %}
+{% else %}
+        <h2>Aucun message envoyé</h2>
+{% endif %}
 {% endblock %}

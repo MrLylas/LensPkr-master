@@ -16,11 +16,17 @@ final class MessageController extends AbstractController{
     #[Route('/message', name: 'app_message')]
     public function index(): Response
     {
-        // dd($this->getUser());
-
-        return $this->render('message/index.html.twig', [
-            'controller_name' => 'MessageController',
-        ]);
+        return $this->render('message/index.html.twig');
+    }
+    #[Route('/message/received', name: 'received')]
+    public function received(): Response
+    {
+        return $this->render('message/received.html.twig');
+    }
+    #[Route('/message/sent', name: 'sent')]
+    public function sent(): Response
+    {
+        return $this->render('message/sent.html.twig');
     }
 
     #[Route('/message/send', name: 'send')]
@@ -47,12 +53,11 @@ final class MessageController extends AbstractController{
                 'Message envoyé'
             );
             // Redirection vers la page de messagerie
-            return $this->redirectToRoute('app_message');
+            return $this->redirectToRoute('sent');
         }
         // Affichage du formulaire
         return $this->render('message/send.html.twig', [
-            'form' => $form->createView(),
-            
+            'form' => $form->createView(), 
         ]);
     }
 
@@ -85,19 +90,13 @@ final class MessageController extends AbstractController{
                 'Message envoyé'
             );
             // Redirection vers la page de messagerie
-            return $this->redirectToRoute('app_message');
+            return $this->redirectToRoute('sent');
         }
         // Affichage du formulaire
         return $this->render('message/reply.html.twig', [
             'form' => $form->createView(),
             
         ]);
-    }
-
-    #[Route('/message/received', name: 'received')]
-    public function received(): Response
-    {
-        return $this->render('message/received.html.twig');
     }
 
     #[Route('/message/read/{id}', name: 'read')]
@@ -122,8 +121,18 @@ final class MessageController extends AbstractController{
         return $this->render('message/read.html.twig', compact('message'));
     }
 
-    #[Route('/message/delete/{id}', name: 'delete')]
-    public function delete(Message $message, EntityManagerInterface $entityManager): Response
+    #[Route('/message/sentDelete/{id}', name: 'sent_delete')]
+    public function sentDelete(Message $message, EntityManagerInterface $entityManager): Response
+    {
+        // Suppression du message
+        $entityManager->remove($message);
+        // Enregistrement en BDD
+        $entityManager->flush();
+        // Redirection vers la page de messagerie
+        return $this->redirectToRoute('sent');
+    }
+    #[Route('/message/receivedDelete/{id}', name: 'received_delete')]
+    public function receivedDelete(Message $message, EntityManagerInterface $entityManager): Response
     {
         // Suppression du message
         $entityManager->remove($message);
@@ -131,11 +140,5 @@ final class MessageController extends AbstractController{
         $entityManager->flush();
         // Redirection vers la page de messagerie
         return $this->redirectToRoute('received');
-    }
-
-    #[Route('/message/sent', name: 'sent')]
-    public function sent(): Response
-    {
-        return $this->render('message/sent.html.twig');
     }
 }

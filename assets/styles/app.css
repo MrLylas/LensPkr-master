@@ -7,6 +7,7 @@
 }
 
 body {
+    cursor: url("../styles/images/CursorLP.svg"), auto;
     animation: bg_animation 0.5s ease-in-out forwards;
 }
 
@@ -35,6 +36,7 @@ h2{
         
         &:hover{
             color: var(--tertiary-color);
+            cursor: url("../styles/images/pointer.svg"), pointer;
         }
     }
 
@@ -70,6 +72,7 @@ h2{
             
             &:hover{
                 background-color: var(--tertiary-color);
+                cursor: url("../styles/images/pointer.svg"), pointer;
                 color: var(--secondary-color);
                 scale: 1.1;
             }
@@ -146,9 +149,11 @@ h2{
 
     .navbar-brand{
         margin-left: 10px;
-        .logo:hover{
-            transition: 150ms ease-in-out;         
-            cursor: pointer;
+        .logo{
+            transition: 150ms ease-in-out;   
+        }
+        .logo:hover{    
+            cursor: url("../styles/images/pointer.svg"), pointer;
             scale: 1.1;
         }
     }
@@ -169,6 +174,7 @@ h2{
                         color: var(--tertiary-color);
                     }
                     .btn-outline-secondary:hover{
+                        cursor: url("../styles/images/pointer.svg"), pointer;
                         background-color: var(--tertiary-color);
                         color: var(--secondary-color);
                         box-shadow: var(--secondary-color) 3px 3px 3px;
@@ -215,7 +221,7 @@ h2{
 
                         .btn:hover{
                             scale: 1.1;
-                            cursor: pointer;
+                            cursor: url("../styles/images/pointer.svg"), pointer;
                             transition: 150ms ease-in-out;
                             box-shadow: var(--tertiary-color) 3px 3px 3px;
                             border: 1px solid var(--tertiary-color);
@@ -244,10 +250,13 @@ h2{
             }
             .icons:hover{
                 scale: 1.1;
-                cursor: pointer;
+                cursor: url("../styles/images/pointer.svg"), pointer;
                 transition: 150ms ease-in-out;
                 box-shadow: var(--secondary-color) 3px 3px 3px;
                 background-color: var(--main-color);
+            }
+            .log-icons:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
             }
         }
 }
@@ -265,7 +274,7 @@ h2{
 }
 .nav-btn:hover{
     scale: 1.1;
-    cursor: pointer;
+    cursor: url("../styles/images/pointer.svg"), pointer;
     transition: 150ms ease-in-out;
     box-shadow: var(--tertiary-color) 3px 3px 3px;
 }
@@ -282,7 +291,7 @@ h2{
 }
 .back-btn:hover{
     scale: 1.1;
-    cursor: pointer;
+    cursor: url("../styles/images/pointer.svg"), pointer;
     transition: 150ms ease-in-out;
     box-shadow: var(--tertiary-color) 3px 3px 3px;
     background-color: #ffffff00;
@@ -299,7 +308,7 @@ h2{
 }
 .edit-btn:hover{
     scale: 1.1;
-    cursor: pointer;
+    cursor: url("../styles/images/pointer.svg"), pointer;
     transition: 150ms ease-in-out;
     box-shadow: var(--tertiary-color) 3px 3px 3px;
     background-color: #ffffff00;
@@ -317,7 +326,7 @@ h2{
 }
 .add-image-btn:hover{
     scale: 1.1;
-    cursor: pointer;
+    cursor: url("../styles/images/pointer.svg"), pointer;
     transition: 150ms ease-in-out;
     box-shadow: var(--tertiary-color) 3px 3px 3px;
     background-color: #ffffff00;
@@ -344,6 +353,7 @@ h2{
                 padding-left: 10px;
             }
             a:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
                 color: var(--secondary-color);
             }
         }
@@ -360,6 +370,7 @@ h2{
             color: var(--tertiary-color);
         }
         a:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             color: var(--secondary-color);
         }
     }
@@ -400,6 +411,7 @@ h2{
                 margin-bottom: 5px;
     
                 &:hover{
+                    cursor: url("../styles/images/pointer.svg"), pointer;
                     border-color: var(--secondary-color);
                     box-shadow: var(--secondary-color) 3px 3px 3px;
                 }
@@ -415,6 +427,7 @@ h2{
             background-color: var(--secondary-color);
         }
         .btn:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             color: var(--secondary-color);
             background-color: var(--tertiary-color);
         }
@@ -460,6 +473,7 @@ h2{
             color: var(--tertiary-color);
         }
         .btn:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             background-color: var(--tertiary-color);
             color: var(--secondary-color);
             box-shadow: var(--secondary-color) 3px 3px 3px;
@@ -476,6 +490,7 @@ h2{
         width: 500px;
     }
     .register-btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         background-color: var(--secondary-color);
         color: var(--tertiary-color);
         transition: 300ms ease-in-out;
@@ -548,6 +563,7 @@ h2{
                 color: var(--tertiary-color);
             }
             a:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
                 color: var(--secondary-color);
                 margin: 5px;
             }
@@ -577,6 +593,7 @@ h2{
                     color: var(--tertiary-color);
                 }
                 input:hover{
+                    cursor: url("../styles/images/pointer.svg"), pointer;
                     scale: 1.1;
                     transition: 150ms ease-in-out;
                     box-shadow: var(--tertiary-color) 3px 3px 3px;
@@ -591,6 +608,7 @@ h2{
                     width: 100%;
                 }
                 textarea:hover{
+                    cursor: url("../styles/images/pointer.svg"), pointer;
                     scale: 1.02;
                     transition: 150ms ease-in-out;
                     box-shadow: var(--tertiary-color) 3px 3px 3px;
@@ -634,6 +652,7 @@ h2{
                 color: var(--secondary-color);
             }
             a:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
                 color: var(--tertiary-color);
             }
         }
@@ -643,6 +662,7 @@ h2{
             background-color: var(--secondary-color);
         }
         .btn:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             color: var(--secondary-color);
             background-color: var(--tertiary-color);
         }
@@ -669,6 +689,7 @@ h2{
         margin: 5px;
     }
     .btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         color: var(--secondary-color);
         background-color: var(--tertiary-color);
     }
@@ -689,14 +710,15 @@ h2{
     display: flex;
     flex-direction: row;
     width: 80%;
+    height: 100vh;
     margin: 0 auto;
     justify-content: space-between;
-    box-shadow: var(--secondary-color) 5px 5px 5px;
+    /* box-shadow: var(--secondary-color) 5px 5px 5px; */
     margin-top: 50px;
     color: var(--tertiary-color);
 
         .box{
-            display: flex;
+            /* display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -704,7 +726,7 @@ h2{
             background-color: var(--main-color);
             border: var(--secondary-color) 1px solid;
             margin-bottom: 2px;
-            box-shadow: var(--secondary-color) 3px 3px 3px;
+            box-shadow: var(--secondary-color) 3px 3px 3px; */
         }
 
         a{
@@ -752,6 +774,7 @@ h2{
         box-shadow: var(--secondary-color) 3px 3px 3px;
     }
     .btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         color: var(--secondary-color);
         background-color: var(--tertiary-color);
     }
@@ -789,6 +812,7 @@ h2{
             width: 100%;
         }
         textarea:hover,input:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             scale: 1.02;
             transition: 150ms ease-in-out;
             box-shadow: var(--tertiary-color) 3px 3px 3px;
@@ -808,6 +832,7 @@ h2{
             box-shadow: var(--secondary-color) 3px 3px 3px;
         }
         .btn:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             color: var(--secondary-color);
             background-color: var(--tertiary-color);
         }
@@ -832,6 +857,7 @@ h2{
             color: var(--tertiary-color);
         }
         a:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             color: var(--secondary-color);
         }
     }
@@ -846,7 +872,7 @@ h2{
 
     }
     .btn:hover{
-        /* color: var(--secondary-color); */
+        cursor: url("../styles/images/pointer.svg"), pointer;
         background-color: var(--tertiary-color);
         box-shadow: var(--tertiary-color) 3px 3px 3px;
     }
@@ -910,6 +936,7 @@ h2{
         margin-left: 5px;
     }
     textarea:hover,input:hover{
+        /* cursor: url("../styles/images/pointer.svg"), pointer; */
         scale: 1.02;
         transition: 150ms ease-in-out;
         box-shadow: var(--tertiary-color) 3px 3px 3px;
@@ -929,6 +956,7 @@ h2{
         box-shadow: var(--secondary-color) 3px 3px 3px;
     }
     .btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         color: var(--secondary-color);
         background-color: var(--tertiary-color);
     }
@@ -942,116 +970,130 @@ h2{
     margin: 0 auto;
     margin-top: 50px;
 
-    .like-icon {
-        width: 24px;
-        height: 24px;
-        filter: grayscale(1);
-        transition: filter 0.3s ease-in-out;
-    }
     
-    .liked .like-icon {
-        filter: grayscale(0);
-    }
-
-    .project-card{
-        width: 30%;
-        margin: 0 auto;
-        box-shadow: var(--secondary-color) 5px 5px 5px;
-        border: var(--secondary-color) 1px solid;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 20px;
-        cursor: pointer;
-        text-decoration: none;
-        position: relative;
-
-        .card{
-
-            background-color: #ffffff00;
-
-            .img-card{
-                height: 180px;
-                width: 100%;
-                
-                img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 5px;
-                }
-            }
-    
-            .label{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-    
-                h3{
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-end;
-                    align-items: center;
-                    color: var(--tertiary-color);
-                    margin-bottom: 5px;
-                    font-size: medium;
-                    width: 40%;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                p{
-                    color: var(--tertiary-color);
-                    font-size: smaller;
-                    margin-bottom: 5px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+    .project-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30%; 
+        margin-bottom: 10vh;
         
-                }
+        .like-btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            &:hover {
+                cursor: url("../styles/images/pointer.svg"), pointer;
+            }
+            .filled {
+                content: url("../styles/images/filledHeart.svg");
+            }
+            span{
+                color: var(--tertiary-color);
+            }
+        }
+        .project-card{
+            width: 100%;
+            margin: 0 auto;
+            border: var(--secondary-color) 1px solid;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
     
-                .creator{
+            .card{
+    
+                background-color: #ffffff00;
+    
+                .img-card{
+                    height: 180px;
+                    width: 100%;
+                    
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 5px;
+                    }
+                }
+        
+                .label{
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
-                    width: 60%;
-    
-                    p{
-                        width: 100%;
+                    justify-content: space-between;
+        
+                    h3{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-end;
+                        align-items: center;
                         color: var(--tertiary-color);
+                        margin-bottom: 5px;
                         font-size: medium;
-                    }
-                    .creator-pic{
-                        width: 30px;
-                        height: 30px;
-                        border-radius: 50%;
+                        width: 40%;
                         overflow: hidden;
-                        margin-right: 5px;
-                        img{
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    p{
+                        color: var(--tertiary-color);
+                        font-size: smaller;
+                        margin-bottom: 5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+            
+                    }
+        
+                    .creator{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        width: 60%;
+        
+                        p{
                             width: 100%;
-                            height: 100%;
-                            object-fit: cover;
+                            color: var(--tertiary-color);
+                            font-size: medium;
+                        }
+                        .creator-pic{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            margin-right: 5px;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
                         }
                     }
                 }
-            }
-
-            .date{
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                span{
-                    color: var(--tertiary-color);
-                    font-size: smaller;
+    
+                .date{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    span{
+                        color: var(--tertiary-color);
+                        font-size: smaller;
+                    }
                 }
             }
         }
-    }
+        
+        .project-card:hover{
+            cursor:  url("../styles/images/pointer.svg"), pointer;
+            scale: 1.02;
+            transition: 150ms ease-in-out;
+            box-shadow: var(--tertiary-color) 3px 3px 3px;
     
-    .project-card:hover{
-        scale: 1.02;
-        transition: 150ms ease-in-out;
-        box-shadow: var(--tertiary-color) 3px 3px 3px;
-
+        }
     }
 
 }
@@ -1104,7 +1146,7 @@ h2{
         }
         p:hover{
             text-decoration: underline;
-            cursor: pointer;
+            cursor: url("../styles/images/pointer.svg"), pointer;
             transition: 150ms ease-in-out;
             color: var(--tertiary-color);
         }
@@ -1261,11 +1303,13 @@ h2{
         border-radius: 5px;
     }
     .unfollow-btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         background-color: var(--tertiary-color);
         color: var(--secondary-color);
         transition: 300ms ease-in-out;
     }
     .follow-btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
         background-color: var(--secondary-color);
         color: var(--tertiary-color);
         transition: 300ms ease-in-out;
@@ -1422,7 +1466,7 @@ h2{
     }
     
     .team-card:hover{
-        cursor: pointer;
+        cursor: url("../styles/images/pointer.svg"), pointer;
         box-shadow: var(--tertiary-color) 3px 3px 3px;
         transition: 300ms ease-in-out;
     }
@@ -1463,10 +1507,12 @@ h2{
             padding: 5px;
         }
         #new_team_name:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             border: 1px solid var(--tertiary-color);
             box-shadow: var(--tertiary-color);
         }
         textarea:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             border: 1px solid var(--tertiary-color);
             box-shadow: var(--tertiary-color);
         }
@@ -1477,6 +1523,7 @@ h2{
             color: var(--tertiary-color);
         }
         #new_team_submit:hover{
+            cursor: url("../styles/images/pointer.svg"), pointer;
             margin-top: 15px;
             border: 1px solid var(--tertiary-color);
             color: var(--tertiary-color);

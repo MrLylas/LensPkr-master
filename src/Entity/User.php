@@ -101,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'likes')]
     #[ORM\JoinTable(name: 'user_project_likes')]
-    private $likedProjects;
+    private Collection $likedProjects;
 
     /**
      * @var Collection<int, Team>
@@ -606,5 +606,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getLikedProjects(): Collection
     {
         return $this->likedProjects;
+    }
+
+    public function addLikedProject(Project $project): static
+    {
+        if (!$this->likedProjects->contains($project)) {
+            $this->likedProjects->add($project);
+            $project->getLikes()->add($this); // Mise à jour côté Project
+        }
+        return $this;
+    }
+
+    public function removeLikedProject(Project $project): static
+    {
+        if ($this->likedProjects->removeElement($project)) {
+            $project->getLikes()->removeElement($this); // Mise à jour côté Project
+        }
+        return $this;
     }
 }
