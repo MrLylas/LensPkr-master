@@ -16,6 +16,31 @@ h2{
     margin-top: 10px;
     text-align: center;
 }
+
+/************************ Security ***************************/
+
+.rules{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    margin-top: 10vh;
+
+    h1,h3{
+        color: var(--secondary-color);
+        margin-bottom: 10vh;
+    }
+
+    h3{
+        margin-top: 10vh;
+    }
+
+    p{
+        margin: 10px;
+        text-align: center;
+        color: var(--tertiary-color);
+    }
+}
  
 /************************ Home *****************************/
 
@@ -183,6 +208,7 @@ h2{
                         background-color: var(--main-color) ;
                     }
                     .form-control:hover{
+                        cursor: url("../styles/images/textBar.svg"), text;
                         border-color: var(--tertiary-color);
                         box-shadow: var(--secondary-color) 3px 3px 3px;
                     }
@@ -279,11 +305,14 @@ h2{
     box-shadow: var(--tertiary-color) 3px 3px 3px;
 }
 .back-btn{
+    color: var(--tertiary-color);
     position: fixed;
+    border: none;
+    height: 40px;
     top: 120px;
     left: 30px;
     box-shadow: var(--secondary-color) 3px 3px 3px;
-    padding: 10px;
+    padding: 5px;
     border-radius: 50%;
     background-color: var(--main-color);
     z-index: 100;
@@ -501,27 +530,41 @@ h2{
 /****************************** Profile *************************************************/
 
 .banner{
-    height: 250px;
+    height: 50vh;
     width: 100%;
+    position: relative;
+
+    .banner-filter{    
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 50vh;
+        width: 100%;
+        background: linear-gradient(rgba(33, 32, 32, 0), rgba(33, 32, 32, 1));
+    }
     
     .cover{
         width: 100%;
         height: 100%;
         object-fit: cover;
-        box-shadow: var(--secondary-color) 3px 3px 3px;
+    }
 
+    .user-pic{
+        position: relative;
+
+        .profile-pic{
+            position: absolute;
+            top: -25vh;
+            left: 10vh;
+            width: 30vh;
+            height: 30vh;
+            border-radius: 50%;
+            background: url("../styles/images/default_user.svg"); 
+            background-size: cover;
+            background-position: center;
+        }
     }
     
-    .profile-pic{
-        position: relative;
-        top: -100px;
-        left: 20px;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        box-shadow: var(--secondary-color) 3px 3px 3px;
-        background-color: #ffffff;
-    }
 }
 /****************************** Skill *************************************************/
 .user-container{
@@ -1119,21 +1162,29 @@ h2{
     }
     a{
         text-decoration: none;
-
+        
         .profile-pic{
             position: absolute;
-            top: 50px;
-            left: 80px;
-            height: 200px;
-            width: 200px;
+            top: 20vh;
+            left: 10vh;
+            height: 30vh;
+            width: 30vh;
             border-radius: 50%;
             box-shadow: var(--secondary-color) 3px 3px 3px;
             overflow: hidden;
-            background-color: #ffffff;
+
             img{
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+            }
+            .default{
+                background: url("../styles/images/default_user.svg") no-repeat center center/cover;
+                height: 80%;
+                width: 80%;
+                position: absolute;
+                top: 10%;
+                left: 10%;
             }
         }
         p{

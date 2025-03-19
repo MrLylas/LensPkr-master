@@ -5,7 +5,6 @@
 {% block body %}
 <h2 class="text-center">Boite de reception</h2>
 <p>Vous avez envoyé {{ app.user.sent|length }} messages</p>
-<a href="{{ path('app_message') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
 {% if app.user.sent|length > 0 %}
     <div class="col-3">De</div>
     <div class="col-3">Sujet</div>

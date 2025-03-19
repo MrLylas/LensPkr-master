@@ -7,7 +7,6 @@
 </style>
 
 <h2>Messages</h2>
-<a href="{{ path('app_message') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
 {% for message in app.user.received %}
 <div class="message-container">
     {% if message.isRead == false %}

@@ -3,19 +3,21 @@
 {% block title %}Hello ProjectController!{% endblock %}
 
 {% block body %}
-{# <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a> #}
-<input type="button" onclick="window.history.back()" value="Back">
 <a href="{{path('edit_project', {'id': project.id})}}" class="edit-btn"><img src="{{ asset('images/edit.png') }}" alt="Edit Project button"></a>
 {# <a href="{{path('add_image', {'id': project.id})}}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a> #}
 {% if app.user == project.creator %}    
     <a href="{{ path('upload_project_images', {'id': project.id}) }}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a>
 {% endif %}
 <div class="project-banner">
-    <img class="banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
+    <img class="img-fluid banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
     <div class="banner-filter"></div>
     <a href="{{ path('app_profile', {'pseudo': project.creator.pseudo}) }}">
         <div class="profile-pic">
-            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="Profile pic of {{ project.creator }}">
+            {% if project.creator.profilePic %}
+            <img class="img-fluid" src="{{ asset('uploads/' ~ project.creator.profilePic)}}">
+            {% else %}
+            <img class="img-fluid default" src="{{ asset('images/default_user.jpg') }}">
+            {% endif %}
         </div>
         <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
     </a>
@@ -26,7 +28,7 @@
     <div class="images">
         {% for projectImage in project.projectImages %}
         <div class="project-images">
-            <img src="{{ asset('uploads/' ~ projectImage.image.name) }}" alt="Project Image">
+            <img class="img-fluid" src="{{ asset('uploads/' ~ projectImage.image.name) }}" alt="Project Image">
             <span>{{ projectImage.image.createdAt|date("H:i m/d/Y") }}</span>
             <p>{{ projectImage.image.description }}</p>
             {% if app.user == project.creator %}    

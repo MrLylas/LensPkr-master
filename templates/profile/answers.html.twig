@@ -16,7 +16,7 @@
     {% if job.asks is not null %} 
     {% for ask in job.asks %}
     <div class="jobcard">
-        <a href="{{ path('app_profile', {'id': ask.user.id}) }}">{{ ask.user.name }}{{" "}}{{ ask.user.forename }}</a>
+        <a href="{{ path('app_profile', {'pseudo': ask.user.pseudo}) }}">{{ ask.user.name }}{{" "}}{{ ask.user.forename }}</a>
         <p>{{ ask.dateAsk|date('H:i d/m/Y') }}</p>
         <a href="{{ path('reply', {'id': ask.user.id}) }}" class="btn btn-primary">Contact</a>
     </div>

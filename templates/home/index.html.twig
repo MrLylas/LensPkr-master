@@ -13,7 +13,7 @@
         <p class="subtitle">The best place to share your project</p>
         <div class="btns">
             {% if app.user is not null %}  
-            <a class="btn" href="{{ path('project_feed') }}" class="login-btn">Explore</a>
+            <a class="btn" href="{{ path('recent_project') }}" class="login-btn">Explore</a>
             {% else %}
             <a class="btn" href="{{path('app_login')}}">Login</a>
             <a class="btn" href="{{path('app_register')}}">Sign in</a>

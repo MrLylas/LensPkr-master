@@ -19,11 +19,58 @@ class TeamRepository extends ServiceEntityRepository
     public function recentsTeams()
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt', 'DESC')
+            ->orderBy('t.created_at', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
+
+    public function myTeams($user_id)
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.membership', 'm')
+            ->andWhere('m.id = :user_id')
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function popularTeams()
+    {
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.membership', 'm')
+            ->groupBy('t.id')
+            ->orderBy('COUNT(m.id)', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function followedTeams($user_id)
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.follow', 'f')
+            ->andWhere('f.id = :user_id')
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function searchTeams(?string $query): array
+    {
+        
+    if (!$query) {
+        return [];
+    }
+
+    return $this->createQueryBuilder('t')
+        ->where('t.name LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+    }
+
 
 //    /**
 //     * @return Team[] Returns an array of Team objects

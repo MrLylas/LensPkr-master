@@ -19,7 +19,7 @@ class ProjectRepository extends ServiceEntityRepository
     public function recentProjects()
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.createdAt', 'DESC')
+            ->orderBy('p.created_at', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -34,6 +34,66 @@ class ProjectRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function popularProjects()
+    {
+    return $this->createQueryBuilder('p')
+        ->leftJoin('p.likes', 'l')
+        ->groupBy('p.id')
+        ->orderBy('COUNT(l.id)', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function LikedProjects($user_id)
+{
+    return $this->createQueryBuilder('p')
+    ->innerJoin('p.likes', 'u')
+    ->andWhere('u.id = :user_id')
+    ->setParameter('user_id', $user_id)
+    ->getQuery()
+    ->getResult()
+    ;
+}
+
+public function MyProjects($user_id)
+{
+    return $this->createQueryBuilder('p')
+    ->andWhere('p.creator = :user_id')
+    ->setParameter('user_id', $user_id)
+    ->orderBy('p.created_at', 'DESC')
+    ->getQuery()
+    ->getResult()
+    ;
+}
+
+public function MyTeamsProjects($user_id)
+{
+    return $this->createQueryBuilder('p')
+    ->innerJoin('p.team', 't')  
+    ->innerJoin('t.membership', 'm')  
+    ->andWhere('m.id = :user_id')  
+    ->setParameter('user_id', $user_id)
+    ->getQuery()
+    ->getResult();
+}
+
+public function searchProjects(?string $query): array
+{
+    // Si la requête de recherche est vide on retourne un tableau vide, ça facilite le traitement et la mise en page
+    if (!$query) {
+        return [];
+    }
+
+    return $this->createQueryBuilder('p')
+        // On recherche dans les champs projectName et description
+        ->where('p.projectName LIKE :query OR p.description LIKE :query')
+        // On utilise %query% comme parametre de recherche
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+}
+
+
 
 
 //    /**

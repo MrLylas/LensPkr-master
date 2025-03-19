@@ -4,7 +4,6 @@
 
 {% block body %}
     <h2>Jobs</h2>
-    <a href="{{ path('project_feed') }}" class="back-btn"><img src="{{ asset('images/back.png') }}" alt="Back button"></a>
     {% for job in jobs %}
     {% if job.user.id != app.user.id %}
         <div class="jobcard">

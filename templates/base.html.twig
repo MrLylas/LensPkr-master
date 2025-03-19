@@ -16,16 +16,17 @@
         <nav class="navbar navbar-expand-lg">
             <div>
                 {% if app.user is not null %}
-                    <a href="{{path('project_feed')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                    <a href="{{path('recent_project')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
                 {% else %}
                     <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
                 {% endif %}
             </div>
             <div class="nav-mid">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
-                </div>
+                <form class="input-group mb-3" action="{{ path('search') }}" method="get">
+                    {# On définit la valeur de la recherche le paramètre q de la requête #}
+                    <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
+                </form>
                 <div class="job-btns">                
                     {% if app.user is not null %}  
                     <a class="btn btn-primary" href="{{path('app_jobs', {'id': app.user.id})}}">Find Jobs</a>
@@ -69,6 +70,7 @@
         {############################################################## Sidebar ########################################################}
         {% if app.user is not null %}  
         <button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.png') }}" alt="Menu Burger"></button>
+        <input class="back-btn" type="button" onclick="window.history.back()" value="Back">
         {% endif %}
         {# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
 
@@ -97,11 +99,11 @@
                     <hr>
                     <div class="aside-content">
                         <a href="{{path('new_project')}}">New Project</a><br>
-                        <a href="{{path('project_feed')}}">Récents</a><br>
-                        <a href="">Popular</a><br>
-                        <a href="">Followed</a><br>
-                        <a href="">My Projects</a><br>
-                        <a href="">My Team's Projects</a><br>
+                        <a href="{{path('recent_project')}}">Récents</a><br>
+                        <a href="{{path('popular_project')}}">Popular</a><br>
+                        <a href="{{path('liked_project')}}">Liked</a><br>
+                        <a href="{{path('my_projects')}}">My Projects</a><br>
+                        <a href="{{path('teams_projects')}}">My Team's Projects</a><br>
                     </div>
                 </div>
                 <div class="aside-block">
@@ -109,10 +111,10 @@
                     <hr>
                     <div class="aside-content">
                         <a href="{{path('new_team')}}">New Team</a><br>
-                        <a href="{{path('team_feed')}}">Recents Teams</a><br>
-                        <a href="">My Teams</a><br>
-                        <a href="">Popular Teams</a><br>
-                        <a href="">Followed Teams</a><br>
+                        <a href="{{path('recent_team')}}">Recents Teams</a><br>
+                        <a href="{{path('my_teams')}}">My Teams</a><br>
+                        <a href="{{path('popular_teams')}}">Popular Teams</a><br>
+                        <a href="{{path('followed_teams')}}">Followed Teams</a><br>
                     </div>
                 </div>
                 <footer class="aside-block">

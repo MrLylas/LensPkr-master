@@ -3,9 +3,13 @@
 {% block body %}
 <a href="" class="edit-btn"><img src="{{ asset('images/hand.png') }}" alt="Skills button"></a>
 <div class="banner">
-    <img class="cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="">
+    <img class="img-fluid cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="">
     <div class="user-pic">
-        <img class="profile-pic" src="{{ asset('uploads/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+        {% if user.profilePic %}  
+            <img class="profile-pic" src="{{ asset('uploads/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+        {% else %}
+            <img class="profile-pic default" src="{{ asset('../images/default_user.jpg') }}" alt="Default profile pic">
+        {% endif %}
     </div>
 </div>
 <div class="filter-card">
@@ -20,6 +24,5 @@
         <button type="submit">Ajouter cette personne</button>
     </form>
     {% endif %}
-
 </div>
 {% endblock %}

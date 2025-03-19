@@ -13,7 +13,9 @@ use App\Repository\UserRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\TextUI\XmlConfiguration\File;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,14 +24,66 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TeamController extends AbstractController
 {
-    #[Route('/team', name: 'team_feed')]
-    public function index(EntityManagerInterface $entityManager): Response
+    #[Route('/team', name: 'recent_team')]
+    public function index(TeamRepository $teamRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        // Récupérer les équipes
-        $teams = $entityManager->getRepository(Team::class)->findAll();
-        // Afficher les équipes
-        return $this->render('team/recent.html.twig', [
-            'controller_name' => 'TeamController',
+        $teams = $teamRepository->recentsTeams();
+
+        $teams = $paginator->paginate(
+            $teams,
+            $request->query->getInt('page', 1),
+            5
+        );
+
+        return $this->render('team/index.html.twig', [
+            'teams' => $teams
+        ]);
+    }
+    #[Route('/team/MyTeams', name: 'my_teams')]
+    public function myTeams(TeamRepository $teamRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $teams = $teamRepository->myTeams($user_id);
+
+        $teams = $paginator->paginate(
+            $teams,
+            $request->query->getInt('page', 1),
+            5
+        );
+
+        return $this->render('team/index.html.twig', [
+            'teams' => $teams
+        ]);
+    }
+
+    #[Route('/team/PopularTeams', name: 'popular_teams')]
+    public function popularTeams(TeamRepository $teamRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $teams = $teamRepository->popularTeams();
+        
+        $teams = $paginator->paginate(
+            $teams,
+            $request->query->getInt('page', 1),
+            5
+        );
+        return $this->render('team/index.html.twig', [
+            'teams' => $teams
+        ]);
+    }
+
+    #[Route('/team/FollowedTeams', name: 'followed_teams')]
+    public function followedTeams(TeamRepository $teamRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $teams = $teamRepository->followedTeams($user_id);
+
+        $teams = $paginator->paginate(
+            $teams,
+            $request->query->getInt('page', 1),
+            5
+        );
+
+        return $this->render('team/index.html.twig', [
             'teams' => $teams
         ]);
     }
@@ -70,7 +124,7 @@ final class TeamController extends AbstractController
             $entityManager->persist($newTeam);
             $entityManager->flush();
             // Redirection vers le feed d'equipe
-            return $this->redirectToRoute('team_feed');
+            return $this->redirectToRoute('recent_team');
         }
         // Afficher le formulaire
         return $this->render('team/new.html.twig', [

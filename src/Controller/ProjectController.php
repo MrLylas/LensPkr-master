@@ -6,7 +6,6 @@ use Dom\Entity;
 use App\Entity\Image;
 use PHPUnit\Util\Json;
 use App\Entity\Project;
-// use App\Entity\ProjectImage;
 use App\Form\ProjectType;
 use App\Entity\ProjectImage;
 use App\Service\FileUploader;
@@ -14,6 +13,7 @@ use App\Form\ProjectImageType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,13 +24,85 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProjectController extends AbstractController
 {
-    #[Route('/project', name: 'project_feed')]
-    public function index(EntityManagerInterface $entityManager): Response
+    #[Route('/project', name: 'recent_project')]
+    public function index(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $projects = $entityManager->getRepository(Project::class)->findAll();
+        $projects = $projectRepository->RecentProjects();
+
+        $projects = $paginator->paginate(
+            $projects, 
+            $request->query->getInt('page', 1), 
+            6
+        );
 
         return $this->render('project/index.html.twig', [
-            'controller_name' => 'ProjectController',
+            'projects' => $projects
+        ]);
+    }
+    #[Route('/project/MyProjects', name: 'my_projects')]
+    public function show(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $projects = $projectRepository->MyProjects($user_id);
+
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render('project/index.html.twig', [
+            'projects' => $projects
+        ]);
+    }
+    #[Route('/project/TeamsProjects', name: 'teams_projects')]
+    public function showTeamsProject(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $projects = $projectRepository->MyTeamsProjects($user_id);
+
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render('project/index.html.twig', [
+            'projects' => $projects
+        ]);
+    }
+    #[Route('/project/popular', name: 'popular_project')]
+    public function projectPopular(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $projects = $projectRepository->PopularProjects();
+
+        
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render('project/index.html.twig',[
+            'projects' => $projects
+        ]);
+    }
+
+    #[Route('/project/liked', name: 'liked_project')]
+    public function projectLiked(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $user_id = $this->getUser()->getId();
+
+        $projects = $projectRepository->likedProjects($user_id);
+
+        
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render('project/index.html.twig', [
             'projects' => $projects
         ]);
     }
@@ -172,8 +244,5 @@ final class ProjectController extends AbstractController
                                 'liked' => $project->getLikes()->contains($user)
                                 ]);
     }
-
-    
-    
 }
  
