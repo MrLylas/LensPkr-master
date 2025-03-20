@@ -95,7 +95,6 @@ public function searchProjects(?string $query): array
 
 
 
-
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */

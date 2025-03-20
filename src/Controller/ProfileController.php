@@ -27,6 +27,22 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ProfileController extends AbstractController
 {
+    #[Route('/profile/users', name: 'list_users')]
+    public function listUsers(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAll();
+        return $this->render('profile/users.html.twig', [
+            'users' => $users,
+        ]);
+    }
+    #[Route('/profile/my-profile', name: 'my_profile')]
+    public function myProfile(): Response
+    {
+        $user = $this->getUser();
+        return $this->render('profile/index.html.twig', [
+            'user' => $user,
+        ]);
+    }
 
     #[Route('/profile/{pseudo}', name: 'app_profile')]
     public function index($pseudo, EntityManagerInterface $entityManager): Response

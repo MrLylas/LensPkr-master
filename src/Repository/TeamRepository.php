@@ -59,7 +59,7 @@ class TeamRepository extends ServiceEntityRepository
     }
     public function searchTeams(?string $query): array
     {
-        
+
     if (!$query) {
         return [];
     }

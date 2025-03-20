@@ -3,6 +3,11 @@
 {% block title %}Hello TeamController!{% endblock %}
 
 {% block body %}
+<form class="input-group mb-3" action="{{ path('team_search') }}" method="get">
+    {# On définit la valeur de la recherche le paramètre q de la requête #}
+    <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
+    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
+</form>
 <div class="team-wrapper">
 {% for team in teams %}
     <a href="{{path('team_show', {'id': team.id})}}" class="team-card">

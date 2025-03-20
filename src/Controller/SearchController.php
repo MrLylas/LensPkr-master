@@ -14,38 +14,68 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'search')]
-    public function search(Request $request, ProjectRepository $projectRepository, TeamRepository $teamRepository, UserRepository $userRepository,PaginatorInterface $paginator): Response
+    #[Route('/search/project/search', name: 'project_search')]
+    public function searchProject(Request $request, ProjectRepository $projectRepository,PaginatorInterface $paginator): Response
     {
         $query = $request->query->get('q'); // Récupère la requête de recherche
+        if ($query == "") {
+            return $this->redirectToRoute('recent_project');
+        }
     
         $projects = $projectRepository->searchProjects($query);
-        $teams = $teamRepository->searchTeams($query);
-        $userList = $userRepository->searchUsers($query);
-    
+
         $projects = $paginator->paginate(
-            $projects,
+            $projects, 
             $request->query->getInt('page', 1),
-            5
-        );
-    
-        $teams = $paginator->paginate(
-            $teams,
-            $request->query->getInt('page', 1),
-            5
-        );
-    
-        $userList = $paginator->paginate(
-            $userList,
-            $request->query->getInt('page', 1),
-            5
-        );
-    
-        return $this->render('search/results.html.twig', [
+             6);
+
+        return $this->render('project/index.html.twig', [
             'projects' => $projects,
-            'teams' => $teams,
-            'query' => $query,
-            'userList' => $userList
+            'query' => $query
         ]);
-    }    
+        
+    }
+
+    #[Route('/search/team/search', name: 'team_search')]
+    public function searchTeam(Request $request,TeamRepository $teamRepository,PaginatorInterface $paginator): Response
+    {
+        $query = $request->query->get('q'); // Récupère la requête de recherche
+        if ($query == "") {
+            return $this->redirectToRoute('recent_team');
+        }
+    
+        $teams = $teamRepository->searchTeams($query);
+
+        $teams = $paginator->paginate(
+            $teams, 
+            $request->query->getInt('page', 1),
+             5);
+
+        return $this->render('team/index.html.twig', [
+            'teams' => $teams,
+            'query' => $query
+        ]);
+        
+    }
+
+    #[Route('/search/user/search', name: 'user_search')]
+    public function searchUser(Request $request,UserRepository $userRepository,PaginatorInterface $paginator): Response
+    {
+        $query = $request->query->get('q'); // Récupère la requête de recherche
+        if ($query == "") {
+            return $this->redirectToRoute('list_users');
+        }
+        $userList = $userRepository->searchUsers($query);
+
+        $userList = $paginator->paginate(
+            $userList, 
+            $request->query->getInt('page', 1),
+             3);
+
+        return $this->render('profile/users.html.twig', [
+            'users' => $userList,
+            'query' => $query
+        ]);
+        
+    }
 }
