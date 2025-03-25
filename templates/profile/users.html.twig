@@ -14,7 +14,7 @@
         <ul>
             {% for user in users %}
                 <li>
-                    <a href="{{ path('app_profile', {'pseudo': user.pseudo}) }}">{{ user.name }}{{" "}}{{ user.forename }}</a>
+                    <a href="{{ path('app_profile', {'pseudo': user.pseudo}) }}">{{ user.pseudo }}</a>
                 </li>
             {% endfor %}
         </ul>

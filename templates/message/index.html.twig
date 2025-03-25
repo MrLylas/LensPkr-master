@@ -3,19 +3,17 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-<h2 class="text-center">Messagerie</h2>
-    <div class="mail-info">
-        <div class="box">
-            <a href="{{ path('send') }}" class="btn send">Envoyer un message</a>  
-        </div>
-        <div class="box">
-            <p>Reçus : {{ app.user.received|length }}</p>
-            <a href="{{ path('received') }}" class="btn mailbox">Boîte de réception</a> 
-        </div>
-        <div class="box"> 
-            <p>Envoyés : {{ app.user.sent|length }}</p>
-            <a href="{{ path('sent') }}" class="btn sendbox">Boîte d'envoi</a>  
-        </div>
-    </div>
+{% for message in messages %}
+<div class="message-container">
+    {% if message.isRead == false %}
+       {% set bold = 'fw-bold' %} 
+    {% else %}
+       {% set bold = '' %}
+   {% endif %}
+        <div class="{{bold}}">From : {{ message.sender.email }}</div>
+        <div class="{{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
+        <div class="{{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
+        <div class="{{bold}}"><a href="{{ path('received_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
 </div>
+{% endfor %}
 {% endblock %}

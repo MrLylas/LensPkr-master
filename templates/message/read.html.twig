@@ -7,12 +7,12 @@
 {# <div class="example-wrapper"> #}
 <div class="reader">
     <h2>{{ message.title }}</h2>
-    <p>Message de : <a href="{{path('app_profile', {'id': message.sender.id})}}">{{ message.sender.email }}</a></p>
+    <p>Message de : <a href="{{path('app_profile', {'pseudo': message.sender.pseudo})}}">{{ message.sender.email }}</a></p>
     <p>{{ message.message }}</p>
     <p>{{message.createdAt | date('d/m/Y')}}</p>
     <div class="action-btn">
         <a class="btn btn-primary" href="{{path('reply', {'id': message.sender.id})}}">Repondre</a> 
-        <a class="btn btn-danger" href="{{path('delete', {'id': message.id})}}">Supprimer</a>
+        <a class="btn btn-danger" href="{{path('received_delete', {'id': message.id})}}">Supprimer</a>
     </div>
 </div>
 {# </div> #}

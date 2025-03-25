@@ -11,7 +11,9 @@ use Doctrine\ORM\Mapping\Entity;
 use App\Repository\AskRepository;
 use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,19 +24,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class JobController extends AbstractController
 {
     #[Route('/job/{id}', name: 'app_jobs')]
-    public function index(JobRepository $repository, EntityManagerInterface $entityManager): Response
+    public function index(JobRepository $repository,Request $request,EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
-        //Version findAll() :
-        // EntityManagerInterface $entityManager
-        // $jobs = $entityManager->getRepository(Job::class)->findAll();
-        
-        //Tentative de pagination: 
-        
-        // Récupérer la page actuelle depuis la requête. Si aucune page n'est fournie, la page par défaut est 1
-        // $page = $request->query->getInt('page', 1);
 
-        $jobs = $repository->findAll();
+        $jobs = $repository->recentsJobs();
         $asks = $entityManager->getRepository(Ask::class)->findAll();
 
         //On effectue un ternaire nous permettant de récupérer l'utilisateur en session si il est connecté 
@@ -46,14 +40,12 @@ final class JobController extends AbstractController
         //  on transforme `appliedAsks` en un tableau contenant uniquement les IDs des jobs déjà postulés
         $appliedJobIds = array_map(fn($ask) => $ask->getJob()->getId(), $appliedAsks);
 
-
-        // dd($user);
-        
-
-        //Définition du nombre de pages, ceil() arrondit au nombre entier le plus proche
-        // $maxPage = ceil($jobs->count() / 2);
-
-
+        $jobs = $paginator->paginate(
+            $jobs, 
+            $request->query->getInt('page', 1),
+             5
+            )
+        ;
         return $this->render('job/index.html.twig', [
             'controller_name' => 'JobController',
             'user' => $user,
@@ -61,8 +53,6 @@ final class JobController extends AbstractController
             'jobs' => $jobs,
             'asks' => $asks,
             'appliedAsks' => $appliedJobIds,
-            // 'maxPage' => $maxPage,
-            // 'page' => $page
         ]);
     }
 

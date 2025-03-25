@@ -5,7 +5,11 @@
 {% block body %}
 <style>
 </style>
-
+<form class="input-group mb-3" action="{{ path('received_message_search') }}" method="get">
+    {# On définit la valeur de la recherche le paramètre q de la requête #}
+    <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
+    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
+</form>
 <h2>Messages</h2>
 {% for message in app.user.received %}
 <div class="message-container">

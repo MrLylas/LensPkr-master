@@ -3,7 +3,7 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-<h2 class="text-center">Boite de reception</h2>
+<h2 class="text-center">Boite d'envoi</h2>
 <p>Vous avez envoyé {{ app.user.sent|length }} messages</p>
 {% if app.user.sent|length > 0 %}
     <div class="col-3">De</div>
@@ -19,7 +19,7 @@
                 {% endif %}
                 <div class="col-3 {{bold}}">{{ message.sender.email }}</div>
                 <div class="col-3 {{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
-                <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
+                <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y h:i') }}</div>
                 <div class="col-3"><a href="{{ path('sent_delete', {'id': message.id}) }}">Delete</a></div>
             </div>
             {% endfor %}

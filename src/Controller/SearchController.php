@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Repository\SearchRepository;
+use App\Repository\MessageRepository;
 use App\Repository\ProjectRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -74,6 +76,53 @@ final class SearchController extends AbstractController
 
         return $this->render('profile/users.html.twig', [
             'users' => $userList,
+            'query' => $query
+        ]);
+        
+    }
+    #[Route('/search/message/search', name: 'received_message_search')]
+    public function searchReceivedMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator, int $id): Response
+    {
+        $id = $this->getUser()->getId();
+        $query = $request->query->get('q'); // Récupère la requête de recherche
+        if ($query == "") {
+            return $this->redirectToRoute('received_message');
+        }
+    
+        $messages = $messageRepository->findReceivedMessage($query);
+
+        $messages = $paginator->paginate(
+            $messages, 
+            $request->query->getInt('page', 1),
+             5);
+
+        return $this->render('message/index.html.twig', [
+            'id' => $id,
+            'messages' => $messages,
+            'query' => $query
+        ]);
+        
+    }
+
+    #[Route('/search/message/search/sent', name: 'sent_message_search')]
+    public function searchSentMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator, int $id): Response
+    {
+        $id = $this->getUser()->getId();
+        $query = $request->query->get('q'); // Récupère la requête de recherche
+        if ($query == "") {
+            return $this->redirectToRoute('sent_message');
+        }
+    
+        $messages = $messageRepository->findSentMessage($query);
+
+        $messages = $paginator->paginate(
+            $messages, 
+            $request->query->getInt('page', 1),
+             5);
+
+        return $this->render('message/index.html.twig', [
+            'id' => $id,
+            'messages' => $messages,
             'query' => $query
         ]);
         
