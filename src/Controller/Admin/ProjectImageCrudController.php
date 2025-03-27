@@ -2,30 +2,30 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
+use App\Entity\Image;
+use App\Entity\ProjectImage;
+use Doctrine\Common\Collections\Collection;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
-class UserCrudController extends AbstractCrudController
+class ProjectImageCrudController extends AbstractCrudController
 {
     use Trait\ReadOnlyTrait;
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return ProjectImage::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
-            TextField::new('pseudo'),
-            TextField::new('name'),
-            TextField::new('forename'),
-            ImageField::new('profile_pic'),
-            ImageField::new('banner'),
+            ImageField::new('image'),
+            TextField::new('project'),
         ];
     }
 }
