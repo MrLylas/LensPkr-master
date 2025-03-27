@@ -10,46 +10,36 @@
         <img class="banner-img" src="{{ asset('uploads/' ~ team.teamBanner) }}" alt="Project banner">
         <div class="banner-filter"></div>
         <h2>{{ team.name }}</h2>
-    <div class="team-page">
-        <span>{{ team.createdAt|date("H:i m/d/Y") }}</span>
-        {% if  followers|length != 0 %}
-        <p>{{ followers|length}} Follower(s)</p>
-        {% else %}
-        <p>No followers</p>
-        {% endif %}
-        <p>{{ team.description }}</p>
-    </div>
-    <div class="team-projects">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% if app.user.followedTeams.contains(team) %}
-            <a class="unfollow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Unfollow</a>
-        {% else %}
-            <a class="follow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Follow</a>
-        {% endif %}
-        {% endif %}
-        {% for project in projects %}
-        {# <div class="project-card">
-            <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
-            <p>{{ project.projectName}}</p>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.followedTeams.contains(team) %}
+        <a class="unfollow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Unfollow</a>
+    {% else %}
+        <a class="follow-btn" href="{{ path('team_follow', {'id': team.id}) }}">Follow</a>
+    {% endif %}
+    {% endif %}
+</div>
+<div class="team-page">
+    <span>{{ team.createdAt|date("H:i m/d/Y") }}</span>
+    {% if  followers|length != 0 %}
+    <p>{{ followers|length}} Follower(s)</p>
+    {% else %}
+    <p>No followers</p>
+    {% endif %}
+    <p>{{ team.description }}</p>
+</div>
+<div class="team-projects">
+    {% for project in projects %}
+    <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
+        <div class="list-project">
+            <img class="list-team-pic" src="{{ asset('uploads/' ~ project.creator.profilePic)}}" alt="Team\'s profile picture">
+            <h3>{{ project.projectName}}</h3>
+        </div>
+        <div class="list-description">
             <p>{{ project.description }}</p>
-            {% if project.projectImages.first() is not empty %}
-                <img src="{{ asset('uploads/' ~ project.projectImages.first().name) }}" alt="Project Image">
-            {% else %}
-                <img src="{{ asset('images/Frame.png') }}" alt="Default Image">
-            {% endif %}
-        </div> #}
-        <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
-            <div class="list-project">
-                <img class="list-team-pic" src="{{ asset('uploads/' ~ team.teamPic)}}" alt="Team\'s profile picture">
-                <h3>{{ project.projectName}}</h3>
-            </div>
-            <div class="list-description">
-                <p>{{ project.description }}</p>
-            </div>
-            <img class="list-banner-pic" src="{{ asset('images/Frame.png') }}" alt="Team\'s banner picture">
-        </a>
-        {% endfor %}
-    </div>
+        </div>
+        <img class="list-banner-pic" src="{{ asset('images/Frame.png') }}" alt="Team\'s banner picture">
+    </a>
+    {% endfor %}
 </div>
 {% endblock %}
 

@@ -7,12 +7,13 @@
         <meta name="description" content="{{meta_description}}">
         {% endif %}
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
         {% block stylesheets %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {% endblock %}
     </head>
     <body>
@@ -20,7 +21,7 @@
         <nav class="navbar navbar-expand-lg">
             <div>
                 {% if app.user is not null %}
-                    <a href="{{path('recent_project')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
+                    <a href="{{path('index_project')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
                 {% else %}
                     <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr"></a>
                 {% endif %}
@@ -113,7 +114,7 @@
                     <hr>
                     <div class="aside-content">
                         <a href="{{path('new_project')}}">New Project</a><br>
-                        <a href="{{path('recent_project')}}">Récents</a><br>
+                        <a href="{{path('index_project')}}">Récents</a><br>
                         <a href="{{path('popular_project')}}">Popular</a><br>
                         <a href="{{path('liked_project')}}">Liked</a><br>
                         <a href="{{path('my_projects')}}">My Projects</a><br>
@@ -131,19 +132,6 @@
                         <a href="{{path('followed_teams')}}">Followed Teams</a><br>
                     </div>
                 </div>
-                <footer class="aside-block">
-                    <div class="aside-title">General Terms and Conditions</div>
-                        <hr>
-                        <div class="aside-content">
-                            <a href="{{path('app_rules')}}">Rules</a><br>
-                            <a href="">Privacy Police</a><br>
-                            <a href="">User Contract</a><br>
-                            <a href="">About Us</a><br>
-                        </div>
-                        <hr>
-                    </div>
-                    <span>&copy; 2025 LensPkr by <br><a target="_blank" href="https://github.com/MrLylas">LeLylas</a></span>
-                </footer>
             </aside>
         {# </div> #}
   </div>
@@ -151,6 +139,46 @@
 </div>
 {% block body %}
 {% endblock %}
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col">
+                <h2>General Terms and Conditions</h4>
+                <ul>
+                    <li><a href="#">about us</a></li>
+                    <li><a href="#">User Contract</a></li>
+                    <li><a href="#">Privacy Police</a></li>
+                    <li><a href="{{path('app_rules')}}">Rules</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>Need Help</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Report Bugs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>follow us</h4>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank" aria-label="Link to our Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/?lang=fr" target="_blank" aria-label="Link to our Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Link to our Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="Link to our Linkedin"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>&copy; 2025 LensPkr by <br><a target="_blank" href="https://github.com/MrLylas" aria-label="Link to LeLylas Github">LeLylas</a></span>
+            </div>
+            <div class="footer-col">
+                <h2>contact us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa fa-phone" aria-label="Link to call us"></i></a>
+                    <a href="#"><i class="fa fa-envelope" aria-label="Link to send us an email"></i></a>
+                    <a href="https://google.com/maps/place/Village+du+P%C3%A8re+No%C3%ABl/@66.5436165,25.8446224,17z/data=!3m1!4b1!4m6!3m5!1s0x442b4e7e543e9979:0xd7f9b9e4341d7ed3!8m2!3d66.5436144!4d25.8471973!16s%2Fm%2F026b3cp?hl=fr&entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D" aria-label="Link to LensPkr on Google Maps" target="_blank"><i class="fa fa-map-marker"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 {############################################################## Content ########################################################}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

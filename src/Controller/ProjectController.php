@@ -10,9 +10,11 @@ use App\Form\ProjectType;
 use App\Entity\ProjectImage;
 use App\Service\FileUploader;
 use App\Form\ProjectImageType;
+use App\Form\ProjectFilterType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,19 +26,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProjectController extends AbstractController
 {
-    #[Route('/project', name: 'recent_project')]
-    public function index(ProjectRepository $projectRepository, Request $request, PaginatorInterface $paginator): Response
+    #[Route('/project', name: 'index_project')]
+    public function index(Request $request,PaginatorInterface $paginator, ProjectRepository $projectRepository): Response
     {
-        $projects = $projectRepository->RecentProjects();
+        $projects = $projectRepository->findAll();
 
         $projects = $paginator->paginate(
-            $projects, 
-            $request->query->getInt('page', 1), 
+            $projects,
+            $request->query->getInt('page', 1),
             6
         );
 
         return $this->render('project/index.html.twig', [
-            'projects' => $projects
+            'projects' => $projects,
         ]);
     }
     #[Route('/project/MyProjects', name: 'my_projects')]

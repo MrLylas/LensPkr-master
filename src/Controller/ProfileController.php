@@ -8,14 +8,18 @@ use App\Entity\User;
 use App\Entity\Level;
 use App\Entity\Skill;
 use App\Form\UserType;
+use App\Entity\Project;
 use App\Entity\UserSkill;
 use App\Entity\Speciality;
 use App\Form\UserSkillType;
 use App\Service\FileUploader;
+use App\Form\ProjectFilterType;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\UserRepository;
 use App\Repository\UserSkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,11 +40,21 @@ final class ProfileController extends AbstractController
         ]);
     }
     #[Route('/profile/my-profile', name: 'my_profile')]
-    public function myProfile(): Response
+    public function myProfile(PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
+        $projects = $user->getProjects();
+
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            3
+        );
+
+
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+            'projects' => $projects
         ]);
     }
 

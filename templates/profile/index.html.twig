@@ -12,8 +12,10 @@
         {% endif %}
     </div>
 </div>
+<h2>Projects</h2>
+<h3 class="project-title">Here are the projects that {{ user.name }}{{" "}}{{ user.forename }} has created</h3>
 <div class="filter-card">
-    {% if app.user and app.user.myTeams is not empty %}
+    {# {% if app.user and app.user.myTeams is not empty %}
     <form method="post" action="{{ path('team_add_member', {userId: user.id}) }}">
         <label for="team">Choisissez une équipe :</label>
         <select name="teamId" id="team" required>
@@ -23,6 +25,43 @@
         </select>
         <button type="submit">Ajouter cette personne</button>
     </form>
-    {% endif %}
+    {% endif %} #}
+    {# <label for="filter">Filter by : <input type="text" id="filter"></label> #}
+</div>
+<div class="wrapper">
+    {% for project in projects %}
+    <div class="project-box">
+        <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
+            <div class="card">
+                <div class="img-card">
+                    <img src="{{ asset('images/Actors.jpg') }}" alt="Actors">
+                </div>
+                <div class="label">
+                    <div class="creator">
+                        <div class="creator-pic">
+                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="">
+                        </div>
+                        <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
+                    </div>
+                    <h3>{{ project.projectName }}</h3>
+                </div>
+                <div class="date">
+                    <span>{{ project.createdAt|date("H:i m/d/Y") }}</span>
+                </div>
+                <div class="interact-btns">
+                </div>
+            </div>
+        </a>
+        <button class="like-btn" 
+            data-id="{{ project.id }}" 
+            data-token="{{ csrf_token('like' ~ project.id) }}">
+            <img src="{% if app.user and project.likes.contains(app.user) %}{{ asset('images/filledheart.svg') }}{% else %}{{ asset('images/heart.svg') }}{% endif %}" class="like-icon"/>
+            <span class="like-count">{{ project.getLikes|length }}</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+<div class="paginator">
+    {{ knp_pagination_render(projects) }}
 </div>
 {% endblock %}
