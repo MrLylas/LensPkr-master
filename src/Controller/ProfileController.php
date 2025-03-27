@@ -32,10 +32,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 final class ProfileController extends AbstractController
 {
     #[Route('/profile/users', name: 'list_users')]
-    public function listUsers(UserRepository $userRepository): Response
+    public function listUsers(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $users = $userRepository->findAll();
+        $users = $paginator->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('profile/users.html.twig', [
+            'meta_description' => 'User list',
             'users' => $users,
         ]);
     }
@@ -53,20 +59,29 @@ final class ProfileController extends AbstractController
 
 
         return $this->render('profile/index.html.twig', [
+            'meta_description' => 'Profile de ' . $user->getPseudo(),
             'user' => $user,
             'projects' => $projects
         ]);
     }
 
     #[Route('/profile/{pseudo}', name: 'app_profile')]
-    public function index($pseudo, EntityManagerInterface $entityManager): Response
+    public function index($pseudo, EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $entityManager->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]);
+        $projects = $user->getProjects();
+
         if (!$user) {
             throw new NotFoundHttpException('Utilisateur non trouvé');
         }
+        $projects = $paginator->paginate(
+            $projects,
+            $request->query->getInt('page', 1),
+            3
+        );
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
+            'meta_description' => 'Profile de ' . $user->getPseudo(),
+            'projects' => $projects,
             'user' => $user,
         ]);
     }
@@ -83,6 +98,7 @@ final class ProfileController extends AbstractController
         $levels = $entityManager->getRepository(Level::class)->findAll();
 
         return $this->render('profile/edit.html.twig', [
+            'meta_description' => 'Edit profile',
             'user' => $user,
             'userSkills' => $user->getUserSkills(),
             'skills' => $skills,
@@ -128,6 +144,7 @@ final class ProfileController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse([
+            'meta_description' => 'add skill',
             'success' => true,
             'message' => 'Compétence ajoutée',
             'skill' => $skill->getSkillName(),
@@ -195,7 +212,7 @@ final class ProfileController extends AbstractController
         $user = $this->getUser();
 
         return $this->render('profile/answers.html.twig', [
-            'controller_name' => 'UserSkillController',
+            'meta_description' => 'Answers',
             'user' => $user,
             'job' => $job
         ]);

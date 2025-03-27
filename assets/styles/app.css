@@ -5,6 +5,11 @@
     --main-color: #212020;
     --secondary-color: #E71D36 ;
     --tertiary-color: #F3EEEE;
+    --neon-secondary-color:rgb(226, 94, 94);
+    --secondary-neon:var(--secondary-color) 0px 0px 8px,
+                     var(--secondary-color) 0px 0px 8px,
+                     var(--secondary-color) 0px 0px 8px,
+                     var(--secondary-color) 0px 0px 8px;
 }
 
 h2{
@@ -750,6 +755,15 @@ ul{
     .user-pic{
         position: relative;
 
+        .profile-pic-filter{    
+            position: absolute;
+            top: -25vh;
+            left: 10vh;
+            height: 30vh;
+            width: 30vh;
+            border-radius: 50%;
+            background: linear-gradient(rgba(33, 32, 32, 0),rgba(33, 32, 32, 0.4), rgba(33, 32, 32, 1));
+        }
         .profile-pic{
             position: absolute;
             top: -25vh;
@@ -764,9 +778,146 @@ ul{
     }
     
 }
+.welcome-banner{
+    height: 30vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    h3{
+        position: absolute;
+        font-size: 6vw;
+        letter-spacing: 2px;
+        top: 2vh;
+        color: var(--neon-secondary-color);
+        text-shadow: var(--secondary-neon);
+    }
+
+    p{
+        position: absolute;
+        font-size: clamp(16px, 5vw, 40px);
+        letter-spacing: 2px;
+        top: 15vh;
+        color: var(--tertiary-color);
+        text-shadow: var(--secondary-neon);
+    }
+    .welcome-banner-filter{    
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 50vh;
+        width: 100%;
+        background: linear-gradient(rgba(33, 32, 32, 0.8), rgba(33, 32, 32, 1));
+        z-index: -1;
+    }
+    
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        animation: banner 7s ease-in-out infinite alternate;
+    }
+}
+@keyframes banner{
+    0%{
+        transform: translateX(0);
+    }
+    50%{
+        transform: translateX(-100vh); 
+    }
+    100%{
+        transform: translateX(100vh);
+    }
+}
+.info-user{
+    padding: 15px;
+    margin-top: 20px;
+    width: 100%;
+    gap: 20px;
+    .col{
+        border-radius: 5px;
+        width: fit-content;
+        border: var(--secondary-color) 1px solid;
+        padding: 10px;
+        li{
+            list-style: none;
+            h3{
+                color: var(--secondary-color);
+                font-size: medium;
+            }
+            width: fit-content;
+            color: var(--tertiary-color);
+        }
+    }
+}
 .project-title{
     text-align: center;
     color: var(--tertiary-color);
+}
+.find-user-title{
+    text-align: center;
+    color: var(--tertiary-color);
+    margin-bottom: 20px;
+    margin-top: 20px;
+    h2{
+        margin-bottom: 10px;
+        font-size: clamp(16px, 5vw, 40px);
+        color: var(--neon-secondary-color);
+        text-shadow: var(--secondary-neon);
+    }
+    p{
+        margin-top: 10px;
+        margin-bottom: 10vh;
+        color: var(--tertiary-color);
+        font-size: medium;
+        text-align: center;
+        font-weight: bold;
+    }
+}
+.user-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    .col{
+        a{
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+            img{
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+                object-fit: cover;
+            }
+            p{
+                color: var(--tertiary-color);
+                text-align: center;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-size: large;
+            }
+            &:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
+                scale: 1.1;
+
+                img{
+                    box-shadow: var(--tertiary-color) 5px 5px 5px;
+                }
+                p{
+                    color: var(--secondary-color);
+                }
+            }
+        }
+    }
 }
 /****************************** Skill *************************************************/
 .user-container{
@@ -774,93 +925,6 @@ ul{
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-
-    .user-info{
-        margin-top: 70px;
-        margin-left: 20px;
-        margin-bottom: 15px;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: var(--secondary-color) 5px 5px 5px;
-        width: 45%;
-        background-color: var(--main-color);
-        border: var(--secondary-color) 1px solid;
-
-            .edit-btns{
-                display: flex;
-                justify-content: flex-end;
-                margin: 5px;
-
-                a{
-                    color: var(--tertiary-color);
-                    border: var(--tertiary-color) 1px solid;
-                    padding: 5px;
-                    border-radius: 5px;
-                    box-shadow: var(--secondary-color) 3px 3px 3px;
-                }
-            }
-
-            h3{
-                color: var(--secondary-color);
-                margin-top: 8px;
-            }
-            p,a{
-                color: var(--tertiary-color);
-            }
-            a:hover{
-                cursor: url("../styles/images/pointer.svg"), pointer;
-                color: var(--secondary-color);
-                margin: 5px;
-            }
-            .form{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                .form-control{
-                    background-color: var(--tertiary-color);
-                }
-                .form-control:focus{
-                    border-color: var(--secondary-color);
-                    box-shadow: var(--secondary-color) 3px 3px 3px;
-                }
-            div{
-                color: var(--secondary-color);
-                margin: 5px;
-
-                label{
-                    margin: 5px;
-                }
-                input{
-                    background-color: var(--main-color);
-                    border: none;
-                    box-shadow: var(--secondary-color) 3px 3px 3px;
-                    color: var(--tertiary-color);
-                }
-                input:hover{
-                    cursor: url("../styles/images/pointer.svg"), pointer;
-                    scale: 1.1;
-                    transition: 150ms ease-in-out;
-                    box-shadow: var(--tertiary-color) 3px 3px 3px;
-
-                }
-                textarea{
-                    background-color: var(--main-color);
-                    border: none;
-                    box-shadow: var(--secondary-color) 3px 3px 3px;
-                    color: var(--tertiary-color);
-                    height: 200px;
-                    width: 100%;
-                }
-                textarea:hover{
-                    cursor: url("../styles/images/pointer.svg"), pointer;
-                    scale: 1.02;
-                    transition: 150ms ease-in-out;
-                    box-shadow: var(--tertiary-color) 3px 3px 3px;
-                }
-            }
-        }
-}
 }
 
 .container{

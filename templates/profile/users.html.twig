@@ -8,18 +8,25 @@
     <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
     <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
 </form>
-<h2>Users</h2>
-<div class="user-list">
-    {% if users is not empty %}
-        <ul>
+<div class="find-user-title">
+    <h2>Want to find a user?</h2>
+    <p>You can search for a user by typing their name in the search bar.</p>
+</div>
+<div class="user-list row">
+    {% if users %}
             {% for user in users %}
-                <li>
-                    <a href="{{ path('app_profile', {'pseudo': user.pseudo}) }}">{{ user.pseudo }}</a>
-                </li>
+            <div class="col">
+            <a href="{{ path('app_profile', {'pseudo': user.pseudo}) }}">
+                <img src="{{ asset('uploads/' ~ user.profilePic) }}" alt="Avatar">
+                <p>{{ user.pseudo }}</p>
+            </a>
+            </div>
             {% endfor %}
-        </ul>
     {% else %}
         <p>No users found.</p>
     {% endif %}
+</div>
+<div class="paginator">
+    {{ knp_pagination_render(users) }}
 </div>
 {% endblock %}

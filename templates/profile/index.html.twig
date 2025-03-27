@@ -3,31 +3,56 @@
 {% block body %}
 <a href="" class="edit-btn"><img src="{{ asset('images/hand.png') }}" alt="Skills button"></a>
 <div class="banner">
+    {% if user.banner %}    
+    <div class="banner-filter"></div>
     <img class="img-fluid cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="">
+    {% else %}
+    <div class="banner-filter"></div>
+    <img class="img-fluid cover" src="{{ asset('images/Frame.png') }}" alt="Default banner">
+    {% endif %}
     <div class="user-pic">
-        {% if user.profilePic %}  
-            <img class="profile-pic" src="{{ asset('uploads/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+        {% if user.profilePic %}
+        <img class="profile-pic" src="{{ asset('uploads/' ~ user.profilePic) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s profile picture">
+        <div class="profile-pic-filter"></div>  
         {% else %}
             <img class="profile-pic default" src="{{ asset('../images/default_user.jpg') }}" alt="Default profile pic">
+            <div class="profile-pic-filter"></div>
         {% endif %}
+    </div>
+</div>
+<div class="welcome-banner">
+    <img class="img-fluid" src="{{ asset('images/filmband.png') }}" alt="Welcome banner">
+    <div class="welcome-banner-filter"></div>
+    <h3>Welcome {{ app.user.pseudo }}</h3>
+    <p>Welcome to my profile</p>
+    <span>Here is my information</span>
+</div>
+<div class="info-user row">
+    <div class="col">
+        <div class="row">
+            <li><h3>Name</h3><p>{{ user.name }}</p></li>
+            <li><h3>Forename</h3>{{ user.forename }}</li>
+            <li><h3>Pseudo</h3>{{ user.pseudo }}</li>
+        </div>
+        <div class="row">            
+            <li><h3>Email</h3>{{ user.email }}</li>
+            <li><h3>Country</h3>{{ user.country }}</li>
+            <li><h3>City</h3>{{ user.city }}</li>
+        </div>
+    </div>
+    <div class="col">
+        <li><h3>About Me</h3>{{ user.biography }}</li>
+    </div>
+    <div class="col">
+        <li><h3>My skills</h3>
+            {# {% for skill in userSkills %}
+            <p>{{ skill.name }}</p>
+            {% endfor %} #}
+        </li>
     </div>
 </div>
 <h2>Projects</h2>
 <h3 class="project-title">Here are the projects that {{ user.name }}{{" "}}{{ user.forename }} has created</h3>
-<div class="filter-card">
-    {# {% if app.user and app.user.myTeams is not empty %}
-    <form method="post" action="{{ path('team_add_member', {userId: user.id}) }}">
-        <label for="team">Choisissez une équipe :</label>
-        <select name="teamId" id="team" required>
-            {% for team in app.user.myTeams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Ajouter cette personne</button>
-    </form>
-    {% endif %} #}
-    {# <label for="filter">Filter by : <input type="text" id="filter"></label> #}
-</div>
 <div class="wrapper">
     {% for project in projects %}
     <div class="project-box">

@@ -47,7 +47,7 @@ final class JobController extends AbstractController
             )
         ;
         return $this->render('job/index.html.twig', [
-            'controller_name' => 'JobController',
+            'meta_description' => 'Find your job here',
             'user' => $user,
             'user_id' => $user->getId(),
             'jobs' => $jobs,
@@ -94,7 +94,7 @@ final class JobController extends AbstractController
 
         return $this->render('job/detail.html.twig',
         [
-            'controller_name' => 'JobController',
+            'meta_description' => 'More details about the job',
             'user' => $user,
             'user_id' => $user->getId(),
             'job' => $job,
@@ -138,6 +138,7 @@ public function apply(Job $job, EntityManagerInterface $entityManager, Security 
     $this->addFlash('success', 'Votre candidature a été enregistrée.');
     return $this->redirectToRoute('app_jobs',
         [
+            'meta_description' => 'Apply to the job',
             'id' => $job->getId(),
             'appliedAsks' => $appliedAsks
         ]);

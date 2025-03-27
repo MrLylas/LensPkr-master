@@ -20,12 +20,12 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('pseudo'),
             TextField::new('name'),
             TextField::new('forename'),
-            ImageField::new('profile_pic'),
-            ImageField::new('banner'),
+            ImageField::new('profile_pic')->setUploadDir('public/uploads/')->setUploadedFileNamePattern('[randomhash].[extension]'),
+            ImageField::new('banner')->setUploadDir('public/uploads/')->setUploadedFileNamePattern('[randomhash].[extension]'),
         ];
     }
 }

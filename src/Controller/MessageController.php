@@ -16,17 +16,23 @@ final class MessageController extends AbstractController{
     #[Route('/message', name: 'app_message')]
     public function index(): Response
     {
-        return $this->render('message/index.html.twig');
+        return $this->render('message/index.html.twig', [
+            'meta_description' => 'Mailbox',
+        ]);
     }
     #[Route('/message/received', name: 'received')]
     public function received(): Response
     {
-        return $this->render('message/received.html.twig');
+        return $this->render('message/received.html.twig', [
+            'meta_description' => 'Received messages',
+        ]);
     }
     #[Route('/message/sent', name: 'sent')]
     public function sent(): Response
     {
-        return $this->render('message/sent.html.twig');
+        return $this->render('message/sent.html.twig', [
+            'meta_description' => 'Sent messages',
+        ]);
     }
 
     #[Route('/message/send', name: 'send')]
@@ -57,6 +63,7 @@ final class MessageController extends AbstractController{
         }
         // Affichage du formulaire
         return $this->render('message/send.html.twig', [
+            'meta_description' => 'Send a message',
             'form' => $form->createView(), 
         ]);
     }
@@ -94,6 +101,7 @@ final class MessageController extends AbstractController{
         }
         // Affichage du formulaire
         return $this->render('message/reply.html.twig', [
+            'meta_description' => 'Reply to a message',
             'form' => $form->createView(),
             
         ]);
@@ -129,7 +137,9 @@ final class MessageController extends AbstractController{
         // Enregistrement en BDD
         $entityManager->flush();
         // Redirection vers la page de messagerie
-        return $this->redirectToRoute('sent');
+        return $this->redirectToRoute('sent', [
+            'meta_description' => 'Delete a sent message',
+        ]);
     }
     #[Route('/message/receivedDelete/{id}', name: 'received_delete')]
     public function receivedDelete(Message $message, EntityManagerInterface $entityManager): Response
@@ -139,6 +149,8 @@ final class MessageController extends AbstractController{
         // Enregistrement en BDD
         $entityManager->flush();
         // Redirection vers la page de messagerie
-        return $this->redirectToRoute('received');
+        return $this->redirectToRoute('received', [
+            'meta_description' => 'Delete a received message',
+        ]);
     }
 }
