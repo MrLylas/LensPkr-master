@@ -1,23 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello JobController!{% endblock %}
-
 {% block body %}
+<div class="project-title">
     <h2>Jobs</h2>
+    <p>Need to find a job?</p>
+    <p>Apply to our job offers today and start your new career with only one click !</p>
+</div>
+<div class="offer-page row">
     {% for job in jobs %}
-    {% if job.user.id != app.user.id %}
-        <div class="jobcard">
-            <h2>{{ job.jobName }}</h2>
-            <p>{{ job.description }}</p>
-            {% if job.id in appliedAsks %}
-                <button disabled>Déjà postulé</button>
-            {% else %}
-                <a href="{{ path('apply_to_job', { 'id': job.id }) }}" class="btn btn-primary">Postuler</a>
-            {% endif %}
+    {# {% if app.user is not null %} #}
+        
+    {# {% if job.user.id != app.user.id %} #}
+    <div class="jobcard col">
+        <div class="apply-btn">
+            {# {% if job.id in appliedAsks %} #}
+            <button disabled>Déjà postulé</button>
+            {# {% else %} #}
+            <a href="{{ path('apply_to_job', { 'id': job.id }) }}" class="btn btn-primary">Postuler</a>
+            {# {% endif %} #}
+    {# {% endif %}  #}
         </div>
-    {% endif %}
+            <div class="description">
+                <h3>{{ job.jobName }}</h3>
+                <p>{{ job.description }}</p>
+            </div>
+            <div class="infos">
+                <div class="creator">
+                    <div class="creator-pic">
+                        <img src="{{ asset('uploads/' ~ job.user.profilePic) }}" alt="{{ job.user.name}}{{" "}}{{ job.user.foreName}}'s profile picture">
+                    </div>
+                    <p>{{ job.user.pseudo }}</p>
+                </div>
+                <div class="date">
+                    <span>{{ job.creation|date('d/m/Y') }}</span>
+                </div>
+            </div>
+            <div class="contract">
+                <span>Contract : {{ job.contract }}</span>
+                <span><i class="fas fa-map-marker-alt"></i>{{" "}}{{ job.location }}</span>
+            </div>
+        </div>
+    {# {% endif %} #}
     {% endfor %}
-    <div class="row">
-        {{ knp_pagination_render(jobs) }}
-    </div>
+</div>
+<div class="paginator">
+    {{ knp_pagination_render(jobs) }}
+</div>
 {% endblock %}

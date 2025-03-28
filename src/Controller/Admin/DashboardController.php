@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ask;
+use App\Entity\ContractType;
 use App\Entity\Job;
 use App\Entity\Team;
 use App\Entity\User;
@@ -53,5 +54,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Specialities', 'fas fa-list', Speciality::class);
         yield MenuItem::linkToCrud('Teams', 'fas fa-list', Team::class);
         yield MenuItem::linkToCrud('User Skills', 'fas fa-list', UserSkill::class);
+        yield MenuItem::linkToCrud('Contract Types', 'fas fa-list', ContractType::class);
     }
 }

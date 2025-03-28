@@ -27,25 +27,6 @@
                 {% endif %}
             </div>
             <div class="nav-right">
-                {% if app.user is not null %}        
-                    {# <a class="icons" href=""><img class="nav-icons" src="{{ asset('images/Chat.svg') }}" alt=""></a> #}
-                    <a class="log-icons" href="{{ path('logout') }}"><img src="{{ asset('images/online.svg') }}" alt="Logout"></a>
-                {% else %}
-                    <a class="log-icons" href="{{ path('app_login') }}"><img src="{{ asset('images/offline.svg') }}" alt="Login"></a>
-                {% endif %}
-                    {# Menu déroulant #}
-                    {# <div class="dropdown"> #}
-                        {# <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="nav-icons" src="{{ asset('images/Settings.svg') }}" alt="Settings"></a> #}
-                        {# <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Dropdown link
-                        </a> #}
-                        {# <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div> #}
-                {# {% endif %} #}
             </div>
         </nav>
         {% for message in app.flashes('success') %}

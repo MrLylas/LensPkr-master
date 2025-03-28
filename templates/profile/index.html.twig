@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<a href="" class="edit-btn"><img src="{{ asset('images/hand.png') }}" alt="Skills button"></a>
 <div class="banner">
     {% if user.banner %}    
     <div class="banner-filter"></div>
-    <img class="img-fluid cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="">
+    <img class="img-fluid cover" src="{{ asset('uploads/' ~ user.banner) }}" alt="{{ user.name }}{{" "}}{{ user.forename }}'s banner picture}}">
     {% else %}
     <div class="banner-filter"></div>
     <img class="img-fluid cover" src="{{ asset('images/Frame.png') }}" alt="Default banner">
@@ -64,7 +63,7 @@
                 <div class="label">
                     <div class="creator">
                         <div class="creator-pic">
-                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="">
+                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="{{ project.creator.name }}{{" "}}{{ project.creator.forename }}">
                         </div>
                         <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
                     </div>
@@ -80,7 +79,7 @@
         <button class="like-btn" 
             data-id="{{ project.id }}" 
             data-token="{{ csrf_token('like' ~ project.id) }}">
-            <img src="{% if app.user and project.likes.contains(app.user) %}{{ asset('images/filledheart.svg') }}{% else %}{{ asset('images/heart.svg') }}{% endif %}" class="like-icon"/>
+            <img src="{% if app.user and project.likes.contains(app.user) %}{{ asset('images/filledheart.svg') }}{% else %}{{ asset('images/heart.svg') }}{% endif %}" class="like-icon" alt="Like icon"/>
             <span class="like-count">{{ project.getLikes|length }}</span>
         </button>
     </div>

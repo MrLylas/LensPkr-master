@@ -8,6 +8,11 @@
     <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
     <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
 </form>
+<div class="project-title">
+    <h2>Want to find a project?</h2>
+    <p>You can search for a project by typing its name in the search bar or explore the list of recent projects.</p>
+    <p>Or create a new project <a href="{{ path('new_project') }}">here</a></p>
+</div>
 <div class="wrapper">
     {% for project in projects %}
     <div class="project-box">

@@ -32,6 +32,7 @@ final class SearchController extends AbstractController
              6);
 
         return $this->render('project/index.html.twig', [
+            'meta_description' => 'Search Projects',
             'projects' => $projects,
             'query' => $query
         ]);
@@ -54,6 +55,7 @@ final class SearchController extends AbstractController
              5);
 
         return $this->render('team/index.html.twig', [
+            'meta_description' => 'Search Teams',
             'teams' => $teams,
             'query' => $query
         ]);
@@ -75,6 +77,7 @@ final class SearchController extends AbstractController
              3);
 
         return $this->render('profile/users.html.twig', [
+            'meta_description' => 'Search Users',
             'users' => $userList,
             'query' => $query
         ]);
@@ -97,6 +100,7 @@ final class SearchController extends AbstractController
              5);
 
         return $this->render('message/index.html.twig', [
+            'meta_description' => 'Search Received Messages',
             'id' => $id,
             'messages' => $messages,
             'query' => $query
@@ -121,6 +125,7 @@ final class SearchController extends AbstractController
              5);
 
         return $this->render('message/index.html.twig', [
+            'meta_description' => 'Search Sent Messages',
             'id' => $id,
             'messages' => $messages,
             'query' => $query

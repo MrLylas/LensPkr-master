@@ -43,13 +43,13 @@ final class JobController extends AbstractController
         $jobs = $paginator->paginate(
             $jobs, 
             $request->query->getInt('page', 1),
-             5
+             6
             )
         ;
         return $this->render('job/index.html.twig', [
             'meta_description' => 'Find your job here',
             'user' => $user,
-            'user_id' => $user->getId(),
+            // 'user_id' => $user->getId(),
             'jobs' => $jobs,
             'asks' => $asks,
             'appliedAsks' => $appliedJobIds,
@@ -86,7 +86,7 @@ final class JobController extends AbstractController
         ]);
     }
 
-    #[Route('/job/detail/{id}/', name: 'app_job_detail')]
+    #[Route('/job/detail/{job_name}/', name: 'app_job_detail')]
     public function job_detail(Job $job, EntityManagerInterface $entityManager): Response
     {
         // Récupérer l'utilisateur en session
