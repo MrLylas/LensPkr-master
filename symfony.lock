@@ -38,6 +38,9 @@
             "./config/routes/easyadmin.yaml"
         ]
     },
+    "emileperron/tinymce-bundle": {
+        "version": "v3.1.2"
+    },
     "knplabs/knp-paginator-bundle": {
         "version": "v6.7.0"
     },

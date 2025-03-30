@@ -7,22 +7,20 @@
     <p>Apply to our job offers today and start your new career with only one click !</p>
 </div>
 <div class="offer-page row">
-    {% for job in jobs %}
-    {# {% if app.user is not null %} #}
-        
-    {# {% if job.user.id != app.user.id %} #}
+    {% for job in jobs %} 
+    {% if job.user.id != app.user.id %}
     <div class="jobcard col">
         <div class="apply-btn">
-            {# {% if job.id in appliedAsks %} #}
+            <a href="{{ path('app_job_detail', { 'job_name': job.jobName }) }} " class="btn btn-primary">See offer</a>
+            {% if job.id in appliedAsks %}
             <button disabled>Déjà postulé</button>
-            {# {% else %} #}
+            {% else %}
             <a href="{{ path('apply_to_job', { 'id': job.id }) }}" class="btn btn-primary">Postuler</a>
-            {# {% endif %} #}
-    {# {% endif %}  #}
+            {% endif %}
         </div>
             <div class="description">
                 <h3>{{ job.jobName }}</h3>
-                <p>{{ job.description }}</p>
+                <p>{{ job.description|raw }}</p>
             </div>
             <div class="infos">
                 <div class="creator">
@@ -40,7 +38,7 @@
                 <span><i class="fas fa-map-marker-alt"></i>{{" "}}{{ job.location }}</span>
             </div>
         </div>
-    {# {% endif %} #}
+    {% endif %}
     {% endfor %}
 </div>
 <div class="paginator">

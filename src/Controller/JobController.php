@@ -87,10 +87,12 @@ final class JobController extends AbstractController
     }
 
     #[Route('/job/detail/{job_name}/', name: 'app_job_detail')]
-    public function job_detail(Job $job, EntityManagerInterface $entityManager): Response
+    public function job_detail(Job $job ,EntityManagerInterface $entityManager, string $job_name): Response
     {
         // Récupérer l'utilisateur en session
         $user = $this->getUser();
+        $job = $entityManager->getRepository(Job::class)->findOneBy(['job_name' => $job_name]);
+        $appliedAsks = $user ? $entityManager->getRepository(Ask::class)->findBy(['user' => $user]) : [];
 
         return $this->render('job/detail.html.twig',
         [
@@ -98,6 +100,7 @@ final class JobController extends AbstractController
             'user' => $user,
             'user_id' => $user->getId(),
             'job' => $job,
+            'appliedAsks' => $appliedAsks
         ]
     );
     }

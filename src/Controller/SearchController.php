@@ -61,7 +61,6 @@ final class SearchController extends AbstractController
         ]);
         
     }
-
     #[Route('/search/user/search', name: 'user_search')]
     public function searchUser(Request $request,UserRepository $userRepository,PaginatorInterface $paginator): Response
     {
@@ -83,10 +82,11 @@ final class SearchController extends AbstractController
         ]);
         
     }
-    #[Route('/search/message/search', name: 'received_message_search')]
-    public function searchReceivedMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator, int $id): Response
+    //A REVOIR
+    #[Route('/search/message/search/received/', name: 'received_message_search')]
+    public function searchReceivedMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator): Response
     {
-        $id = $this->getUser()->getId();
+        // $id = $this->getUser()->getId();
         $query = $request->query->get('q'); // Récupère la requête de recherche
         if ($query == "") {
             return $this->redirectToRoute('received_message');
@@ -99,19 +99,20 @@ final class SearchController extends AbstractController
             $request->query->getInt('page', 1),
              5);
 
+
         return $this->render('message/index.html.twig', [
             'meta_description' => 'Search Received Messages',
-            'id' => $id,
+            // 'id' => $id,
             'messages' => $messages,
             'query' => $query
         ]);
         
     }
-
-    #[Route('/search/message/search/sent', name: 'sent_message_search')]
-    public function searchSentMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator, int $id): Response
+    //A REVOIR
+    #[Route('/search/message/search/sent/', name: 'sent_message_search')]
+    public function searchSentMessage(Request $request,MessageRepository $messageRepository,PaginatorInterface $paginator): Response
     {
-        $id = $this->getUser()->getId();
+        // $id = $this->getUser()->getId();
         $query = $request->query->get('q'); // Récupère la requête de recherche
         if ($query == "") {
             return $this->redirectToRoute('sent_message');
@@ -126,7 +127,7 @@ final class SearchController extends AbstractController
 
         return $this->render('message/index.html.twig', [
             'meta_description' => 'Search Sent Messages',
-            'id' => $id,
+            // 'id' => $id,
             'messages' => $messages,
             'query' => $query
         ]);

@@ -6,6 +6,7 @@ use App\Entity\Job;
 use App\Entity\User;
 use App\Entity\Speciality;
 use App\Entity\ContractType;
+use EmilePerron\TinymceBundle\Form\Type\TinymceType;
 use PhpParser\Builder\Enum_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,12 @@ class PostJobType extends AbstractType
     {
         $builder
             ->add('job_name')
-            ->add('description')
+            ->add('description', TinymceType::class, [
+                'attr' => [
+                    "toolbar" => "bold italic underline | bullist numlist",
+                    "menubar" => false
+                ]
+            ])
             ->add('begin')
             ->add('finish')
             ->add('location')

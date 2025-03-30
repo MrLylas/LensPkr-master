@@ -3,24 +3,27 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-<h2 class="text-center">Boite d'envoi</h2>
-<p>Vous avez envoyé {{ app.user.sent|length }} messages</p>
+<div class="title">
+    <h2 class="text-center">Boite d'envoi</h2>
+    <p>Vous avez envoyé {{ app.user.sent|length }} messages</p>
+</div>
+<form class="input-group mb-3" action="{{ path('sent_message_search') }}" method="get">
+    {# On définit la valeur de la recherche le paramètre q de la requête #}
+    <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
+    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
+</form>
 {% if app.user.sent|length > 0 %}
-    <div class="col-3">De</div>
-    <div class="col-3">Sujet</div>
-    <div class="col-3">Date</div>
-    <div class="col-3">Actions</div>
-        {% for message in app.user.sent %}
+{% for message in app.user.sent %}
             <div class="message-container">
         {% if message.isRead == false %}
                     {% set bold = 'fw-bold' %}
                 {% else %}
                     {% set bold = '' %}
                 {% endif %}
-                <div class="col-3 {{bold}}">{{ message.sender.email }}</div>
-                <div class="col-3 {{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
+                <div class="col-3 {{bold}}">From : {{ message.sender.email }}</div>
+                <div class="col-3 {{bold}}">Object : <a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
                 <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y h:i') }}</div>
-                <div class="col-3"><a href="{{ path('sent_delete', {'id': message.id}) }}">Delete</a></div>
+                <div class="col-3"><a href="{{ path('sent_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
             </div>
             {% endfor %}
 {% else %}

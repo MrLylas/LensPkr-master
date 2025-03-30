@@ -27,6 +27,14 @@
                 {% endif %}
             </div>
             <div class="nav-right">
+                <div class="btn-group dropstart">
+                    <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
         {% for message in app.flashes('success') %}

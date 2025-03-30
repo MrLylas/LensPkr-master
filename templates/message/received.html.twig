@@ -3,25 +3,23 @@
 {% block title %}Hello MessageController!{% endblock %}
 
 {% block body %}
-<style>
-</style>
+<h2>Reception box</h2>
 <form class="input-group mb-3" action="{{ path('received_message_search') }}" method="get">
     {# On définit la valeur de la recherche le paramètre q de la requête #}
     <input type="text" name="q" class="form-control" placeholder="Search" value="{{ app.request.query.get('q') }}" aria-label="Example text with button addon" aria-describedby="button-addon1">
     <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Search</button>
 </form>
-<h2>Messages</h2>
 {% for message in app.user.received %}
-<div class="message-container">
+<div class="message-container row">
     {% if message.isRead == false %}
        {% set bold = 'fw-bold' %} 
     {% else %}
        {% set bold = '' %}
    {% endif %}
-        <div class="{{bold}}">From : {{ message.sender.email }}</div>
-        <div class="{{bold}}"><a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
-        <div class="{{bold}}">{{ message.createdAt|date('d/m/Y') }}</div>
-        <div class="{{bold}}"><a href="{{ path('received_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
+        <div class="{{bold}} col">From : {{ message.sender.email }}</div>
+        <div class="{{bold}} col">Object : <a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
+        <div class="{{bold}} col">{{ message.createdAt|date('d/m/Y') }}</div>
+        <div class="{{bold}} col"><a href="{{ path('received_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
     </div>
     {% endfor %}
 {% endblock %}

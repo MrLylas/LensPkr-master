@@ -16,29 +16,24 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function findReceivedMessage(?string $query, int $id): array
+    public function findReceivedMessage(?string $query): array
     {
-        if (!is_null($query) && !is_string($query)) {
-            throw new \InvalidArgumentException('La chaîne de recherche doit être un string');
-        }
-        if (!is_int($id)) {
-            throw new \InvalidArgumentException('L\'ID doit être un entier');
-        }
-    
-        $queryBuilder = $this->createQueryBuilder('m')
-            ->innerJoin('m.sender', 's')
-            ->andWhere('m.sender = :id')
-            ->setParameter('id', $id);
-    
-        if ($query) {
-            $queryBuilder
-                ->andWhere("s.name LIKE :query OR s.pseudo LIKE :query OR s.forename LIKE :query OR s.email LIKE :query")
-                ->setParameter('query', '%' . $query . '%');
-        }
-    
-        return $queryBuilder
+        return $this->createQueryBuilder('m')
+            ->where('m.title LIKE :query')
+            ->setParameter( 'query', '%' . $query . '%')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
+    }
+    public function findSentMessage(?string $query): array
+    {
+        return $this->createQueryBuilder('m')
+            ->innerJoin('m.recipient', 'r')
+            ->where('r.name LIKE :query OR r.pseudo LIKE :query OR r.forename LIKE :query OR r.email LIKE :query OR m.title LIKE :query')
+            ->setParameter( 'query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
     }
     // public function findSentMessage(?string $query): array
     // {

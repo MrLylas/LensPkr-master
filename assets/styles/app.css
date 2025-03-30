@@ -301,8 +301,8 @@ body {
     align-items: center;
     padding: 0 20px;
     height: 50px;
-    background: linear-gradient(180deg, #F3EEEE 0%, var(--main-color) 100%);
     padding: 5px;
+    border-bottom: var(--secondary-color) 1px solid;
 
     .navbar-brand{
         margin-left: 10px;
@@ -360,31 +360,56 @@ body {
         .nav-right{
             display: flex;
             width: 15%;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-right: 10px;
-            .icons{
-                /* background-color: var(--main-color); */
-                border-radius: 50%;
-                padding: 6px;
-                /* box-shadow: var(--secondary-color) 2px 2px 2px; */
 
-                .nav-icons{
-                    height: 25px;
-                    width: 25px;
+                .btn-group{
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 20px;
+
+                    .dropdown-toggle{
+                        border: none;
+                        background-color: var(--main-color);
+                        color: var(--tertiary-color);
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        
+                            i{
+                                color: var(--secondary-color);
+                                margin-left: 5px;
+                                font-size: 20px;
+                            }
+
+                        &:hover{
+                            cursor: url("../styles/images/pointer.svg"), pointer;
+                            scale: 1.1;
+                            transition: 150ms ease-in-out;
+                        }
+                    }
+                    .dropdown-toggle::before{
+                        display: none;
+                    }
+                    .dropdown-menu{
+                        background-color: var(--main-color);
+                        border: var(--secondary-color) 1px solid;
+                        box-shadow: var(--secondary-color) 3px 3px 3px;
+
+                        .dropdown-item{
+                            color: var(--tertiary-color);
+                            text-decoration: none;
+                            transition: 150ms ease-in-out;
+
+                            &:hover{
+                                cursor: url("../styles/images/pointer.svg"), pointer;
+                                scale: 1.1;
+                                background-color: var(--secondary-color);
+                            }
+                        }
+                    }
+
                 }
-    
-            }
-            .icons:hover{
-                scale: 1.1;
-                cursor: url("../styles/images/pointer.svg"), pointer;
-                transition: 150ms ease-in-out;
-                box-shadow: var(--secondary-color) 3px 3px 3px;
-                background-color: var(--main-color);
-            }
-            .log-icons:hover{
-                cursor: url("../styles/images/pointer.svg"), pointer;
-            }
         }
 }
 
@@ -958,7 +983,6 @@ ul{
     align-items: center;
     margin-top: 50px;
     margin-bottom: 50px;
-
     h3{
         color: var(--secondary-color);
     }
@@ -967,13 +991,38 @@ ul{
     }
 }
 /****************************** Message *************************************************/
+.title{
+    text-align: center;
+    color: var(--tertiary-color);
+    margin-bottom: 20px;
+    margin-top: 20px;
+    h2{
+        margin-bottom: 10px;
+        font-size: clamp(16px, 5vw, 40px);
+        color: var(--neon-secondary-color);
+        text-shadow: var(--secondary-neon);
+    }
+    p{
+        margin-top: 10px;
+        margin-bottom: 10vh;
+        color: var(--tertiary-color);
+        font-size: medium;
+        text-align: center;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+}
 .message-container{
     display: flex;
     flex-direction: row;
+    text-align: center;
+    align-items: center;
     width: 80%;
     margin: 0 auto;
     justify-content: space-between;
-    box-shadow: var(--secondary-color) 5px 5px 5px;
+    border: var(--secondary-color) 1px solid;
+    padding: 10px;
+    border-radius: 5px;
     margin-top: 50px;
 
         div{
@@ -1066,7 +1115,62 @@ ul{
 }
 
 /****************************** Job *************************************************/
+.job-detail{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding-right:100px ;
+    padding-left:100px ;
 
+    .row{
+        display: flex;
+        padding: 2vh;
+        width: 100%;
+        h3{
+            color: var(--secondary-color);
+        }
+        p{
+            color: var(--tertiary-color);
+        }
+    }
+    .btns{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding: 2vh;
+        width: 100%;
+    }
+    .offer-card{
+        border: var(--secondary-color) 1px solid;
+        padding: 2vh;
+        width: 100%;
+        h3{
+            color: var(--secondary-color);
+        }
+        p{
+            color: var(--tertiary-color);
+        }
+    }
+    .btn{
+        width: 100px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--tertiary-color);
+        background-color: var(--main-color);
+        border: var(--secondary-color) 1px solid;
+        margin-bottom: 2px;
+        box-shadow: var(--secondary-color) 3px 3px 3px;
+    }
+    .btn:hover{
+        cursor: url("../styles/images/pointer.svg"), pointer;
+        color: var(--secondary-color);
+        background-color: var(--tertiary-color);
+    }
+}
 /****************************** Job List *************************************************/
 
 
@@ -1089,13 +1193,16 @@ ul{
         display: flex;
         flex-direction: column;
         border: var(--secondary-color) 1px solid;
+        border-radius: 5px;
         margin-top: 2vh;
-        padding: 10px;
+        padding: 2vh;
 
         .apply-btn{
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
 
             button{
                 background-color: var(--main-color);
@@ -1124,6 +1231,12 @@ ul{
         .description{
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 100%;
+            box-orient: vertical;
+            white-space: break-spaces;
+            margin-bottom: 1vh;
             h3{
                 
                 color: var(--secondary-color);
@@ -1131,15 +1244,8 @@ ul{
             }
         
             p{
-                
                 color: var(--tertiary-color);
                 width: fit-content;
-                overflow: hidden;
-                white-space: nowrap;
-                max-width: 100%;
-                box-orient: vertical;
-                white-space: break-spaces;
-                max-height: 21vh;
             }
         }
         .infos{

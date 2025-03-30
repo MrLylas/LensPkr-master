@@ -23,6 +23,14 @@ class JobRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function searchJobs(?string $query): array
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.job_name LIKE :query')
+            ->setParameter('query', "%$query%")
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Job[] Returns an array of Job objects
