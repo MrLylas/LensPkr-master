@@ -28,9 +28,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File ([
-                        'maxSize' => '3000k',
-                        'mimeTypes' => ['image/*',],
+                        'maxSize' => '5000k',
+                        'mimeTypes' => ['image/jpeg','image/png','image/webp'],
                         'mimeTypesMessage' => 'Please upload a valid Image File (jpg, jpeg, png, webp)',
+                        'maxSizeMessage' => 'The image file is too large . Allowed size is 5MB',
                         ])
                     ],
                 ])
@@ -40,9 +41,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File ([
-                        'maxSize' => '3000k',
-                        'mimeTypes' => ['image/*',],
+                        'maxSize' => '5000k',
+                        'mimeTypes' => ['image/jpeg','image/png','image/webp'],
                         'mimeTypesMessage' => 'Please upload a valid Image File (jpg, jpeg, png, webp)',
+                        'maxSizeMessage' => 'The image file is too large . Allowed size is 5MB',
                         ])
                     ],
                 ])

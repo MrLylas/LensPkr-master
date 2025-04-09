@@ -17,17 +17,6 @@ class AskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('date_ask', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('user', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
-            // ->add('job', EntityType::class, [
-            //     'class' => Job::class,
-            //     'choice_label' => 'id',
-            // ])
             ->add('description')
             ->add('submit', SubmitType::class,[
                 'label' => 'Send',

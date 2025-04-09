@@ -15,7 +15,7 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig',
             [
-                'meta_description' => 'Landing page',
+                'meta_description' => 'LensPkr\'s Landing Page',
             ]);
     }
 }

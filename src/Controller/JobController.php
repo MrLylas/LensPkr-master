@@ -55,14 +55,15 @@ final class JobController extends AbstractController
             'appliedAsks' => $appliedJobIds,
         ]);
     }
-
+    // Création de l'annonce
     #[Route('/job/post/{id}', name: 'post_job')]
     public function post_job(Request $request,User $user, EntityManagerInterface $entityManager): Response
     {
-        // Construction du formulaire
+        //Création d'un objet Job pour la nouvelle annonce
         $post = new Job();
+        // Création du formulaire pour l'annonce
         $form = $this->createForm(PostJobType::class, $post);
-        // Traitement du formulaire
+        // Traitement de la requête et soumission du formulaire
         $form->handleRequest($request);
         // Ajout de l'utilisateur connecté
         $user = $this->getUser();
@@ -77,7 +78,7 @@ final class JobController extends AbstractController
             // Redirection vers la page des annonces
             return $this->redirectToRoute('app_jobs', ['id' => $user->getId()]);
         }
-        // Affichage du formulaire
+        // Affichage du formulaire pour la création de l'annonce
         return $this->render('job/post.html.twig', [
             'controller_name' => 'JobController',
             'user' => $user,

@@ -26,7 +26,6 @@ class MessageType extends AbstractType
                     "class" => "form-control",
                 ]
             ])
-            // ->add('is_read')
             ->add('recipient', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',

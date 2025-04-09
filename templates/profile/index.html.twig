@@ -29,14 +29,17 @@
 <div class="info-user row">
     <div class="col">
         <div class="row">
-            <li><h3>Name</h3><p>{{ user.name }}</p></li>
-            <li><h3>Forename</h3>{{ user.forename }}</li>
             <li><h3>Pseudo</h3>{{ user.pseudo }}</li>
         </div>
         <div class="row">            
-            <li><h3>Email</h3>{{ user.email }}</li>
-            <li><h3>Country</h3>{{ user.country }}</li>
-            <li><h3>City</h3>{{ user.city }}</li>
+            {% if user.pseudo == app.user.pseudo %}
+                <li><h3>Email</h3>{{ user.email }}</li>
+                <li><h3>City</h3>{{ user.city }}</li>
+            {% else %}
+                <li><h3>Email</h3>Private</li>
+                <li><h3>Country</h3>{{ user.country }}</li>
+                <li><h3>City</h3>Private</li>
+            {% endif %}
         </div>
     </div>
     <div class="col">

@@ -13,23 +13,10 @@ class FileUploader
 
     public function __construct(string $targetDirectory, SluggerInterface $slugger)
     {   
-        // string $imageDirectory,string $bannerDirectory,
         $this->targetDirectory = $targetDirectory;
-        // $this->imageDirectory = $imageDirectory;
-        // $this->bannerDirectory = $bannerDirectory;
-
 
         $this->slugger = $slugger;
     }
-    
-    // public function uploadBanner(UploadedFile $file): string
-    // {
-    //     // Générer un nom unique pour le fichier
-    //     $newFileName = md5(uniqid()) .'.'  . $file->guessExtension();
-    //     $file->move($this->getBannerDirectory(), $newFileName);
-
-    //     return $newFileName;
-    // }
 
     public function upload(UploadedFile $file): string
     {
