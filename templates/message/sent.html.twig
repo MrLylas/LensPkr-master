@@ -22,8 +22,8 @@
                 {% endif %}
                 <div class="col-3 {{bold}}">From : {{ message.sender.email }}</div>
                 <div class="col-3 {{bold}}">Object : <a href="{{ path('read', {'id': message.id}) }}">{{ message.title }}</a></div>
-                <div class="col-3 {{bold}}">{{ message.createdAt|date('d/m/Y h:i') }}</div>
-                <div class="col-3"><a href="{{ path('sent_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
+                <div class="col-3 date {{bold}}">{{ message.createdAt|date('d/m/Y h:i') }}</div>
+                <div class="col-3 delete"><a href="{{ path('sent_delete', {'id': message.id}) }}" class="btn btn-danger">Delete</a></div>
             </div>
             {% endfor %}
 {% else %}

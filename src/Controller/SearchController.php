@@ -21,7 +21,7 @@ final class SearchController extends AbstractController
     {
         $query = $request->query->get('q'); // Récupère la requête de recherche
         if ($query == "") {
-            return $this->redirectToRoute('recent_project');
+            return $this->redirectToRoute('index_project');
         }
     
         $projects = $projectRepository->searchProjects($query);

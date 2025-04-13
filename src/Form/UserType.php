@@ -16,9 +16,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('email')
-            // ->add('roles')
-            // ->add('password')
             ->add('name')
             ->add('forename')
             ->add('pseudo')
@@ -50,14 +47,7 @@ class UserType extends AbstractType
                 ])
             ->add('country')
             ->add('city')
-            // ->add('isVerified')
             ->add('biography')
-            // ->add('userSkills', CollectionType::class, [
-            //     'entry_type' => UserSkillType::class,
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     // 'multiple' => true
-            // ])
             ->add('submit', SubmitType::class,[
                 'attr' => [
                     'class' => 'btn btn-success',

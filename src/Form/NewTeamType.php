@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use EmilePerron\TinymceBundle\Form\Type\TinymceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,14 +19,12 @@ class NewTeamType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
-            // ->add('created_at', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('creator', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
+            ->add('description', TinymceType::class, [
+                'attr' => [
+                    "toolbar" => "bold italic underline | bullist numlist",
+                    "menubar" => false
+                ]
+            ])
             ->add('team_pic', FileType::class, [
                 'label' => 'Team\'s Picture',
                 'mapped' => false,

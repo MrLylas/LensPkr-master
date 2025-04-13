@@ -9,6 +9,17 @@
     <p>Fill in the form below to create a new project</p>
 </div>
     <div class="add-project">
-        {{ form(form) }}
+        {{ form_start(form) }}
+        <div class="col">
+            {{ form_row(form.projectName) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.description, {'attr': {'class': 'project-description'}}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.cover) }}
+            {{ form_row(form.team) }}
+        </div>
+        {{ form_end(form) }}
     </div>
 {% endblock %}

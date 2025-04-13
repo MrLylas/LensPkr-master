@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class ProfileController extends AbstractController
 {
@@ -216,6 +217,36 @@ final class ProfileController extends AbstractController
             'user' => $user,
             'job' => $job
         ]);
+    }
+
+    #[Route('/profile/delete-account', name: 'app_delete_account')]
+    public function deleteAccount(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('User not found');
+        }
+
+        if ($request->isMethod('POST')) {
+            $token = $request->request->get('_token');
+            if ($this->isCsrfTokenValid('delete-account', $token)) {
+                $entityManager->remove($user->getProjects());
+                $entityManager->remove($user->getJobs());
+                $entityManager->remove($user->getAnswers());
+                $entityManager->remove($user->getUserSkills());
+                $entityManager->remove($user);
+                $entityManager->flush();
+
+                // Logout the user after deletion
+                $this->get('security.token_storage')->setToken(null);
+                $request->getSession()->invalidate();
+
+                return $this->render('security/login.html.twig');
+            }
+        }
+
+        return $this->render('security/delete_account.html.twig');
     }
 }
 

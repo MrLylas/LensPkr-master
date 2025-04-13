@@ -9,7 +9,7 @@
     <a href="{{ path('upload_project_images', {'id': project.id}) }}" class="add-image-btn"><img src="{{ asset('images/addImage.svg') }}" alt="Add Image button"></a>
 {% endif %}
 <div class="project-banner">
-    <img class="img-fluid banner-img" src="{{ asset('images/losAngeles.jpg') }}" alt="Project banner">
+    <img class="img-fluid banner-img" src="{{ asset('uploads/' ~ project.cover) }}" alt="{{ project.projectName }} banner">
     <div class="banner-filter"></div>
     <a href="{{ path('app_profile', {'pseudo': project.creator.pseudo}) }}">
         <div class="profile-pic">
@@ -19,12 +19,16 @@
             <img class="img-fluid default" src="{{ asset('images/default_user.jpg') }}">
             {% endif %}
         </div>
-        <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
+        <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}
+            {% if project.team %}
+            <br>(for {{project.team}})
+            {% endif %}
+        </p>
     </a>
     <h2>{{ project.projectName }}</h2>
 </div>
 <div class="project-page">
-    <div class="description"><p>{{ project.description }}</p></div>
+    <div class="description"><p>{{ project.description|raw }}</p></div>
     <div class="images">
         {% for projectImage in project.projectImages %}
         <div class="project-images">

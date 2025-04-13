@@ -13,18 +13,18 @@
     <p>You can search for a project by typing its name in the search bar or explore the list of recent projects.</p>
     <p>Or create a new project <a href="{{ path('new_project') }}">here</a></p>
 </div>
-<div class="wrapper">
+<main class="wrapper">
     {% for project in projects %}
-    <div class="project-box">
+    <div class="project-box col-md-4">
         <a href="{{ path('project', {'id': project.id}) }}" class="project-card">
             <div class="card">
                 <div class="img-card">
-                    <img src="{{ asset('images/Actors.jpg') }}" alt="Actors">
+                    <img src="{{ asset('uploads/' ~ project.cover) }}" alt="Image of {{ project.projectName }}">
                 </div>
                 <div class="label">
                     <div class="creator">
                         <div class="creator-pic">
-                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="">
+                            <img src="{{ asset('uploads/' ~ project.creator.profilePic) }}" alt="{{ project.creator.name }}{{" "}}{{ project.creator.forename }}'s' profile picture">
                         </div>
                         <p>{{ project.creator.name }}{{" "}}{{ project.creator.forename }}</p>
                     </div>
@@ -45,7 +45,7 @@
         </button>
     </div>
     {% endfor %}
-</div>
+</main>
 <div class="paginator">
     {{ knp_pagination_render(projects) }}
 </div>

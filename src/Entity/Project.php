@@ -44,6 +44,12 @@ class Project
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'likedProjects')]
     private Collection $likes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cover = null;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    private ?Speciality $speciality = null;
+
     public function __construct()
     {
         $this->projectImages = new ArrayCollection();
@@ -173,6 +179,30 @@ class Project
         if ($this->likes->removeElement($user)) {
             $user->removeLikedProject($this); // Mise à jour côté User
         }
+        return $this;
+    }
+
+    public function getCover(): ?string
+    {
+        return $this->cover;
+    }
+
+    public function setCover(?string $cover): static
+    {
+        $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getSpeciality(): ?Speciality
+    {
+        return $this->speciality;
+    }
+
+    public function setSpeciality(?Speciality $speciality): static
+    {
+        $this->speciality = $speciality;
+
         return $this;
     }
 }

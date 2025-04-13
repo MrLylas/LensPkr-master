@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Delete Account</h1>
+    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+    <form method="post">
+        {{ csrf_token('delete-account') }}
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+{% endblock %}

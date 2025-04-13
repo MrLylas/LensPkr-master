@@ -16,7 +16,7 @@
             <h3>{{team.name}}</h3>
         </div>
         <div class="list-description">
-            <p>{{team.description}}</p>
+            <p>{{team.description|raw}}</p>
         </div>
         <img class="list-banner-pic" src="{{asset('uploads/' ~ team.teamBanner )}}" alt="Team\'s banner picture">
     </a>

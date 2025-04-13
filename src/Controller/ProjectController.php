@@ -110,7 +110,7 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/project/new', name: 'new_project')]
-    public function newProject(Request $request,EntityManagerInterface $entityManager): Response
+    public function newProject(Request $request,EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $newProject = new Project();
         $form = $this->createForm(ProjectType::class, $newProject);
@@ -119,10 +119,18 @@ final class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newProject->setCreatedAt(new \DateTimeImmutable());
             $newProject->setCreator($this->getUser());
+
+            $projectCover = $form->get('cover')->getData();
+
+            if ($projectCover) {
+                $fileName = $fileUploader->upload($projectCover);
+                $newProject->setCover($fileName);
+            }
+
             $entityManager->persist($newProject);
             $entityManager->flush();
 
-            return $this->redirectToRoute('project_feed');
+            return $this->redirectToRoute('index_project');
         }
 
         return $this->render('project/new.html.twig', [

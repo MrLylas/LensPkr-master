@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -34,5 +36,13 @@ class SecurityController extends AbstractController
     public function rules(): Response
     {
         return $this->render('security/rules.html.twig');
+    }
+    #[Route(path: '/privacy', name: 'app_privacy')]
+    public function privacy(): Response
+    {
+        $now = new \DateTime();
+        return $this->render('security/privacy.html.twig', [
+            'now' => $now
+        ]);
     }
 }

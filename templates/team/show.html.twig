@@ -25,7 +25,7 @@
     {% else %}
     <p>No followers</p>
     {% endif %}
-    <p>{{ team.description }}</p>
+    <p>{{ team.description|raw }}</p>
 </div>
 <div class="team-projects">
     {% for project in projects %}

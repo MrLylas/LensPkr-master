@@ -49,7 +49,6 @@ final class JobController extends AbstractController
         return $this->render('job/index.html.twig', [
             'meta_description' => 'Find your job here',
             'user' => $user,
-            // 'user_id' => $user->getId(),
             'jobs' => $jobs,
             'asks' => $asks,
             'appliedAsks' => $appliedJobIds,
@@ -80,7 +79,7 @@ final class JobController extends AbstractController
         }
         // Affichage du formulaire pour la création de l'annonce
         return $this->render('job/post.html.twig', [
-            'controller_name' => 'JobController',
+            'meta_description' => 'Post a job',
             'user' => $user,
             'id' => $user->getId(),
             'form' => $form,

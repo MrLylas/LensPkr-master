@@ -1,26 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello JobController!{% endblock %}
+{% block title %}Post a job{% endblock %}
 
 {% block body %}
 
 <h2>Post a job</h2>
-{# <div class="post-job row"> #}
-    {{ form_start(form, {'attr': {'class': 'post-job row'}}) }}
-        <div class="col">
-            {{ form_row(form.job_name) }}
-            {{ form_row(form.location) }}
-            {{ form_row(form.cp) }}
-            {{ form_row(form.contract) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.begin) }}
-            {{ form_row(form.finish) }}
-            {{ form_row(form.job_speciality) }}
-        </div>
-        <div class="row">
-            {{ form_row(form.description) }}
-        </div>
-    {{ form_end(form) }}
-{# </div> #}
+<p class="job-content">Fill in the form below to post a new job</p>
+{{ form_start(form, {'attr': {'class': 'post-job row'}}) }}
+    <div class="col">
+        {{ form_row(form.job_name) }}
+        {{ form_row(form.location) }}
+        {{ form_row(form.cp) }}
+        {{ form_row(form.contract) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.begin) }}
+        {{ form_row(form.finish) }}
+        {{ form_row(form.job_speciality) }}
+    </div>
+    <div class="row">
+        {{ form_row(form.description) }}
+    </div>
+{{ form_end(form) }}
 {% endblock %}

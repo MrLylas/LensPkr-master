@@ -6,7 +6,7 @@
         {% if meta_description is defined %}
         <meta name="description" content="{{meta_description}}">
         {% endif %}
-        <title>{% block title %}Welcome to LensPkr ! The best place to share your projects{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         {# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
         {% block stylesheets %}
@@ -19,12 +19,18 @@
     <body>
 {############################################################## Navbar ########################################################}
         <nav class="navbar navbar-expand-lg">
-            <div>
-                {% if app.user is not null %}
-                    <a href="{{path('index_project')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr link to index project"></a>
-                {% else %}
-                    <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr link to home"></a>
+            <div class="nav-left d-flex align-items-center">
+                {% if app.user is not null %}  
+                <button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.svg') }}" alt="Menu Burger"></button>
+                {# <input class="back-btn" type="button" onclick="window.history.back()" value="Back"> #}
                 {% endif %}
+                <div>
+                    {% if app.user is not null %}
+                        <a href="{{path('index_project')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr link to index project"></a>
+                    {% else %}
+                        <a href="{{path('app_home')}}" class="navbar-brand"><img class="logo" src="{{ asset('images/LensPkr.svg') }}" alt="Logo-LensPkr link to home"></a>
+                    {% endif %}
+                </div>
             </div>
             <div class="nav-right">
                 <div class="btn-group dropstart">
@@ -33,6 +39,7 @@
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="{{path('logout')}}">Logout</a></li>
+                      <li><a class="dropdown-item" href="{{path('app_delete_account')}}">Delete account</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,10 +52,7 @@
         {% endfor %}
 
         {############################################################## Sidebar ########################################################}
-        {% if app.user is not null %}  
-        <button class="btn nav-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><img src="{{ asset('images/burger.svg') }}" alt="Menu Burger"></button>
-        <input class="back-btn" type="button" onclick="window.history.back()" value="Back">
-        {% endif %}
+
         {# <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> #}
 
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">

@@ -30,10 +30,17 @@ class Speciality
     #[ORM\OneToMany(targetEntity: Job::class, mappedBy: 'job_speciality', orphanRemoval: true)]
     private Collection $jobs;
 
+    /**
+     * @var Collection<int, Project>
+     */
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'speciality')]
+    private Collection $projects;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
         $this->jobs = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +119,36 @@ class Speciality
             // set the owning side to null (unless already changed)
             if ($job->getJobSpeciality() === $this) {
                 $job->setJobSpeciality(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setSpeciality($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getSpeciality() === $this) {
+                $project->setSpeciality(null);
             }
         }
 
