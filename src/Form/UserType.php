@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use EmilePerron\TinymceBundle\Form\Type\TinymceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -47,7 +48,12 @@ class UserType extends AbstractType
                 ])
             ->add('country')
             ->add('city')
-            ->add('biography')
+            ->add('biography', TinymceType::class, [
+                'attr' => [
+                    "toolbar" => "bold italic underline | bullist numlist",
+                    "menubar" => false
+                ]
+            ])
             ->add('submit', SubmitType::class,[
                 'attr' => [
                     'class' => 'btn btn-success',

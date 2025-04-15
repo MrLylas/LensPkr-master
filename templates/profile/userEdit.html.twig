@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Your Profile{% endblock %}
+
+{% block body %}
+    <h2>Edit Your Profile</h2>
+    <div class="add-project">
+        {{ form_start(form) }}
+        <div class="row">
+            {{ form_row(form.pseudo) }}
+            {{ form_row(form.city) }}
+            {{ form_row(form.country) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.biography) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.profile_pic) }}
+            {{ form_row(form.banner) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

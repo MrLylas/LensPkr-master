@@ -545,6 +545,10 @@ ul{
     border-radius: 50%;
     background-color: var(--main-color);
     z-index: 100;
+    a{
+        color: var(--tertiary-color);
+        text-decoration: none;
+    }
 }
 .edit-btn:hover{
     scale: 1.1;
@@ -866,12 +870,59 @@ ul{
         padding: 10px;
         li{
             list-style: none;
+            color: var(--tertiary-color);
             h3{
                 color: var(--secondary-color);
                 font-size: medium;
             }
             width: fit-content;
             color: var(--tertiary-color);
+        }
+    }
+
+    .accordion{
+        background-color: var(--main-color);
+
+        .accordion-body{
+            background-color: var(--main-color);
+
+            p{
+                color: var(--tertiary-color);
+            }
+
+            a{
+                color: var(--secondary-color);
+            }
+            a:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
+                color: var(--tertiary-color);
+            }
+        }
+        .accordion-item{
+            background-color: var(--main-color);
+            box-shadow: var(--secondary-color) 3px 3px 3px;
+            border-radius: 5px;
+
+            .accordion-button{
+                background-color: var(--main-color);
+                color: var(--secondary-color);
+            }
+            .accordion-button:not(.collapsed){
+                background-color: var(--main-color);
+                color: var(--secondary-color);
+            }
+            .accordion-button:hover{
+                cursor: url("../styles/images/pointer.svg"), pointer;
+                background-color: var(--main-color);
+                color: var(--secondary-color);
+            }
+            .accordion-button::after{
+                color: var(--secondary-color);
+            }
+
+            &:hover{
+                box-shadow: var(--tertiary-color) 3px 3px 3px;
+            }
         }
     }
 }
@@ -1204,6 +1255,7 @@ ul{
             gap: 10px;
 
             button{
+                color: var(--secondary-color);
                 background-color: var(--main-color);
                 border: none;
                 margin-right: 5px;

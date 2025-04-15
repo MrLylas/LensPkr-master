@@ -51,6 +51,9 @@ final class ProfileController extends AbstractController
     {
         $user = $this->getUser();
         $projects = $user->getProjects();
+        $skills = $user->getUserSkills();
+        $jobs = $user->getJobs();
+
 
         $projects = $paginator->paginate(
             $projects,
@@ -62,14 +65,48 @@ final class ProfileController extends AbstractController
         return $this->render('profile/index.html.twig', [
             'meta_description' => 'Profile de ' . $user->getPseudo(),
             'user' => $user,
-            'projects' => $projects
+            'projects' => $projects,
+            'skills' => $skills,
+            'jobs' => $jobs
+        ]);
+    }
+
+    #[Route('/profile/edit', name: 'edit_profile')]
+    public function editProfile(EntityManagerInterface $entityManager, FileUploader $fileUploader, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw new NotFoundHttpException('Utilisateur non rencontré');
+        }
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user_profilePic = $form->get('profile_pic')->getData();
+            if ($user_profilePic) {
+                $fileName = $fileUploader->upload($user_profilePic);
+                $user->setProfilePic($fileName);
+            }
+            $userBanner = $form->get('banner')->getData();
+            if ($userBanner) {
+                $fileName = $fileUploader->upload($userBanner);
+                $user->setBanner($fileName);
+            }
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('my_profile');
+        }
+        return $this->render('profile/userEdit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 
     #[Route('/profile/{pseudo}', name: 'app_profile')]
-    public function index($pseudo, EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
+    public function index(string $pseudo, EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request): Response
     {
+
         $user = $entityManager->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]);
+        $skills = $user->getUserSkills();
         $projects = $user->getProjects();
 
         if (!$user) {
@@ -84,11 +121,12 @@ final class ProfileController extends AbstractController
             'meta_description' => 'Profile de ' . $user->getPseudo(),
             'projects' => $projects,
             'user' => $user,
+            'skills' => $skills
         ]);
     }
 
-    #[Route('/profile/edit', name: 'edit_profile')]
-    public function editProfile(EntityManagerInterface $entityManager): Response
+    #[Route('/profile/edit_skill', name: 'edit_skill')]
+    public function editSkill(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         if (!$user) {

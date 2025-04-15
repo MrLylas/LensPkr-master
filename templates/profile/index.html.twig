@@ -27,7 +27,12 @@
     <span>Here is my information</span>
 </div>
 <div class="info-user row">
-    <div class="col">
+    <div class="col mt-6">
+        {% if user.pseudo == app.user.pseudo %}        
+            <div class="edit-btn">
+                <a href="{{ path('edit_profile') }}">Edit</a>
+            </div>
+        {% endif %}
         <div class="row">
             <li><h3>Pseudo</h3>{{ user.pseudo }}</li>
         </div>
@@ -42,15 +47,44 @@
             {% endif %}
         </div>
     </div>
-    <div class="col">
-        <li><h3>About Me</h3>{{ user.biography }}</li>
-    </div>
-    <div class="col">
+    <div class="col mt-6">
         <li><h3>My skills</h3>
-            {# {% for skill in userSkills %}
-            <p>{{ skill.name }}</p>
-            {% endfor %} #}
+            {% for skill in skills %}
+            <p>{{ skill }}</p>
+            {% endfor %}
         </li>
+    </div>
+</div>
+<div class="info-user">
+    <div class="row">
+        <div class="col mt-12">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Job Offers
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for job in jobs %}
+                        <div class="job-offer">
+                            <h2>{{ job.jobName }}</h2>
+                            <p>{{ job.description|raw }}</p>
+                            <a href="{{ path('app_job_detail', {'job_name': job.jobName}) }}">See more</a>
+                            <a href="">See Answers</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="info-user row">
+    <div class="col mt-12">
+        <li><h3>About Me</h3>{{ user.biography|raw }}</li>
     </div>
 </div>
 <h2>Projects</h2>
