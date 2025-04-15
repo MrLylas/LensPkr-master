@@ -108,6 +108,7 @@ final class ProfileController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]);
         $skills = $user->getUserSkills();
         $projects = $user->getProjects();
+        $jobs = $user->getJobs();
 
         if (!$user) {
             throw new NotFoundHttpException('Utilisateur non trouvé');
@@ -121,7 +122,8 @@ final class ProfileController extends AbstractController
             'meta_description' => 'Profile de ' . $user->getPseudo(),
             'projects' => $projects,
             'user' => $user,
-            'skills' => $skills
+            'skills' => $skills,
+            'jobs' => $jobs
         ]);
     }
 

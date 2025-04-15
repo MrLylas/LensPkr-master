@@ -5,13 +5,14 @@ namespace App\Form;
 use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
+use EmilePerron\TinymceBundle\Form\Type\TinymceType;
+
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-use Symfony\Component\Validator\Constraints\All;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProjectImageType extends AbstractType
 {
@@ -55,12 +56,19 @@ class ProjectImageType extends AbstractType
                         ])
                     ],
                 ])
-                ->add('description', ImageType::class, [
-                    'label' => 'Ajouter une description',
-                    'required' => false,
-                    'mapped' => false
+                ->add('description', TinymceType::class, [
+                    'attr' => [
+                        "toolbar" => "bold italic underline | bullist numlist",
+                        "menubar" => false
+                    ]
                 ])
-                ;
+                ->add('submit', SubmitType::class, [
+                    'label' => 'Ajouter',
+                    'attr' => [
+                        'class' => 'btn btn-primary'
+                    ],
+                ]);
+                
  
             // ->add('submit', SubmitType::class, [
             //     'label' => 'Add Pics',

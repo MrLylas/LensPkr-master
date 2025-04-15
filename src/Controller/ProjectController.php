@@ -141,6 +141,7 @@ final class ProjectController extends AbstractController
     #[Route('/project/{id}', name: 'project')]
     public function project(Project $project): Response
     {
+
         return $this->render('project/project.html.twig', [
             'project' => $project
         ]);
@@ -186,7 +187,7 @@ final class ProjectController extends AbstractController
                 // Création d'une entité Image
                 $image = new Image();
                 $image->setName($fileName);
-                $image->setDescription($description->getDescription());
+                $image->setDescription($description);
                 
                 $image->setCreatedAt(new \DateTimeImmutable());
                 

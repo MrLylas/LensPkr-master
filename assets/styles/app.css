@@ -1752,6 +1752,7 @@ ul{
     margin-top: 50px;
     padding: 10px;
     margin-bottom: 10px;
+    color: var(--tertiary-color);
 
         p{
             color: var(--tertiary-color);
@@ -1767,10 +1768,13 @@ ul{
             width: 100%;
 
             .project-images{
+                display: flex;
+                flex-direction: column;
                 border: var(--secondary-color) 1px solid;
                 border-radius: 5px;
                 box-shadow: var(--secondary-color) 3px 3px 3px;
                 width: 80%;
+                color: var(--tertiary-color);
                 
                 img{
                     width: 98%;
@@ -1789,6 +1793,16 @@ ul{
                     margin-top: 10px;
                 }
 
+                h3{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    color: var(--secondary-color);
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    margin-top: 10px;
+                }
+
                 span{
                     color: var(--tertiary-color);
                     display: flex;
@@ -1798,11 +1812,19 @@ ul{
                 }
 
                 a{
-                    color: var(--tertiary-color);
+                    color: var(--secondary-color);
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-end;
                     margin: 10px;
+                    text-decoration: none;
+                }
+
+                a:hover{
+                    text-decoration: underline;
+                    cursor: url("../styles/images/pointer.svg"), pointer;
+                    transition: 150ms ease-in-out;
+                    color: var(--tertiary-color);
                 }
             }
 
